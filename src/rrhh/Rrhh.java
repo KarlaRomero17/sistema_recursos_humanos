@@ -4,6 +4,8 @@
  */
 package rrhh;
 
+import GUI.Inicio;
+
 /**
  *
  * @author Lissette
@@ -15,9 +17,8 @@ public class Rrhh {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        //hola ejemplo
-        System.out.println("Hello");
+        Inicio formulario = new Inicio();
+        formulario.setVisible(true);
     }
     
 }
