@@ -105,7 +105,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
         });
 
         jLabelAgenda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelAgenda.setText("Agenda");
+        jLabelAgenda.setText("Dependencias");
 
         jLabel2.setText("ID:");
 
@@ -116,7 +116,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelNombre.setText("Nombres:");
+        jLabelNombre.setText("Nombre:");
 
         javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
         jPanelDatos.setLayout(jPanelDatosLayout);
@@ -193,7 +193,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(28, Short.MAX_VALUE)
+                        .addContainerGap(33, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonCerrar)
                             .addGroup(layout.createSequentialGroup()
@@ -250,7 +250,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int filaSeleccionada = jTableContactos.getSelectedRow();
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona un contacto para editar.",
+            JOptionPane.showMessageDialog(null, "Por favor, selecciona una dependencia para editar.",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }  else {
             String id = jTextFieldId.getText().trim();
@@ -266,7 +266,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
                     // Verifica si el ID ingresado coincide con el ID del contacto seleccionado
                     Dependencias contactoSeleccionado = (Dependencias) area.get(filaSeleccionada);
                     if (idNum != contactoSeleccionado.getId() && existeContactoConID(idNum)) {
-                        JOptionPane.showMessageDialog(null, "Ya existe un contacto con el mismo ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Ya existe una dependencia con el mismo ID.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         // Actualiza los datos del contacto seleccionado
                         contactoSeleccionado.setId(idNum);
@@ -274,7 +274,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
                         contactoSeleccionado.setEstado(estado);
                         // Actualiza la tabla
                         cargarTabla();
-                        JOptionPane.showMessageDialog(null, "Contacto editado");
+                        JOptionPane.showMessageDialog(null, "Dependencia editado");
                         limpiarCampos();
                     }
                 } catch (NumberFormatException e) {
@@ -312,12 +312,12 @@ public class Dependencia extends javax.swing.JInternalFrame {
             try {
                 int idNum = Integer.parseInt(id);
                 if (existeContactoConID(idNum)) {
-                    JOptionPane.showMessageDialog(null, "Ya existe un contacto con el mismo ID.",
+                    JOptionPane.showMessageDialog(null, "Ya existe una dependencia  con el mismo ID.",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Dependencias miContacto = new Dependencias(idNum, nombre, estado);
                     area.add(miContacto);
-                    JOptionPane.showMessageDialog(null, "Contacto guardado");
+                    JOptionPane.showMessageDialog(null, "Dependencia guardada");
                     limpiarCampos();
                     // Código para agregar un contacto a la lista y luego guardar en CSV
                     administradorDependencias.agregarContacto(miContacto);
@@ -336,16 +336,16 @@ public class Dependencia extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int filaSeleccionada = jTableContactos.getSelectedRow();
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un contacto para eliminar.",
+            JOptionPane.showMessageDialog(this, "Seleccione una dependencia para eliminar.",
                 "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este contacto?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar esta dependencia?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
             DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
             modelo.removeRow(filaSeleccionada);
             area.remove(filaSeleccionada);
-            JOptionPane.showMessageDialog(this, "Contacto eliminado correctamente.");
+            JOptionPane.showMessageDialog(this, "Dependencia eliminado correctamente.");
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
@@ -354,7 +354,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
     private void CrearModelo() {
         try {
             Modelo = (new DefaultTableModel(null, new String[]{
-                "Id", "Nombres", "Apellidos", "Direccion"}) {});
+                "#", "Dependencia"}) {});
             jTableContactos.setModel(Modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error!!");
