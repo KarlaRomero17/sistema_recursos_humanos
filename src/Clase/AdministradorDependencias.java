@@ -48,6 +48,14 @@ public class AdministradorDependencias {
             }
         }
     }
+    //obtener nombres para combobox
+    public ArrayList<String> obtenerNombres() {
+        ArrayList<String> nombres = new ArrayList<>();
+        for (Dependencias area : listaContactos) {
+            nombres.add(area.getNombre()); // Suponiendo que "getNombre()" devuelve el nombre del contacto
+        }
+        return nombres;
+    }
     /*public void cargarContactosDesdeCSV() throws CsvValidationException, IOException {
         try (CSVReader reader = new CSVReader(new FileReader(archivoCSV))) {
             String[] linea;
