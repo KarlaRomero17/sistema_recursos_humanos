@@ -33,7 +33,6 @@
                                           <Component id="txt_nombrePuesto" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
                                           <Component id="cmb_dependencia" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="btn_enviar" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btn_nuevo" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -109,9 +108,7 @@
                       <Component id="cmb_dependencia" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="btn_enviar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btn_nuevo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Component id="btn_cerrar" min="-2" max="-2" attributes="0"/>
@@ -154,14 +151,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_enviarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_nuevo">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Nuevo"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nuevoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_mostrar">

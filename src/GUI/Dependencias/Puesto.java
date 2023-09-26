@@ -74,7 +74,6 @@ public class Puesto extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         cmb_dependencia = new javax.swing.JComboBox<>();
         btn_enviar = new javax.swing.JButton();
-        btn_nuevo = new javax.swing.JButton();
         btn_mostrar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
@@ -96,13 +95,6 @@ public class Puesto extends javax.swing.JInternalFrame {
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_enviarActionPerformed(evt);
-            }
-        });
-
-        btn_nuevo.setText("Nuevo");
-        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoActionPerformed(evt);
             }
         });
 
@@ -180,8 +172,7 @@ public class Puesto extends javax.swing.JInternalFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btn_enviar)
-                                            .addComponent(btn_nuevo)))
+                                            .addComponent(btn_enviar)))
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
@@ -238,22 +229,13 @@ public class Puesto extends javax.swing.JInternalFrame {
                         .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_enviar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_nuevo)
-                        .addGap(60, 60, 60)))
+                        .addGap(105, 105, 105)))
                 .addComponent(btn_cerrar)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
-        //cleanAll();
-        //habilitar();
-        //crea metodo
-        llenarCmb();
-    }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void txt_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyReleased
         String textoBusqueda = txt_buscar.getText().trim();
@@ -417,7 +399,6 @@ public class Puesto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JButton btn_mostrar;
-    private javax.swing.JButton btn_nuevo;
     private javax.swing.JComboBox<String> cmb_dependencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
