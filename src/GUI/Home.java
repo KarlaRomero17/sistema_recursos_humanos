@@ -5,6 +5,7 @@
 package GUI;
 
 import GUI.Dependencias.Dependencia;
+import GUI.Dependencias.Puesto;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -83,6 +84,11 @@ public class Home extends javax.swing.JFrame {
         jMenu6.setText("Puestos");
 
         jMenuItem3.setText("Crear");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem3);
 
         jMenuBar1.add(jMenu6);
@@ -134,6 +140,13 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jMenu7MenuSelected
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        Puesto ventana = new Puesto();
+        jPanelEscritorio.add(ventana);
+        ventana.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

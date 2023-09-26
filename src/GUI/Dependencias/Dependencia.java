@@ -297,7 +297,8 @@ public class Dependencia extends javax.swing.JInternalFrame {
 
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        //this.dispose();
+        JOptionPane.showMessageDialog(null, administradorDependencias.obtenerNombres());
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
