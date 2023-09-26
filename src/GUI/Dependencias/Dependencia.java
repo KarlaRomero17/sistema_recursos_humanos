@@ -125,19 +125,20 @@ public class Dependencia extends javax.swing.JInternalFrame {
             .addGroup(jPanelDatosLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanelDatosLayout.createSequentialGroup()
-                            .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabelNombre)
-                                .addComponent(jLabel2))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelDatosLayout.createSequentialGroup()
+                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelNombre)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanelDatosLayout.createSequentialGroup()
                         .addComponent(jButtonGuardar)
-                        .addGap(81, 81, 81)))
+                        .addGap(81, 81, 81))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDatosLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanelDatosLayout.setVerticalGroup(
@@ -318,6 +319,8 @@ public class Dependencia extends javax.swing.JInternalFrame {
                 } else {
                     Dependencias miContacto = new Dependencias(idNum, nombre, estado);
                     area.add(miContacto);
+                    // Actualiza la tabla
+                    cargarTabla();
                     JOptionPane.showMessageDialog(null, "Dependencia guardada");
                     limpiarCampos();
                     // Código para agregar un contacto a la lista y luego guardar en CSV
