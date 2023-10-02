@@ -40,14 +40,14 @@ public class DependenciasController extends Conection{
         return lst;
     }
     
-    public void insertarDependencias(Dependencias dep) throws Exception{
+    public void insertarDependencias(Dependencias dep, int id_user) throws Exception{
         try {
             this.conectar();
-            String query ="insert into dependencias  (nombre, estado, created_by, created_at) values (?,?,?,?)";
+            String query ="insert into dependencia (nombre, estado, created_by, created_at) values (?,?,?,?)";
             PreparedStatement st = this.getCon().prepareStatement(query);
             st.setString(1, dep.getNombre());
             st.setBoolean(2, true);
-            st.setInt(3, 1);
+            st.setInt(3, id_user);
             st.setDate(4, new java.sql.Date(System.currentTimeMillis()));
             st.executeUpdate();
         }  catch (Exception e) {

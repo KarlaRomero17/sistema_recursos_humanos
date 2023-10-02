@@ -30,7 +30,7 @@ public class Home extends javax.swing.JFrame {
         
         Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
         String username = prefs.get("username", "Error");
-        String id = prefs.get("id", "Error");
+        int id = prefs.getInt("id", 0);
         txt_user_log.setText("Bienvenido/a " + username);
     } 
     
