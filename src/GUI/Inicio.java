@@ -10,6 +10,7 @@ import com.sun.jdi.connect.spi.Connection;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.List;
+import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,12 +21,14 @@ import javax.swing.JOptionPane;
  */
 public class Inicio extends javax.swing.JFrame {
             
-    Conection conn = new Conection();
+    Conection conn = new Conection(); 
+    private Usuarios usuario;
     /**
      * Creates new form Inicio
      */
     public Inicio() {
         initComponents(); 
+        this.usuario = usuario; 
         this.setLocationRelativeTo(this);   
         Color colorRGB = new Color(61, 72, 139 ); 
         setImageLabel(txt_img, "src/Imagenes/hhrr.png");
@@ -159,10 +162,16 @@ public class Inicio extends javax.swing.JFrame {
         String clave = new String(txt_password.getPassword());
         UsuarioController Usercontroller = new UsuarioController();
         try {
-            boolean inicioSesionValido = Usercontroller.validarInicioSesion(usuario, clave);
-            
-            if(inicioSesionValido){
+            Usuarios  usuarioAutenticado = Usercontroller.validarInicioSesion(usuario, clave);
+           // System.out.println(usuarioAutenticado.getUsuario());
+            if(usuarioAutenticado != null){
+                Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+                prefs.put("id", String.valueOf(usuarioAutenticado.getId()));
+                prefs.put("username", usuarioAutenticado.getUsuario());
+                
                 Home formulario = new Home();
+                //enviar parametros
+                //formulario.setData(usuarioAutenticado);
                 formulario.setVisible(true);
                 this.dispose();
                 return;
