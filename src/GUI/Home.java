@@ -4,18 +4,22 @@
  */
 package GUI;
 
+import Controlador.*;
+import Clase.*;
 import GUI.Dependencias.Dependencia;
 import GUI.Dependencias.Puesto;
 import java.awt.Image;
+import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Lissette
  */
 public class Home extends javax.swing.JFrame {
-
+    //private String name;
     /**
      * Creates new form Home
      */
@@ -23,7 +27,18 @@ public class Home extends javax.swing.JFrame {
         initComponents(); 
         setExtendedState(this.MAXIMIZED_BOTH);  
         //agregar img del menu
-    }
+        
+        Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+        String username = prefs.get("username", "Error");
+        String id = prefs.get("id", "Error");
+        txt_user_log.setText("Bienvenido/a " + username);
+    } 
+    
+    //parametros personalizados
+    /*public void setData(Usuarios usuario) {
+          this.log_name_user = usuario.getUsuario();
+        //this.usuario = usuario;
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,6 +50,7 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelEscritorio = new javax.swing.JDesktopPane();
+        txt_user_log = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -49,15 +65,21 @@ public class Home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
 
+        jPanelEscritorio.setLayer(txt_user_log, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jPanelEscritorioLayout = new javax.swing.GroupLayout(jPanelEscritorio);
         jPanelEscritorio.setLayout(jPanelEscritorioLayout);
         jPanelEscritorioLayout.setHorizontalGroup(
             jPanelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelEscritorioLayout.createSequentialGroup()
+                .addGap(0, 19, Short.MAX_VALUE)
+                .addComponent(txt_user_log, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelEscritorioLayout.setVerticalGroup(
             jPanelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGroup(jPanelEscritorioLayout.createSequentialGroup()
+                .addComponent(txt_user_log, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 295, Short.MAX_VALUE))
         );
 
         jMenu3.setText("Empleados");
@@ -195,6 +217,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JDesktopPane jPanelEscritorio;
     private javax.swing.JMenuItem menuItem_crearDependencia;
+    private javax.swing.JLabel txt_user_log;
     // End of variables declaration//GEN-END:variables
 
     private void setImageLabel(JLabel lblImagen, String root) {

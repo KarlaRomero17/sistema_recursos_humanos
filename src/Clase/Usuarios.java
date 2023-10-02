@@ -24,7 +24,6 @@ public class Usuarios {
         this.clave = clave;
         this.estado = estado;
     }
-
     public int getId() {
         return id;
     }

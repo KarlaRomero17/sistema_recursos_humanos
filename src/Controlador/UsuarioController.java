@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
  */
 public class UsuarioController extends Conection {
     
-     public boolean validarInicioSesion(String usuario, String clave) throws Exception {
+     public Usuarios  validarInicioSesion(String usuario, String clave) throws Exception {
         ResultSet res;
         try {
             this.conectar();
@@ -24,13 +24,48 @@ public class UsuarioController extends Conection {
             st.setString(2, clave);
             res = st.executeQuery();
 
-            return res.next();
+           // return res.next();
+           if (res.next()) {
+                Usuarios user = new Usuarios();
+                user.setId(res.getInt("id"));
+                user.setUsuario(res.getString("usuario"));
+                user.setClave(res.getString("clave"));
+                return user; 
+            } else {
+                return null; // Retorna null si la autenticación falla
+            }
         } catch (Exception e) {
             throw e;
         } finally {
             // Desconectar la conexion
         }
     }
+     
+     public Usuarios obtenerUsuarioPorNombre(String usuario) throws Exception {
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql = "SELECT * FROM usuarios WHERE usuario = ?";
+            PreparedStatement st = this.getCon().prepareStatement(sql);
+            st.setString(1, usuario);
+            res = st.executeQuery();
+
+            if (res.next()) {
+                Usuarios user = new Usuarios();
+                user.setId(res.getInt("id"));
+                user.setUsuario(res.getString("usuario"));;
+                return user; // Retorna el usuario encontrado
+            } else {
+                return null; // Retorna null si no se encuentra el usuario
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            // Desconectar la conexión aquí si es necesario
+        }
+    }
+
+
     public List<Usuarios> mostrarUsuarios() throws Exception {
         ResultSet res;
         List<Usuarios> lst = new ArrayList();
@@ -55,4 +90,6 @@ public class UsuarioController extends Conection {
         }
         return lst;
     }
+    
+    
 }
