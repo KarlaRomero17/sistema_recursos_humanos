@@ -5,7 +5,7 @@
 package rrhh;
 
 import GUI.Inicio;
-
+import Clase.Conection;
 /**
  *
  * @author Lissette
@@ -17,6 +17,10 @@ public class Rrhh {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        /*Conection conn = new Conection();
+        conn.getCon();*/
+        
         Inicio formulario = new Inicio();
         formulario.setVisible(true);
     }

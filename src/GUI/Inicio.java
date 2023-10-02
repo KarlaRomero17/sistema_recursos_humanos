@@ -3,13 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-
+import Clase.Conection;
+import Clase.Usuarios;
+import Controlador.UsuarioController;
+import com.sun.jdi.connect.spi.Connection;
+import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Lissette
  */
 public class Inicio extends javax.swing.JFrame {
-
+            
+    Conection conn = new Conection();
     /**
      * Creates new form Inicio
      */
@@ -41,6 +47,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Sistema de Gestión de Empleados");
 
+        txt_usuario.setText("kromero");
         txt_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_usuarioActionPerformed(evt);
@@ -59,7 +66,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña:");
 
-        txt_password.setText("jPasswordField1");
+        txt_password.setText("123");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,15 +113,33 @@ public class Inicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void txt_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usuarioActionPerformed
 
+    
     private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
         // TODO add your handling code here:
-        Home formulario = new Home();
-        formulario.setVisible(true);
-        this.dispose();
+        conn.getCon();
+        String usuario = txt_usuario.getText();
+        String clave = new String(txt_password.getPassword());
+        UsuarioController Usercontroller = new UsuarioController();
+        try {
+            boolean inicioSesionValido = Usercontroller.validarInicioSesion(usuario, clave);
+            
+            if(inicioSesionValido){
+                Home formulario = new Home();
+                formulario.setVisible(true);
+                this.dispose();
+                return;
+            }
+            JOptionPane.showMessageDialog(null, "Acceso denegado. Verifica tus credenciales.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al autenticar: " + ex.getMessage());
+        }
+        
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
     /**
