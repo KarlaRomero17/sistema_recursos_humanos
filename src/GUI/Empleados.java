@@ -5,12 +5,22 @@
 package GUI;
 
 import Controlador.EmpleadosController;
+import javax.swing.JOptionPane;
+
+import Clase.*;
+import Controlador.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author Sergio Gomez
  */
 public class Empleados extends javax.swing.JFrame {
 
+    EmpleadosController empController = new EmpleadosController();
+    EstadoCivil instancia_estado = new EstadoCivil();
+    DefaultComboBoxModel<String> Modelo;
     /**
      * Creates new form Empleados
      */
@@ -20,10 +30,26 @@ public class Empleados extends javax.swing.JFrame {
     
     public Empleados() {
         initComponents();
-       // re.RellenarLista("estado_civil","nombre",ccbEstadoCivil);
-       Controlador.EmpleadosController comboEstadoCivil=new Controlador.EmpleadosController();
-       comboEstadoCivil.mostrarEstadoCivil(ccbEstadoCivil);
-        
+        Modelo = new DefaultComboBoxModel<>();
+        //ccbEstadoCivil.setModel(Modelo); 
+        mostrarEstado();
+    }
+    
+    public void mostrarEstado () {
+        try { 
+            List<EstadoCivil> estadosCiviles = empController.mostrarEstadoCivil();
+            String[] nombresEstados = new String[estadosCiviles.size()];
+
+            for (int i = 0; i < estadosCiviles.size(); i++) {
+                EstadoCivil estadoCivil = estadosCiviles.get(i);
+                nombresEstados[i] = estadoCivil.getNombre();
+            }
+
+        Modelo = new DefaultComboBoxModel<>(nombresEstados);
+        ccbEstadoCivil.setModel(Modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     /**
@@ -126,6 +152,11 @@ public class Empleados extends javax.swing.JFrame {
         jLabel6.setText("Estado Civil");
 
         ccbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ccbEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ccbEstadoCivilActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Tipo Sanguineo");
 
@@ -337,7 +368,7 @@ public class Empleados extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -369,6 +400,10 @@ public class Empleados extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ccbEstadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccbEstadoCivilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ccbEstadoCivilActionPerformed
 
     /**
      * @param args the command line arguments
