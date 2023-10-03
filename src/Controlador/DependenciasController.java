@@ -15,7 +15,7 @@ import java.util.List;
  * @author Lissette
  */
 public class DependenciasController extends Conection{
-    public List<Dependencias> mostrar() throws Exception {
+   /* public List<Dependencias> mostrar() throws Exception {
         ResultSet res;
         List<Dependencias> lst = new ArrayList();
         try {
@@ -38,7 +38,7 @@ public class DependenciasController extends Conection{
             this.desconectar();
         }
         return lst;
-    }
+    }*/
     
     public void insertarDependencias(Dependencias dep, int id_user) throws Exception{
         try {
