@@ -2,95 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package GUI.Dependencias;;
-import Clase.*;
+package GUI.Dependencias;
+import java.util.List;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import GUI.Inicio;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import Controlador.DependenciasController;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import java.util.prefs.Preferences;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import GUI.Inicio;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import GUI.Inicio;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import GUI.Inicio;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import GUI.Inicio;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
-import Clase.*;
-import Controlador.DependenciasController;
-import Clase.AdministradorDependencias;
-import Clase.Dependencias;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.util.prefs.Preferences;
 /**
  *
  * @author Lissette
@@ -110,8 +36,26 @@ public class Dependencia extends javax.swing.JInternalFrame {
         Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
         this.id_user = prefs.getInt("id", 0);
         administradorDependencias = new AdministradorDependencias();
+        desabilitar_botones();
+        jTableContactos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = jTableContactos.getSelectedRow();
+                    jButtonEditar.setEnabled(selectedRow != -1); // Habilitar el botón 
+                    jButtonEliminar.setEnabled(selectedRow != -1); 
+                    jButtonGuardar.setEnabled(false);
+                }
+            }
+        });
     }
-
+    
+    public void desabilitar_botones(){
+        jButtonEditar.setEnabled(false); 
+        jButtonGuardar.setEnabled(false);
+        jButtonEliminar.setEnabled(false);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -131,6 +75,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
         jButtonEditar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jButtonCerrar = new javax.swing.JButton();
+        jButtonNuevo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabelAgenda = new javax.swing.JLabel();
         jLabelId = new javax.swing.JLabel();
@@ -200,6 +145,8 @@ public class Dependencia extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jButtonGuardar.setBackground(new java.awt.Color(51, 102, 255));
+        jButtonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,6 +154,8 @@ public class Dependencia extends javax.swing.JInternalFrame {
             }
         });
 
+        jButtonEditar.setBackground(new java.awt.Color(0, 102, 204));
+        jButtonEditar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +163,8 @@ public class Dependencia extends javax.swing.JInternalFrame {
             }
         });
 
+        jButtonEliminar.setBackground(new java.awt.Color(204, 0, 0));
+        jButtonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,10 +172,29 @@ public class Dependencia extends javax.swing.JInternalFrame {
             }
         });
 
+        jButtonCerrar.setBackground(new java.awt.Color(0, 0, 255));
+        jButtonCerrar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCerrar.setText("Cerrar");
         jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCerrarActionPerformed(evt);
+            }
+        });
+
+        jButtonNuevo.setBackground(new java.awt.Color(0, 0, 255));
+        jButtonNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonNuevo.setText("Nuevo");
+        jButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNuevoActionPerformed(evt);
+            }
+        });
+        jButtonNuevo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonNuevoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButtonNuevoKeyReleased(evt);
             }
         });
 
@@ -233,26 +203,29 @@ public class Dependencia extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(17, 17, 17)
+                .addComponent(jButtonNuevo)
+                .addGap(114, 114, 114)
                 .addComponent(jButtonGuardar)
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addComponent(jButtonEditar)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonCerrar)
-                .addGap(42, 42, 42))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGuardar)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonEliminar)
-                    .addComponent(jButtonCerrar))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(jButtonCerrar)
+                    .addComponent(jButtonNuevo))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jLabelAgenda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -306,9 +279,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
                     .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,19 +300,25 @@ public class Dependencia extends javax.swing.JInternalFrame {
         try {
             dep.setNombre(this.jTextFieldNombre.getText());
             dep.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
-            if(msg_alert==0){
-                depController.editarDependencia(dep);
-                JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
-                CrearModelo();
-                limpiarCampos();
-            }
-            limpiarCampos();
+            String nombre = this.jTextFieldNombre.getText().trim(); 
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+            } else {
+                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                if(msg_alert==0){
+                    depController.editarDependencia(dep);
+                    JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                    CrearModelo();
+                    limpiarCampos();
+                }
+                limpiarCampos();     
+            }  
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
+   
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
@@ -379,6 +356,31 @@ public class Dependencia extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         llenarTabla();
     }//GEN-LAST:event_jTableContactosMouseClicked
+
+    private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
+        // TODO add your handling code here:
+        nueva_dependencia();
+    }//GEN-LAST:event_jButtonNuevoActionPerformed
+
+    private void jButtonNuevoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonNuevoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNuevoKeyPressed
+
+    private void jButtonNuevoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonNuevoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNuevoKeyReleased
+    
+    public void nueva_dependencia(){
+        jButtonGuardar.setEnabled(true);
+        jButtonEditar.setEnabled(false);
+        jButtonEliminar.setEnabled(false);
+        if (jTableContactos.getSelectedRow() != -1) {
+            jTableContactos.clearSelection();
+        }
+        limpiarCampos();
+
+    }
+    
     //borrado logico
     public void eliminar(){
         try {
@@ -441,6 +443,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
     
     private void limpiarCampos() {
         jTextFieldNombre.setText("");
+        txt_id.setText("");
     }
     private boolean existeContactoConID(int id) {
         for (Dependencias dependencia : area) {
@@ -472,6 +475,7 @@ public class Dependencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JButton jButtonNuevo;
     private javax.swing.JLabel jLabelAgenda;
     private javax.swing.JLabel jLabelBuscar;
     private javax.swing.JLabel jLabelId;
@@ -487,12 +491,16 @@ public class Dependencia extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void insertar() throws Exception{
-        dep.setNombre(this.jTextFieldNombre.getText());
-        depController.insertarDependencias(dep, this.id_user);
-        JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
-        limpiarCampos();
+        String nombre = this.jTextFieldNombre.getText().trim(); 
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        } else {
+            dep.setNombre(this.jTextFieldNombre.getText());
+            depController.insertarDependencias(dep, this.id_user);
+            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            limpiarCampos();
+        }
     }
     
-
-
+    
 }
