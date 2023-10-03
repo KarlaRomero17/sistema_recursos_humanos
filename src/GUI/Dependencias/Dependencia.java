@@ -205,9 +205,9 @@ public class Dependencia extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jButtonNuevo)
-                .addGap(99, 99, 99)
+                .addGap(83, 83, 83)
                 .addComponent(jButtonGuardar)
-                .addGap(26, 26, 26)
+                .addGap(42, 42, 42)
                 .addComponent(jButtonEditar)
                 .addGap(29, 29, 29)
                 .addComponent(jButtonEliminar)
@@ -432,13 +432,6 @@ public class Dependencia extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-       /* try {
-            Modelo = (new DefaultTableModel(null, new String[]{
-                "#", "Dependencia"}) {});
-            jTableContactos.setModel(Modelo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error!!");
-        }*/
     }
     
     private void limpiarCampos() {
