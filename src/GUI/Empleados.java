@@ -19,14 +19,13 @@ import javax.swing.DefaultComboBoxModel;
 public class Empleados extends javax.swing.JFrame {
 
     EmpleadosController empController = new EmpleadosController();
-    Dependencia instancia_estado = new Dependencia();
+    EstadoCivil instancia_estado = new EstadoCivil();
     DefaultComboBoxModel<String> Modelo;
     /**
      * Creates new form Empleados
      */
     public Empleados() {
         initComponents();
-
         Modelo = new DefaultComboBoxModel<>();
         //ccbEstadoCivil.setModel(Modelo); 
         mostrarEstado();
@@ -34,11 +33,11 @@ public class Empleados extends javax.swing.JFrame {
     
     public void mostrarEstado () {
         try { 
-            List<Dependencia> estadosCiviles = empController.mostrarEstadoCivil();
+            List<EstadoCivil> estadosCiviles = empController.mostrarEstadoCivil();
             String[] nombresEstados = new String[estadosCiviles.size()];
 
             for (int i = 0; i < estadosCiviles.size(); i++) {
-                Dependencia estadoCivil = estadosCiviles.get(i);
+                EstadoCivil estadoCivil = estadosCiviles.get(i);
                 nombresEstados[i] = estadoCivil.getNombre();
             }
 
@@ -47,8 +46,8 @@ public class Empleados extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -155,6 +154,7 @@ public class Empleados extends javax.swing.JFrame {
 
         jLabel6.setText("Estado Civil");
 
+        ccbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ccbEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ccbEstadoCivilActionPerformed(evt);
@@ -371,7 +371,7 @@ public class Empleados extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 

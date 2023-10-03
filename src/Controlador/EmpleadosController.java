@@ -19,23 +19,22 @@ import java.util.List;
 public class EmpleadosController extends Conection{
     
      
-    public List<Dependencia>  mostrarEstadoCivil() throws Exception{
+    public List<EstadoCivil>  mostrarEstadoCivil() throws Exception{
      
         ResultSet res;
         String sql="";
         sql="select * from estado_civil";
         PreparedStatement st;
               // combo.removeAllItems();
-        List<Dependencia> estadosCiviles = new ArrayList<>();
+        List<EstadoCivil> estadosCiviles = new ArrayList<>();
         try{
-
            this.conectar();
            st=this.getCon().prepareStatement(sql);
             res=st.executeQuery(sql);
 
             while(res.next()){
                // combo.addItem(res.getString("nombre"));
-               Dependencia estado = new Dependencia();
+               EstadoCivil estado = new EstadoCivil();
                estado.setNombre(res.getString("nombre"));
                estadosCiviles.add(estado);
 

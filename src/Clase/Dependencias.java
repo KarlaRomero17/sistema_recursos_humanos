@@ -11,27 +11,24 @@ import java.util.Date;
  * @author Lissette
  */
 public class Dependencias {
-    
+    private String created_by;
     int id;
     String nombre;
     boolean estado;
-   // Date created_at;
-   // int created_by;
+    Date created_at;
+    //int created_by;
     //Date updated_at;
    // int updated_by;
+    
+    public Dependencias() {
+    }
 
-    public Dependencias(int id, String nombre, boolean estado) {
+    public Dependencias(int id, String nombre, boolean estado, Date created_at, String created_by) {
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
-        //this.created_at = created_at;
-       // this.created_by = created_by;
-       // this.updated_at = updated_at;
-        //this.updated_by = updated_by;
-    }
-
-    public Dependencias() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.created_at = created_at;
+        this.created_by = created_by;
     }
 
     public int getId() {
@@ -58,7 +55,7 @@ public class Dependencias {
         this.estado = estado;
     }
 
-   /* public Date getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
@@ -66,14 +63,21 @@ public class Dependencias {
         this.created_at = created_at;
     }
 
-    public int getCreated_by() {
+    /*public int getCreated_by() {
         return created_by;
     }
 
     public void setCreated_by(int created_by) {
         this.created_by = created_by;
+    }*/
+    public String getCreated_by() {
+        return created_by;
     }
 
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
+    }
+/*
     public Date getUpdated_at() {
         return updated_at;
     }
