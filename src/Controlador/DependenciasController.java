@@ -15,6 +15,7 @@ import java.util.List;
  * @author Lissette
  */
 public class DependenciasController extends Conection{
+
     public List<Dependencias> mostrarDependencias() throws Exception {
         ResultSet res;
         List<Dependencias> lst = new ArrayList();
