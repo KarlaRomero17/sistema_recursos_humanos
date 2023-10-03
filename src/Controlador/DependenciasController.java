@@ -78,7 +78,7 @@ public class DependenciasController extends Conection{
     public void eliminarDependencia(Dependencias dep) throws Exception{
         try {
             this.conectar();
-            String query ="UPDATE dependencia SET estado=? WHERE id=?";
+            String query ="UPDATE dependencia SET estado=? WHERE id=?"; 
             PreparedStatement st = this.getCon().prepareStatement(query);
             st.setBoolean(1, false);
             st.setInt(2, dep.getId());

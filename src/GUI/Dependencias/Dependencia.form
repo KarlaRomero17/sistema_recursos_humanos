@@ -127,11 +127,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="jButtonNuevo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                   <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="jButtonEditar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Component id="jButtonEliminar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jButtonCerrar" min="-2" max="-2" attributes="0"/>
