@@ -3,24 +3,94 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package GUI.Dependencias;;
+import Clase.*;
+import Controlador.DependenciasController;
+
 import Clase.AdministradorDependencias;
 import Clase.Dependencias;
-
-import java.awt.Image;
-import java.io.IOException;
+import GUI.Inicio;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-
- 
-
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import GUI.Inicio;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import GUI.Inicio;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import GUI.Inicio;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
+import Clase.*;
+import Controlador.DependenciasController;
+import Clase.AdministradorDependencias;
+import Clase.Dependencias;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.prefs.Preferences;
 /**
  *
  * @author Lissette
@@ -28,13 +98,17 @@ import javax.swing.table.TableRowSorter;
 public class Dependencia extends javax.swing.JInternalFrame {
     ArrayList<Dependencias> area = new ArrayList<Dependencias>();
     private AdministradorDependencias administradorDependencias;
-
+    int id_user;
+    Dependencias dep = new Dependencias();
+    DependenciasController depController = new DependenciasController();
     /**
      * Creates new form Dependencia
      */
     public Dependencia() {
         initComponents(); 
-        CrearModelo();
+        CrearModelo(); 
+        Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+        this.id_user = prefs.getInt("id", 0);
         administradorDependencias = new AdministradorDependencias();
     }
 
@@ -47,118 +121,28 @@ public class Dependencia extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButtonMostrar = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
-        jLabelBuscar = new javax.swing.JLabel();
-        jTextFieldBuscar = new javax.swing.JTextField();
-        jButtonCerrar = new javax.swing.JButton();
         jPanelDatos = new javax.swing.JPanel();
-        jLabelAgenda = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButtonGuardar = new javax.swing.JButton();
-        jLabelNombre = new javax.swing.JLabel();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableContactos = new javax.swing.JTable();
-        jLabelImagen = new javax.swing.JLabel();
+        jTextFieldBuscar = new javax.swing.JTextField();
+        jLabelBuscar = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonGuardar = new javax.swing.JButton();
+        jButtonEditar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
+        jButtonCerrar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabelAgenda = new javax.swing.JLabel();
+        jLabelId = new javax.swing.JLabel();
+        txt_id = new javax.swing.JTextField();
+        jLabelNombre = new javax.swing.JLabel();
+        jTextFieldNombre = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Dependencias");
         setFocusable(false);
-
-        jButtonMostrar.setText("Mostrar");
-        jButtonMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMostrarActionPerformed(evt);
-            }
-        });
-
-        jButtonEditar.setText("Editar");
-        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarActionPerformed(evt);
-            }
-        });
-
-        jLabelBuscar.setText("Buscar:");
-
-        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBuscarActionPerformed(evt);
-            }
-        });
-        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFieldBuscarKeyReleased(evt);
-            }
-        });
-
-        jButtonCerrar.setText("Cerrar");
-        jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCerrarActionPerformed(evt);
-            }
-        });
-
-        jLabelAgenda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelAgenda.setText("Dependencias");
-
-        jLabel2.setText("ID:");
-
-        jButtonGuardar.setText("Guardar");
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
-            }
-        });
-
-        jLabelNombre.setText("Nombre:");
-
-        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
-        jPanelDatos.setLayout(jPanelDatosLayout);
-        jPanelDatosLayout.setHorizontalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDatosLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelDatosLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelNombre)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelDatosLayout.createSequentialGroup()
-                        .addComponent(jButtonGuardar)
-                        .addGap(81, 81, 81))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDatosLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(47, Short.MAX_VALUE))
-        );
-        jPanelDatosLayout.setVerticalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDatosLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelDatosLayout.createSequentialGroup()
-                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelNombre))
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addComponent(jButtonGuardar)
-                .addContainerGap(119, Short.MAX_VALUE))
-        );
 
         jTableContactos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,7 +155,64 @@ public class Dependencia extends javax.swing.JInternalFrame {
 
             }
         ));
+        jTableContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableContactosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableContactos);
+
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyReleased(evt);
+            }
+        });
+
+        jLabelBuscar.setText("Buscar:");
+
+        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
+        jPanelDatos.setLayout(jPanelDatosLayout);
+        jPanelDatosLayout.setHorizontalGroup(
+            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanelDatosLayout.setVerticalGroup(
+            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDatosLayout.createSequentialGroup()
+                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         jButtonEliminar.setText("Eliminar");
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -180,109 +221,124 @@ public class Dependencia extends javax.swing.JInternalFrame {
             }
         });
 
+        jButtonCerrar.setText("Cerrar");
+        jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCerrarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jButtonGuardar)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonEditar)
+                .addGap(34, 34, 34)
+                .addComponent(jButtonEliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                .addComponent(jButtonCerrar)
+                .addGap(42, 42, 42))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGuardar)
+                    .addComponent(jButtonEditar)
+                    .addComponent(jButtonEliminar)
+                    .addComponent(jButtonCerrar))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jLabelAgenda.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelAgenda.setText("Dependencias");
+
+        jLabelId.setText("ID:");
+
+        txt_id.setEnabled(false);
+
+        jLabelNombre.setText("Nombre:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabelId)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jLabelNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelAgenda)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelId)
+                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelNombre))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(33, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonCerrar)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButtonMostrar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonEditar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonEliminar))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(24, 24, 24))
+                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonEliminar)
-                            .addComponent(jButtonEditar)
-                            .addComponent(jButtonMostrar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelBuscar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonCerrar)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
-        modelo.setRowCount(0); // Borra todas las filas existentes en la tabla
-        for (Dependencias dependencia : area) {
-            Object[] fila = {dependencia.getId(), dependencia.getNombre()};
-            modelo.addRow(fila);
-        }
-    }//GEN-LAST:event_jButtonMostrarActionPerformed
-
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = jTableContactos.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona una dependencia para editar.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }  else {
-            String id = jTextFieldId.getText().trim();
-            String nombre = jTextFieldNombre.getText().trim();
-            boolean estado = true;
-
-            if (id.isEmpty() || nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                try {
-                    int idNum = Integer.parseInt(id);
-                    // Verifica si el ID ingresado coincide con el ID del contacto seleccionado
-                    Dependencias contactoSeleccionado = (Dependencias) area.get(filaSeleccionada);
-                    if (idNum != contactoSeleccionado.getId() && existeContactoConID(idNum)) {
-                        JOptionPane.showMessageDialog(null, "Ya existe una dependencia con el mismo ID.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        // Actualiza los datos del contacto seleccionado
-                        contactoSeleccionado.setId(idNum);
-                        contactoSeleccionado.setNombre(nombre);
-                        contactoSeleccionado.setEstado(estado);
-                        // Actualiza la tabla
-                        cargarTabla();
-                        JOptionPane.showMessageDialog(null, "Dependencia editado");
-                        limpiarCampos();
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "El campo Id debe ser un número válido.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        try {
+            dep.setNombre(this.jTextFieldNombre.getText());
+            dep.setId(Integer.parseInt(this.txt_id.getText()));
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+            if(msg_alert==0){
+                depController.editarDependencia(dep);
+                JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                CrearModelo();
+                limpiarCampos();
             }
+            limpiarCampos();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
@@ -298,84 +354,92 @@ public class Dependencia extends javax.swing.JInternalFrame {
 
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
         // TODO add your handling code here:
-        //this.dispose();
-        JOptionPane.showMessageDialog(null, administradorDependencias.obtenerNombres());
+        this.dispose();
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
-        String id = jTextFieldId.getText().trim();
-        String nombre = jTextFieldNombre.getText().trim();
-        boolean estado = true;
-        if (id.isEmpty() || nombre.isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error",
-                JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                int idNum = Integer.parseInt(id);
-                if (existeContactoConID(idNum)) {
-                    JOptionPane.showMessageDialog(null, "Ya existe una dependencia  con el mismo ID.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Dependencias miContacto = new Dependencias(idNum, nombre, estado);
-                    area.add(miContacto);
-                    // Actualiza la tabla
-                    cargarTabla();
-                    JOptionPane.showMessageDialog(null, "Dependencia guardada");
-                    limpiarCampos();
-                    // Código para agregar un contacto a la lista y luego guardar en CSV
-                    administradorDependencias.agregarContacto(miContacto);
-                    administradorDependencias.guardarContactosEnCSV(); // Guardar en el archivo CSV
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "El campo Id debe ser un número válido.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                Logger.getLogger(Dependencias.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            insertar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = jTableContactos.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una dependencia para eliminar.",
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar esta dependencia?", "Confirmación", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
-            DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
-            modelo.removeRow(filaSeleccionada);
-            area.remove(filaSeleccionada);
-            JOptionPane.showMessageDialog(this, "Dependencia eliminado correctamente.");
+        try {
+            eliminar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
+    private void jTableContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContactosMouseClicked
+        // TODO add your handling code here:
+        llenarTabla();
+    }//GEN-LAST:event_jTableContactosMouseClicked
+    //borrado logico
+    public void eliminar(){
+        try {
+            dep.setId(Integer.parseInt(this.txt_id.getText()));
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de eliminar?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION);
+            if(msg_alert==0){
+                depController.eliminarDependencia(dep);
+                JOptionPane.showMessageDialog(rootPane, "Dependencia eliminada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                CrearModelo();
+                limpiarCampos();
+            }
+            limpiarCampos();
+        } catch (Exception e) {
+        }
+    }
 
     DefaultTableModel Modelo;
     private void CrearModelo() {
+       // String [] col = {"ID", "Nombre" };
+        Object[] obj = new Object[5];
         try {
+            Modelo = (new DefaultTableModel(null, new String[]{
+                "#", "Dependencia", "Estado", "Creado por", "Fecha_registro"}) {});
+            jTableContactos.setModel(Modelo);
+            
+            List ls;
+             String estado;
+            ls = depController.mostrarDependencias();
+            for (int i = 0 ; i < ls.size() ; i++) {
+                dep = (Dependencias)ls.get(i);
+                obj[0] =dep.getId();
+                obj[1]=dep.getNombre(); 
+                if(dep.isEstado()){
+                    estado="Activo" ;
+                }else{
+                    estado="Inactivo";
+                }
+                obj[2]=estado; 
+                obj[3]=dep.getCreated_by(); 
+                obj[4]=dep.getCreated_at(); 
+                
+                
+                Modelo.addRow(obj);
+                
+            }
+            ls=depController.mostrarDependencias();
+            this.jTableContactos.setModel(Modelo);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+       /* try {
             Modelo = (new DefaultTableModel(null, new String[]{
                 "#", "Dependencia"}) {});
             jTableContactos.setModel(Modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error!!");
-        }
-    }
-    
-    private void cargarTabla() {
-    DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
-    modelo.setRowCount(0); // Limpiar la tabla
-        for (Dependencias dependencia : area) {
-            Object[] fila = {dependencia.getId(), dependencia.getNombre()};
-            modelo.addRow(fila);
-        }
+        }*/
     }
     
     private void limpiarCampos() {
-        jTextFieldId.setText("");
         jTextFieldNombre.setText("");
     }
     private boolean existeContactoConID(int id) {
@@ -398,22 +462,37 @@ public class Dependencia extends javax.swing.JInternalFrame {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textoBusqueda));
         }
     }
+    public void llenarTabla(){
+        int fila= this.jTableContactos.getSelectedRow();
+        this.txt_id.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 0)));
+        this.jTextFieldNombre.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 1)));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
-    private javax.swing.JButton jButtonMostrar;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAgenda;
     private javax.swing.JLabel jLabelBuscar;
-    private javax.swing.JLabel jLabelImagen;
+    private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelNombre;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelDatos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableContactos;
     private javax.swing.JTextField jTextFieldBuscar;
-    private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables
+
+    public void insertar() throws Exception{
+        dep.setNombre(this.jTextFieldNombre.getText());
+        depController.insertarDependencias(dep, this.id_user);
+        JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+        limpiarCampos();
+    }
+    
+
+
 }
