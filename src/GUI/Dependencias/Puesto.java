@@ -31,7 +31,7 @@ import javax.swing.JComboBox;
 public class Puesto extends javax.swing.JInternalFrame {
     
     EmpleadosController empController = new EmpleadosController();
-    Clase.Dependencia instancia_estado = new Clase.Dependencia();
+    Clase.Dependencias instancia_estado = new Clase.Dependencias();
     DefaultComboBoxModel<String> Modelo;
     
     
@@ -73,11 +73,11 @@ public class Puesto extends javax.swing.JInternalFrame {
     }
     public void llenarCmb1(){
         try { 
-            List<Clase.Dependencia> dependencias = puestoController.mostrarDependencias();
+            List<Clase.Dependencias> dependencias = puestoController.mostrarDependencias();
             String[] nombresDependencias = new String[dependencias.size()];
 
             for (int i = 0; i < dependencias.size(); i++) {
-                Clase.Dependencia dep = dependencias.get(i);
+                Clase.Dependencias dep = dependencias.get(i);
                 nombresDependencias[i] = dep.getNombre();
             }
 

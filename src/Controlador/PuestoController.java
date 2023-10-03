@@ -26,14 +26,14 @@ public class PuestoController extends Conection {
     Metodo inconcluso aun.
     deberia mandar a llamar solo el ID y/o nombre? para que se muestre en mi Cmb
     */
-    public List<Dependencia> mostrarDependencias() throws Exception{
+    public List<Dependencias> mostrarDependencias() throws Exception{
      
         ResultSet res;
         String sql="";
         sql="select * from dependencia";
         PreparedStatement st;
               // combo.removeAllItems();
-        List<Dependencia> estadosCiviles = new ArrayList<>();
+        List<Dependencias> estadosCiviles = new ArrayList<>();
         try{
 
            this.conectar();
@@ -42,7 +42,7 @@ public class PuestoController extends Conection {
 
             while(res.next()){
                // combo.addItem(res.getString("nombre"));
-               Dependencia estado = new Dependencia();
+               Dependencias estado = new Dependencias();
                estado.setNombre(res.getString("nombre"));
                estadosCiviles.add(estado);
 
