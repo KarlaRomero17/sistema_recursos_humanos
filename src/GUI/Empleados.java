@@ -4,17 +4,50 @@
  */
 package GUI;
 
+import Controlador.EmpleadosController;
+import javax.swing.JOptionPane;
+
+import Clase.*;
+import Controlador.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author Sergio Gomez
  */
 public class Empleados extends javax.swing.JFrame {
 
+    EmpleadosController empController = new EmpleadosController();
+    Dependencia instancia_estado = new Dependencia();
+    DefaultComboBoxModel<String> Modelo;
     /**
      * Creates new form Empleados
      */
     public Empleados() {
         initComponents();
+
+        Modelo = new DefaultComboBoxModel<>();
+        //ccbEstadoCivil.setModel(Modelo); 
+        mostrarEstado();
+    }
+    
+    public void mostrarEstado () {
+        try { 
+            List<Dependencia> estadosCiviles = empController.mostrarEstadoCivil();
+            String[] nombresEstados = new String[estadosCiviles.size()];
+
+            for (int i = 0; i < estadosCiviles.size(); i++) {
+                Dependencia estadoCivil = estadosCiviles.get(i);
+                nombresEstados[i] = estadoCivil.getNombre();
+            }
+
+        Modelo = new DefaultComboBoxModel<>(nombresEstados);
+        ccbEstadoCivil.setModel(Modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
     }
 
     /**
@@ -41,7 +74,7 @@ public class Empleados extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        ccbEstadoCivil = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
@@ -122,7 +155,11 @@ public class Empleados extends javax.swing.JFrame {
 
         jLabel6.setText("Estado Civil");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ccbEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ccbEstadoCivilActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Tipo Sanguineo");
 
@@ -169,7 +206,7 @@ public class Empleados extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(ccbEstadoCivil, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
@@ -194,7 +231,7 @@ public class Empleados extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ccbEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -367,6 +404,10 @@ public class Empleados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ccbEstadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccbEstadoCivilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ccbEstadoCivilActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -406,9 +447,9 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JComboBox<String> ccbEstadoCivil;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

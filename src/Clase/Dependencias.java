@@ -30,6 +30,10 @@ public class Dependencias {
         //this.updated_by = updated_by;
     }
 
+    public Dependencias() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public int getId() {
         return id;
     }

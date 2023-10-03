@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import Clase.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Sergio Gomez
@@ -17,36 +19,36 @@ import Clase.*;
 public class EmpleadosController extends Conection{
     
      
-     public void  mostrarEstadoCivil(JComboBox combo) throws Exception{
+    public List<Dependencia>  mostrarEstadoCivil() throws Exception{
      
-    ResultSet res;
-     String sql="";
-     sql="selct * from estado_civl";
-     PreparedStatement st;
-     
-     try{
-     
-        this.conectar();
-        
-         st=this.getCon().prepareStatement(sql);
-         st.setString(1, sql);
-         res=st.executeQuery(sql);
-     
-     combo.removeAllItems();
-     
-     while(res.next()){
-         combo.addItem(res.getString("nombre"));
-     }
-     
-     
-     } catch (Exception e){
-        throw e; 
-        //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
-     } finally {
-            // Desconectar la conexión aquí si es necesario
+        ResultSet res;
+        String sql="";
+        sql="select * from estado_civil";
+        PreparedStatement st;
+              // combo.removeAllItems();
+        List<Dependencia> estadosCiviles = new ArrayList<>();
+        try{
+
+           this.conectar();
+           st=this.getCon().prepareStatement(sql);
+            res=st.executeQuery(sql);
+
+            while(res.next()){
+               // combo.addItem(res.getString("nombre"));
+               Dependencia estado = new Dependencia();
+               estado.setNombre(res.getString("nombre"));
+               estadosCiviles.add(estado);
+
+            }
+            return estadosCiviles;
+        } catch (Exception e){
+           throw e; 
+           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
+        } finally {
+               // Desconectar la conexión aquí si es necesario
         }
      
-     }
+    }
 
 
 

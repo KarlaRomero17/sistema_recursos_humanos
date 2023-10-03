@@ -15,12 +15,12 @@ import java.util.List;
  * @author Lissette
  */
 public class DependenciasController extends Conection{
-    public List<Dependencias> mostrar() throws Exception {
+   public List<Dependencias> mostrar() throws Exception {
         ResultSet res;
         List<Dependencias> lst = new ArrayList();
         try {
             this.conectar();
-            String sql = "select * from dependencias";
+            String sql = "select * from dependencia";
             PreparedStatement st = this.getCon().prepareStatement(sql);
             res = st.executeQuery();
 
