@@ -5,10 +5,10 @@
 package GUI.Dependencias;
 
 
-import Clase.AdministradorDependencias;
-import Clase.AdministradorPuestos;
-import Clase.Dependencias;
-import Clase.Puestos;
+import Clase.*;
+import Controlador.*;
+import com.mysql.jdbc.Statement;
+
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -19,14 +19,24 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 
 import java.awt.event.ItemEvent;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 /**
  *
  * @author fjrod
  */
 public class Puesto extends javax.swing.JInternalFrame {
+    
+    EmpleadosController empController = new EmpleadosController();
+    Clase.Dependencia instancia_estado = new Clase.Dependencia();
+    DefaultComboBoxModel<String> Modelo;
+    
+    
+    Conection con = new Conection();
+    PuestoController puestoController = new PuestoController();
     
     ArrayList<Dependencia> dependenciasList = new ArrayList<>();
     ArrayList<Puestos> puestosList = new ArrayList<>();
@@ -41,7 +51,8 @@ public class Puesto extends javax.swing.JInternalFrame {
         CrearModelo();
         adminDep = new AdministradorDependencias();
         adminPuestos = new AdministradorPuestos();
-        llenarCmb();
+        Modelo = new DefaultComboBoxModel<>();
+        llenarCmb1();
     }
     
     public void cleanAll(){
@@ -59,6 +70,22 @@ public class Puesto extends javax.swing.JInternalFrame {
         cmb_dependencia.removeAllItems(); //Limpiar el CmB
         String [] deptos = {"Seleccionar Opcion", "IT", "Administracion", "Ventas", "Finanzas", "Logistica"};
         cmb_dependencia.setModel(new DefaultComboBoxModel<>(deptos));
+    }
+    public void llenarCmb1(){
+        try { 
+            List<Clase.Dependencia> dependencias = puestoController.mostrarDependencias();
+            String[] nombresDependencias = new String[dependencias.size()];
+
+            for (int i = 0; i < dependencias.size(); i++) {
+                Clase.Dependencia dep = dependencias.get(i);
+                nombresDependencias[i] = dep.getNombre();
+            }
+
+        Modelo = new DefaultComboBoxModel<>(nombresDependencias);
+        cmb_dependencia.setModel(Modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,8 +115,6 @@ public class Puesto extends javax.swing.JInternalFrame {
         jLabel1.setText("Nombre del Puesto");
 
         jLabel2.setText("Sleccione una Dependencia");
-
-        cmb_dependencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btn_enviar.setText("Guardar");
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
@@ -251,7 +276,7 @@ public class Puesto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String id = txt_id.getText().trim();
         String nombre = txt_nombrePuesto.getText().trim();
-        String depto = cmb_dependencia.getSelectedItem().toString();
+        int depto = cmb_dependencia.getSelectedIndex();
         boolean estado = true;
         if (id.isEmpty() || nombre.isEmpty() || cmb_dependencia.getSelectedIndex() == 0 ) {
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error",
@@ -320,7 +345,7 @@ public class Puesto extends javax.swing.JInternalFrame {
         }  else {
             String id = txt_id.getText().trim();
             String nombre = txt_nombrePuesto.getText().trim();
-            String depto = cmb_dependencia.getSelectedItem().toString();
+            int depto = cmb_dependencia.getSelectedIndex();
             boolean estado = true;
 
             if (id.isEmpty() || nombre.isEmpty() || cmb_dependencia.getSelectedIndex() == 0) {
@@ -373,12 +398,12 @@ public class Puesto extends javax.swing.JInternalFrame {
         return false;
     }
     
-    DefaultTableModel Modelo;
+    DefaultTableModel Model;
     private void CrearModelo() {
         try {
-            Modelo = (new DefaultTableModel(null, new String[]{
+            Model = (new DefaultTableModel(null, new String[]{
                 "#", "Puesto", "Dependencia"}) {});
-            tbl_puestos.setModel(Modelo);
+            tbl_puestos.setModel(Model);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error!!");
         }

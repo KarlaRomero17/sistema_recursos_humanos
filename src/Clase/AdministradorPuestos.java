@@ -53,7 +53,7 @@ public class AdministradorPuestos {
             // Supongamos que el archivo CSV tiene el formato: id, nombre, dependencia, estado
                 int id = Integer.parseInt(linea[0]);
                 String nombre = linea[1];
-                String dependencia = linea[2];
+                int dependencia = Integer.parseInt(linea[2]);
                 boolean estado = Boolean.parseBoolean(linea[3]);
                 
                     Puestos puesto = new Puestos(id, nombre, dependencia, estado);

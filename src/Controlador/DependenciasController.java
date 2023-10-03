@@ -17,11 +17,14 @@ import java.util.List;
 public class DependenciasController extends Conection{
 
     public List<Dependencias> mostrarDependencias() throws Exception {
+
         ResultSet res;
         List<Dependencias> lst = new ArrayList();
         try {
             this.conectar();
+
             String sql = "select d.*, u.id, u.usuario  from dependencia d join usuarios u ON d.created_by = u.id ";
+
             PreparedStatement st = this.getCon().prepareStatement(sql);
             res = st.executeQuery();
 

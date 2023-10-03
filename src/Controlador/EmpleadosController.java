@@ -28,7 +28,6 @@ public class EmpleadosController extends Conection{
               // combo.removeAllItems();
         List<EstadoCivil> estadosCiviles = new ArrayList<>();
         try{
-
            this.conectar();
            st=this.getCon().prepareStatement(sql);
             res=st.executeQuery(sql);

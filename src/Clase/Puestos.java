@@ -11,14 +11,18 @@ package Clase;
 public class Puestos {
     int id;
     String nombre;
-    String dependencia;
+    int dependencia; //Cambie de String a int.
     boolean estado;
 
-    public Puestos(int id, String nombre, String dependencia, boolean estado) {
+    public Puestos(int id, String nombre, int dependencia, boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.dependencia = dependencia;
         this.estado = estado;
+    }
+
+    public Puestos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
@@ -38,11 +42,11 @@ public class Puestos {
         this.nombre = nombre;
     }
 
-    public String getDependencia() {
+    public int getDependencia() {
         return dependencia;
     }
 
-    public void setDependencia(String dependencia) {
+    public void setDependencia(int dependencia) {
         this.dependencia = dependencia;
     }
 
