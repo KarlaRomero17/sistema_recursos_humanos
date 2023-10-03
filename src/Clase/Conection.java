@@ -38,7 +38,7 @@ public class Conection {
             Class.forName("com.mysql.jdbc.Driver");
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistema_rrhh?user=root&password=''");
             con =  DriverManager.getConnection(cadena, user, password);
-            //JOptionPane.showMessageDialog(null, "Se conectó correctamente a la base de datos AAAA");
+            JOptionPane.showMessageDialog(null, "Se conectó correctamente a la base de datos AAAA");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos: Error " + e.toString());
         }

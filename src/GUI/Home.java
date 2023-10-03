@@ -83,6 +83,11 @@ public class Home extends javax.swing.JFrame {
         );
 
         jMenu3.setText("Empleados");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/agregar.png"))); // NOI18N
         jMenuItem2.setText("Crear");
@@ -169,6 +174,10 @@ public class Home extends javax.swing.JFrame {
         jPanelEscritorio.add(ventana);
         ventana.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu3MouseClicked
 
     /**
      * @param args the command line arguments

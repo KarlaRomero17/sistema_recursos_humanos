@@ -20,6 +20,7 @@ public class Empleados extends javax.swing.JFrame {
 
     EmpleadosController empController = new EmpleadosController();
     EstadoCivil instancia_estado = new EstadoCivil();
+    TipoSanguineo instancia_TSangre=new TipoSanguineo();
     DefaultComboBoxModel<String> Modelo;
     /**
      * Creates new form Empleados
@@ -33,6 +34,7 @@ public class Empleados extends javax.swing.JFrame {
         Modelo = new DefaultComboBoxModel<>();
         //ccbEstadoCivil.setModel(Modelo); 
         mostrarEstado();
+        mostrarTipoSangre();
     }
     
     public void mostrarEstado () {
@@ -52,6 +54,28 @@ public class Empleados extends javax.swing.JFrame {
         }
     }
 
+    
+     public void mostrarTipoSangre () {
+        try { 
+            List<TipoSanguineo> TipoSangre = empController.mostrarTipoSanguineo();
+            String[] TipoSang = new String[TipoSangre.size()];
+
+            for (int i = 0; i < TipoSangre.size(); i++) {
+                TipoSanguineo tipoSanguineo = TipoSangre.get(i);
+                TipoSang[i] = tipoSanguineo.getTipo();
+            }
+
+        Modelo = new DefaultComboBoxModel<>(TipoSang);
+        ccbTipoSanguineo.setModel(Modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -180,7 +204,7 @@ public class Empleados extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField1))
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,7 +392,7 @@ public class Empleados extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -404,6 +428,10 @@ public class Empleados extends javax.swing.JFrame {
     private void ccbEstadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccbEstadoCivilActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ccbEstadoCivilActionPerformed
+
+    private void ccbTipoSanguineoActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+    }                                              
 
     /**
      * @param args the command line arguments
