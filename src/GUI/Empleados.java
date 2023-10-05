@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 import Clase.*;
 import Controlador.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -31,6 +33,7 @@ public class Empleados extends javax.swing.JFrame {
         //ccbEstadoCivil.setModel(Modelo); 
         mostrarEstado();
         mostrarTipoSangre();
+        centrarEnPantalla();
     }
     
     public void mostrarEstado () {
@@ -454,6 +457,9 @@ public class Empleados extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -502,4 +508,25 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JTextField txtParentesco;
     private javax.swing.JTextField txtTelefonoEmergencia;
     // End of variables declaration//GEN-END:variables
+
+
+    private void centrarEnPantalla() {
+    // Obtener el tamaño de la pantalla
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+
+       // Obtener el tamaño del JFrame
+        Dimension ventana = this.getSize();
+        // Calcular la posición para centrar el JFrame
+        int posX = (pantalla.width - ventana.width) / 2;
+        int posY = (pantalla.height - ventana.height) / 2;
+
+        // Establecer la posición del JFrame en el centro
+        this.setLocation(posX, posY);
+    }
+
+
+
+
+
+
 }
