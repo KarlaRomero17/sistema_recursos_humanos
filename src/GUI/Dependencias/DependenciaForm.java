@@ -6,7 +6,7 @@ package GUI.Dependencias;
 import java.util.List;
 import Clase.AdministradorDependencias;
 import Clase.Dependencias;
-import GUI.Inicio;
+import GUI.InicioForm;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import Controlador.DependenciasController;
@@ -21,7 +21,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Lissette
  */
-public class Dependencia extends javax.swing.JInternalFrame {
+public class DependenciaForm extends javax.swing.JInternalFrame {
     ArrayList<Dependencias> area = new ArrayList<Dependencias>();
     private AdministradorDependencias administradorDependencias;
     int id_user;
@@ -30,10 +30,10 @@ public class Dependencia extends javax.swing.JInternalFrame {
     /**
      * Creates new form Dependencia
      */
-    public Dependencia() {
+    public DependenciaForm() {
         initComponents(); 
         CrearModelo(); 
-        Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+        Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
         this.id_user = prefs.getInt("id", 0);
         administradorDependencias = new AdministradorDependencias();
         desabilitar_botones();

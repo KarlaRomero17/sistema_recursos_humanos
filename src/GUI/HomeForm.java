@@ -6,7 +6,7 @@ package GUI;
 
 import Controlador.*;
 import Clase.*;
-import GUI.Dependencias.Dependencia;
+import GUI.Dependencias.DependenciaForm;
 import GUI.Dependencias.Puesto;
 import java.awt.Image;
 import java.util.prefs.Preferences;
@@ -18,17 +18,17 @@ import javax.swing.JOptionPane;
  *
  * @author Lissette
  */
-public class Home extends javax.swing.JFrame {
+public class HomeForm extends javax.swing.JFrame {
     //private String name;
     /**
      * Creates new form Home
      */
-    public Home() {
+    public HomeForm() {
         initComponents(); 
         setExtendedState(this.MAXIMIZED_BOTH);  
         //agregar img del menu
         
-        Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+        Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
         String username = prefs.get("username", "Error");
         int id = prefs.getInt("id", 0);
         txt_user_log.setText("Bienvenido/a " + username);
@@ -54,6 +54,7 @@ public class Home extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         menuItem_crearDependencia = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -79,9 +80,10 @@ public class Home extends javax.swing.JFrame {
             jPanelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEscritorioLayout.createSequentialGroup()
                 .addComponent(txt_user_log, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 295, Short.MAX_VALUE))
+                .addGap(0, 287, Short.MAX_VALUE))
         );
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/empleados.png"))); // NOI18N
         jMenu3.setText("Empleados");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,6 +99,15 @@ public class Home extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem2);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa.png"))); // NOI18N
+        jMenuItem1.setText("Buscar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
 
@@ -162,7 +173,7 @@ public class Home extends javax.swing.JFrame {
 
     private void menuItem_crearDependenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_crearDependenciaActionPerformed
         // TODO add your handling code here:
-        Dependencia ventana = new Dependencia();
+        DependenciaForm ventana = new DependenciaForm();
         jPanelEscritorio.add(ventana);
         ventana.show();
         //ventana.setVisible(true);
@@ -186,9 +197,18 @@ public class Home extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        Empleados  ventana = new Empleados();
-        ventana.setVisible(true);
+       // Empleados  ventana = new Empleados();
+        EmpleadosForm ventana = new EmpleadosForm();
+        jPanelEscritorio.add(ventana);
+        ventana.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        BuscarEmpleadoForm ventana = new BuscarEmpleadoForm();
+        jPanelEscritorio.add(ventana);
+        ventana.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,20 +227,21 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HomeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                new HomeForm().setVisible(true);
             }
         });
     }
@@ -233,6 +254,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JDesktopPane jPanelEscritorio;

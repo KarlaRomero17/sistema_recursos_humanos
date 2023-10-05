@@ -19,14 +19,14 @@ import javax.swing.JOptionPane;
  *
  * @author Lissette
  */
-public class Inicio extends javax.swing.JFrame {
+public class InicioForm extends javax.swing.JFrame {
             
     Conection conn = new Conection(); 
     private Usuarios usuario;
     /**
      * Creates new form Inicio
      */
-    public Inicio() {
+    public InicioForm() {
         initComponents(); 
         this.usuario = usuario; 
         this.setLocationRelativeTo(this);   
@@ -169,11 +169,11 @@ public class Inicio extends javax.swing.JFrame {
             Usuarios  usuarioAutenticado = Usercontroller.validarInicioSesion(usuario, clave);
            // System.out.println(usuarioAutenticado.getUsuario());
             if(usuarioAutenticado != null){
-                Preferences prefs = Preferences.userNodeForPackage(Inicio.class);
+                Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
                 prefs.put("id", String.valueOf(usuarioAutenticado.getId()));
                 prefs.put("username", usuarioAutenticado.getUsuario());
                 
-                Home formulario = new Home();
+                HomeForm formulario = new HomeForm();
                 //enviar parametros
                 //formulario.setData(usuarioAutenticado);
                 formulario.setVisible(true);
@@ -205,20 +205,21 @@ public class Inicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                new InicioForm().setVisible(true);
             }
         });
     }

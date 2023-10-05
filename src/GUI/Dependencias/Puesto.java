@@ -38,7 +38,7 @@ public class Puesto extends javax.swing.JInternalFrame {
     Conection con = new Conection();
     PuestoController puestoController = new PuestoController();
     
-    ArrayList<Dependencia> dependenciasList = new ArrayList<>();
+    ArrayList<DependenciaForm> dependenciasList = new ArrayList<>();
     ArrayList<Puestos> puestosList = new ArrayList<>();
     
     private AdministradorPuestos adminPuestos;
