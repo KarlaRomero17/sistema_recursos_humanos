@@ -23,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author fjrod
  */
-public final class Puesto extends javax.swing.JInternalFrame {
+public final class PuestoForm extends javax.swing.JInternalFrame {
     
     EmpleadosController empController = new EmpleadosController();
     Clase.Dependencias instancia_estado = new Clase.Dependencias();
@@ -40,7 +40,7 @@ public final class Puesto extends javax.swing.JInternalFrame {
      * Creates new form Puestoschanges
      * 
      */
-    public Puesto() {
+    public PuestoForm() {
         initComponents();
         CrearModelo();
         Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
