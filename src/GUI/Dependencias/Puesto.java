@@ -37,7 +37,8 @@ public final class Puesto extends javax.swing.JInternalFrame {
     private AdministradorPuestos adminPuestos;
     private AdministradorDependencias adminDep;
     /**
-     * Creates new form Puestos
+     * Creates new form Puestoschanges
+     * 
      */
     public Puesto() {
         initComponents();
