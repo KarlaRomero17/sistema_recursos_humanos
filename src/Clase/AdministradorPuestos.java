@@ -46,7 +46,7 @@ public class AdministradorPuestos {
         }
     }
     
-    public void cargarPuestosDesdeCSV() throws CsvValidationException, IOException {
+/*    public void cargarPuestosDesdeCSV() throws CsvValidationException, IOException {
         try (CSVReader reader = new CSVReader(new FileReader(archivoCSV))) {
             String[] linea;
             while ((linea = reader.readNext()) != null) {
@@ -60,5 +60,5 @@ public class AdministradorPuestos {
                     listaPuestos.add(puesto);
             }
         }
-    }
+    }*/
 }

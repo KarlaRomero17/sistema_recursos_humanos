@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package GUI.Dependencias;
 
 
 import Clase.*;
 import Controlador.*;
-import com.mysql.jdbc.Statement;
-
-import javax.swing.RowFilter;
+import GUI.InicioForm;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -18,28 +12,27 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 
-import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 /**
  *
  * @author fjrod
  */
-public class Puesto extends javax.swing.JInternalFrame {
+public final class Puesto extends javax.swing.JInternalFrame {
     
     EmpleadosController empController = new EmpleadosController();
     Clase.Dependencias instancia_estado = new Clase.Dependencias();
+    Puestos puesto = new Puestos();
     DefaultComboBoxModel<String> Modelo;
     
-    
-    Conection con = new Conection();
     PuestoController puestoController = new PuestoController();
-    
-    ArrayList<DependenciaForm> dependenciasList = new ArrayList<>();
     ArrayList<Puestos> puestosList = new ArrayList<>();
+    int id_user;
     
     private AdministradorPuestos adminPuestos;
     private AdministradorDependencias adminDep;
@@ -49,32 +42,48 @@ public class Puesto extends javax.swing.JInternalFrame {
     public Puesto() {
         initComponents();
         CrearModelo();
+        Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
+        this.id_user = prefs.getInt("id", 0);
         adminDep = new AdministradorDependencias();
         adminPuestos = new AdministradorPuestos();
+        
         Modelo = new DefaultComboBoxModel<>();
-        llenarCmb1();
+        deshabilitarBotones();
+        
+        txt_id.setEnabled(false);
+        cmb_dependencia.setEnabled(false);
+        
+        tbl_puestos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tbl_puestos.getSelectedRow();
+                    btn_editar.setEnabled(selectedRow != -1); // Habilitar el botón 
+                    btn_eliminar.setEnabled(selectedRow != -1); 
+                    btn_restaurar.setEnabled(selectedRow != -1); 
+                    //btn_enviar.setEnabled(true);
+                }
+            }
+        });
+        llenarComboBox();
+    }
+    public void deshabilitarBotones(){
+        btn_enviar.setEnabled(false);
+        btn_editar.setEnabled(false);
+        btn_eliminar.setEnabled(false);
+        btn_restaurar.setEnabled(false);
     }
     
-    public void cleanAll(){
+    public void limpiarCampos(){
         txt_id.setText("");
         txt_nombrePuesto.setText("");
         cmb_dependencia.setSelectedIndex(0);
     }
-    public void habilitar(){
-        txt_nombrePuesto.setEnabled(true);
-        cmb_dependencia.setEnabled(true);
-        btn_enviar.setEnabled(true);
-    }
-    
-    public void llenarCmb(){
-        cmb_dependencia.removeAllItems(); //Limpiar el CmB
-        String [] deptos = {"Seleccionar Opcion", "IT", "Administracion", "Ventas", "Finanzas", "Logistica"};
-        cmb_dependencia.setModel(new DefaultComboBoxModel<>(deptos));
-    }
-    public void llenarCmb1(){
+    public void llenarComboBox(){
         try { 
             List<Clase.Dependencias> dependencias = puestoController.mostrarDependencias();
-            String[] nombresDependencias = new String[dependencias.size()];
+            String[] nombresDependencias;
+            nombresDependencias = new String[dependencias.size()];
 
             for (int i = 0; i < dependencias.size(); i++) {
                 Clase.Dependencias dep = dependencias.get(i);
@@ -101,7 +110,6 @@ public class Puesto extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         cmb_dependencia = new javax.swing.JComboBox<>();
         btn_enviar = new javax.swing.JButton();
-        btn_mostrar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
         txt_buscar = new javax.swing.JTextField();
@@ -109,8 +117,10 @@ public class Puesto extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_puestos = new javax.swing.JTable();
         btn_cerrar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
+        btn_nuevo = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
 
         jLabel1.setText("Nombre del Puesto");
 
@@ -120,13 +130,6 @@ public class Puesto extends javax.swing.JInternalFrame {
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_enviarActionPerformed(evt);
-            }
-        });
-
-        btn_mostrar.setText("Mostrar");
-        btn_mostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_mostrarActionPerformed(evt);
             }
         });
 
@@ -172,7 +175,7 @@ public class Puesto extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("Id");
+        lbl_id.setText("Id");
 
         txt_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,83 +183,93 @@ public class Puesto extends javax.swing.JInternalFrame {
             }
         });
 
+        btn_nuevo.setText("Nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restaurarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btn_enviar)))
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btn_enviar)))
+                                .addComponent(jLabel1)
+                                .addComponent(lbl_id))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(129, 129, 129)))
+                                .addGap(123, 123, 123)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_mostrar)
+                                .addComponent(btn_nuevo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_editar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_eliminar))
+                                .addComponent(btn_eliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_restaurar))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_cerrar))
-                .addGap(15, 15, 15))
+                    .addComponent(btn_cerrar, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_mostrar)
-                            .addComponent(btn_eliminar)
-                            .addComponent(btn_editar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(46, 46, 46)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btn_enviar)
-                        .addGap(105, 105, 105)))
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addComponent(lbl_id)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btn_enviar)
+                .addGap(134, 134, 134))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_editar)
+                    .addComponent(btn_nuevo)
+                    .addComponent(btn_restaurar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cerrar)
-                .addContainerGap())
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -273,112 +286,114 @@ public class Puesto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
-        // TODO add your handling code here:
-        String id = txt_id.getText().trim();
-        String nombre = txt_nombrePuesto.getText().trim();
-        int depto = cmb_dependencia.getSelectedIndex();
-        boolean estado = true;
-        if (id.isEmpty() || nombre.isEmpty() || cmb_dependencia.getSelectedIndex() == 0 ) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error",
-                JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                int idNum = Integer.parseInt(id);
-                if (existeContactoConID(idNum)) {
-                    JOptionPane.showMessageDialog(null, "Ya existe un puesto con el mismo ID.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Puestos miContacto = new Puestos(idNum, nombre, depto, estado);
-                    puestosList.add(miContacto);
-                    JOptionPane.showMessageDialog(null, "Dependencia guardada");
-                    cleanAll();
-                    // Código para agregar un contacto a la lista y luego guardar en CSV
-                    adminPuestos.agregarPuesto(miContacto);
-                    adminPuestos.guardarPuestoEnCSV();// Guardar en el archivo CSV
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "El campo Id debe ser un número válido.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                Logger.getLogger(Dependencias.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            insertar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_enviarActionPerformed
 
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_idActionPerformed
 
-    private void btn_mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel) tbl_puestos.getModel();
-        modelo.setRowCount(0); // Borra todas las filas existentes en la tabla
-        for (Puestos puesto : puestosList) {
-            Object[] fila = {puesto.getId(), puesto.getNombre(), puesto.getDependencia()};
-            modelo.addRow(fila);
-        }
-    }//GEN-LAST:event_btn_mostrarActionPerformed
-
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = tbl_puestos.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una dependencia para eliminar.",
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
+       try {
+            eliminar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar esta dependencia?", "Confirmación", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION) {
-            DefaultTableModel modelo = (DefaultTableModel) tbl_puestos.getModel();
-            modelo.removeRow(filaSeleccionada);
-            puestosList.remove(filaSeleccionada);
-            JOptionPane.showMessageDialog(this, "Dependencia eliminado correctamente.");
-        }
+        actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
         // TODO add your handling code here:
-        int filaSeleccionada = tbl_puestos.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona una dependencia para editar.",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }  else {
-            String id = txt_id.getText().trim();
-            String nombre = txt_nombrePuesto.getText().trim();
-            int depto = cmb_dependencia.getSelectedIndex();
-            boolean estado = true;
-
-            if (id.isEmpty() || nombre.isEmpty() || cmb_dependencia.getSelectedIndex() == 0) {
-                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                try {
-                    int idNum = Integer.parseInt(id);
-                    // Verifica si el ID ingresado coincide con el ID del contacto seleccionado
-                    Puestos puestoSeleccionado = (Puestos) puestosList.get(filaSeleccionada);
-                    if (idNum != puestoSeleccionado.getId() && existeContactoConID(idNum)) {
-                        JOptionPane.showMessageDialog(null, "Ya existe un puesto con el mismo ID.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        // Actualiza los datos del contacto seleccionado
-                        puestoSeleccionado.setId(idNum);
-                        puestoSeleccionado.setNombre(nombre);
-                        puestoSeleccionado.setDependencia(depto);
-                        puestoSeleccionado.setEstado(estado);
-                        // Actualiza la tabla
-                        cargarTabla();
-                        JOptionPane.showMessageDialog(null, "Puesto editado");
-                        cleanAll();
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "El campo Id debe ser un número válido.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        try {
+            actualizar();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_editarActionPerformed
 
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        deshabilitarBotones();
+        btn_enviar.setEnabled(true);
+        cmb_dependencia.setEnabled(true);
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+        // TODO add your handling code here:
+        try {
+            restaurar();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        actualizarTablaLimpliarCampos();
+    }//GEN-LAST:event_btn_restaurarActionPerformed
+
     
-     private void buscarPuesto(String textoBusqueda) {
+     public void insertar() throws Exception{
+        String nombre = this.txt_nombrePuesto.getText(); 
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        } else {
+            puesto.setNombre(this.txt_nombrePuesto.getText());
+            puesto.setDependencia(cmb_dependencia.getSelectedIndex());
+            puestoController.insertarPuesto(puesto, this.id_user);
+            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            //cleanAll();
+        }
+    }
+    
+    public void actualizar() throws Exception{
+        String nombre = this.txt_nombrePuesto.getText();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        } else {
+            puesto.setNombre(this.txt_nombrePuesto.getText());
+            puesto.setDependencia(cmb_dependencia.getSelectedIndex());
+            puestoController.editarPuesto(puesto);
+            JOptionPane.showMessageDialog(null, "Datos Actualizados correctmente");
+            //cleanAll();
+        }
+    }
+    
+    public void eliminar() throws Exception{
+        int confirmacion = Integer.parseInt(JOptionPane.
+                showInputDialog("¿Desea eliminar el regirstro Seleccionado?"
+                        + "\n[1] --> Si"
+                        + "\n[2] --> No"));
+        if(confirmacion == 1) {
+         puestoController.eliminarPuesto(puesto);
+         JOptionPane.showMessageDialog(null, "Registro Eliminado");
+        }else if(confirmacion == 2){
+            JOptionPane.showMessageDialog(null, "Accion Cancelada");
+        }else{
+            JOptionPane.showMessageDialog(null, "Opcion No valida, intente de nuevo");
+        }
+        
+    }
+    
+    public void restaurar() throws Exception{
+        int confirmacion = Integer.parseInt(JOptionPane.
+                showInputDialog("¿Desea restaurar el regirstro Seleccionado?"
+                        + "\n[1] --> Si"
+                        + "\n[2] --> No"));
+        if(confirmacion == 1) {
+         puestoController.restaurarPuesto(puesto);
+         JOptionPane.showMessageDialog(null, "Registro Restaurado");
+        }else if(confirmacion == 2){
+            JOptionPane.showMessageDialog(null, "Accion Cancelada");
+        }else{
+            JOptionPane.showMessageDialog(null, "Opcion No valida, intente de nuevo");
+        }
+        
+    }
+    
+    private void buscarPuesto(String textoBusqueda) {
         DefaultTableModel modelo = (DefaultTableModel) tbl_puestos.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
         tbl_puestos.setRowSorter(sorter);
@@ -400,12 +415,39 @@ public class Puesto extends javax.swing.JInternalFrame {
     
     DefaultTableModel Model;
     private void CrearModelo() {
+        Object[] obj = new Object[5];
         try {
             Model = (new DefaultTableModel(null, new String[]{
-                "#", "Puesto", "Dependencia"}) {});
+                "#", "Puesto", "Estado", "Creado por", "Fecha_registro"}) {});
             tbl_puestos.setModel(Model);
+            
+            List ls;
+             String estado;
+            ls = puestoController.mostrarPuestos(); // tal vez era aca xd
+            for (int i = 0 ; i < ls.size() ; i++) {
+                puesto = (Puestos)ls.get(i);
+                obj[0] =puesto.getId();
+                obj[1]=puesto.getNombre(); 
+                if(puesto.isEstado()){
+                    estado="Activo" ;
+                }else{
+                    estado="Inactivo";
+                }
+                obj[2]=estado; 
+                obj[3]=puesto.getCreated_by(); 
+                obj[4]=puesto.getCreated_at(); 
+                
+                
+                Model.addRow(obj);
+                
+            }
+            ls=puestoController.mostrarDependencias();
+            this.tbl_puestos.setModel(Model);
+            int id = puesto.getId()+1;
+            txt_id.setText(String.valueOf(id));
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error!!");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
     
@@ -423,16 +465,24 @@ public class Puesto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_enviar;
-    private javax.swing.JButton btn_mostrar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_restaurar;
     private javax.swing.JComboBox<String> cmb_dependencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_id;
     private javax.swing.JTable tbl_puestos;
     private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombrePuesto;
     // End of variables declaration//GEN-END:variables
+
+    private void actualizarTablaLimpliarCampos() {
+        CrearModelo();
+        deshabilitarBotones();
+        txt_nombrePuesto.setText("");
+        cmb_dependencia.setSelectedIndex(0);
+    }
 }
