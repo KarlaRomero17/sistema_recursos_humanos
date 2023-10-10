@@ -37,11 +37,11 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         this.id_user = prefs.getInt("id", 0);
         administradorDependencias = new AdministradorDependencias();
         desabilitar_botones();
-        jTableContactos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        jTableDependencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRow = jTableContactos.getSelectedRow();
+                    int selectedRow = jTableDependencias.getSelectedRow();
                     jButtonEditar.setEnabled(selectedRow != -1); // Habilitar el botón 
                     jButtonEliminar.setEnabled(selectedRow != -1); 
                     jButtonGuardar.setEnabled(false);
@@ -67,7 +67,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
 
         jPanelDatos = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableContactos = new javax.swing.JTable();
+        jTableDependencias = new javax.swing.JTable();
         jTextFieldBuscar = new javax.swing.JTextField();
         jLabelBuscar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -88,7 +88,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         setTitle("Dependencias");
         setFocusable(false);
 
-        jTableContactos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableDependencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -99,12 +99,12 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
 
             }
         ));
-        jTableContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableDependencias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableContactosMouseClicked(evt);
+                jTableDependenciasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableContactos);
+        jScrollPane1.setViewportView(jTableDependencias);
 
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,7 +289,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
             } else {
-                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
                 if(msg_alert==0){
                     depController.editarDependencia(dep);
                     JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
@@ -311,7 +311,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private void jTextFieldBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyReleased
         // TODO add your handling code here:
         String textoBusqueda = jTextFieldBuscar.getText().trim();
-        buscarContacto(textoBusqueda);
+        buscarDependecia(textoBusqueda);
     }//GEN-LAST:event_jTextFieldBuscarKeyReleased
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
@@ -332,10 +332,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
-    private void jTableContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContactosMouseClicked
+    private void jTableDependenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDependenciasMouseClicked
         // TODO add your handling code here:
         llenarTabla();
-    }//GEN-LAST:event_jTableContactosMouseClicked
+    }//GEN-LAST:event_jTableDependenciasMouseClicked
 
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         // TODO add your handling code here:
@@ -354,8 +354,8 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         jButtonGuardar.setEnabled(true);
         jButtonEditar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
-        if (jTableContactos.getSelectedRow() != -1) {
-            jTableContactos.clearSelection();
+        if (jTableDependencias.getSelectedRow() != -1) {
+            jTableDependencias.clearSelection();
         }
         limpiarCampos();
 
@@ -365,7 +365,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     public void eliminar(){
         try {
             dep.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de eliminar?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION);
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de eliminar?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION);
             if(msg_alert==0){
                 depController.eliminarDependencia(dep);
                 JOptionPane.showMessageDialog(rootPane, "Dependencia eliminada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
@@ -384,10 +384,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         try {
             Modelo = (new DefaultTableModel(null, new String[]{
                 "#", "Dependencia", "Estado", "Creado por", "Fecha_registro"}) {});
-            jTableContactos.setModel(Modelo);
+            jTableDependencias.setModel(Modelo);
             
             List ls;
-             String estado;
+            String estado;
             ls = depController.mostrarDependencias();
             for (int i = 0 ; i < ls.size() ; i++) {
                 dep = (Dependencias)ls.get(i);
@@ -401,13 +401,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 obj[2]=estado; 
                 obj[3]=dep.getCreated_by(); 
                 obj[4]=dep.getCreated_at(); 
-                
-                
-                Modelo.addRow(obj);
-                
+                Modelo.addRow(obj);    
             }
             ls=depController.mostrarDependencias();
-            this.jTableContactos.setModel(Modelo);
+            this.jTableDependencias.setModel(Modelo);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -418,20 +415,12 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         jTextFieldNombre.setText("");
         txt_id.setText("");
     }
-    private boolean existeContactoConID(int id) {
-        for (Dependencias dependencia : area) {
-            if (dependencia.getId() == id) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     
-    private void buscarContacto(String textoBusqueda) {
-        DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
+    private void buscarDependecia(String textoBusqueda) {
+        DefaultTableModel modelo = (DefaultTableModel) jTableDependencias.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-        jTableContactos.setRowSorter(sorter);
+        jTableDependencias.setRowSorter(sorter);
         if (textoBusqueda.trim().length() == 0) {
             sorter.setRowFilter(null);
         } else {
@@ -439,9 +428,9 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         }
     }
     public void llenarTabla(){
-        int fila= this.jTableContactos.getSelectedRow();
-        this.txt_id.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 0)));
-        this.jTextFieldNombre.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 1)));
+        int fila= this.jTableDependencias.getSelectedRow();
+        this.txt_id.setText(String.valueOf(this.jTableDependencias.getValueAt(fila, 0)));
+        this.jTextFieldNombre.setText(String.valueOf(this.jTableDependencias.getValueAt(fila, 1)));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
@@ -456,7 +445,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelDatos;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableContactos;
+    private javax.swing.JTable jTableDependencias;
     private javax.swing.JTextField jTextFieldBuscar;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField txt_id;
