@@ -4,7 +4,7 @@
  */
 package Controlador;
 
-import Clase.Usuarios;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JComboBox;
@@ -28,7 +28,6 @@ public class EmpleadosController extends Conection{
               // combo.removeAllItems();
         List<EstadoCivil> estadosCiviles = new ArrayList<>();
         try{
-
            this.conectar();
            st=this.getCon().prepareStatement(sql);
             res=st.executeQuery(sql);
@@ -48,6 +47,39 @@ public class EmpleadosController extends Conection{
                // Desconectar la conexión aquí si es necesario
         }
      
+    }
+    
+    public List<TipoSanguineo>  mostrarTipoSanguineo() throws Exception{
+     
+        ResultSet res;
+        String sql="";
+        sql="select * from tipo_sangre";
+        PreparedStatement st;
+              // combo.removeAllItems();
+        List<TipoSanguineo> TipoSangre = new ArrayList<>();
+        try{
+
+           this.conectar();
+           st=this.getCon().prepareStatement(sql);
+            res=st.executeQuery(sql);
+
+            while(res.next()){
+               // combo.addItem(res.getString("nombre"));
+               TipoSanguineo tipo = new TipoSanguineo();
+               tipo.setTipo(res.getString("tipo"));
+               TipoSangre.add(tipo);
+
+            }
+            return TipoSangre;
+        } catch (Exception e){
+           throw e; 
+           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
+        } finally {
+               // Desconectar la conexión aquí si es necesario
+        }
+        
+        
+        
     }
 
 

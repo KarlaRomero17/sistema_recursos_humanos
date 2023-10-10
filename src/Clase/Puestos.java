@@ -4,6 +4,8 @@
  */
 package Clase;
 
+import java.util.Date;
+
 /**
  *
  * @author fjrod
@@ -11,14 +13,38 @@ package Clase;
 public class Puestos {
     int id;
     String nombre;
-    String dependencia;
+    int dependencia; //Cambie de String a int.
     boolean estado;
+    Date created_at;
+    private String created_by;
 
-    public Puestos(int id, String nombre, String dependencia, boolean estado) {
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public Puestos(int id, String nombre, int dependencia, boolean estado, Date created_at, String created_by) {
         this.id = id;
         this.nombre = nombre;
         this.dependencia = dependencia;
         this.estado = estado;
+        this.created_at = created_at;
+        this.created_by = created_by;
+    }
+
+    public Puestos() {
+        
     }
 
 
@@ -38,11 +64,11 @@ public class Puestos {
         this.nombre = nombre;
     }
 
-    public String getDependencia() {
+    public int getDependencia() {
         return dependencia;
     }
 
-    public void setDependencia(String dependencia) {
+    public void setDependencia(int dependencia) {
         this.dependencia = dependencia;
     }
 

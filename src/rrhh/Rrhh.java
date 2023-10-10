@@ -4,7 +4,7 @@
  */
 package rrhh;
 
-import GUI.Inicio;
+import GUI.InicioForm;
 import Clase.Conection;
 /**
  *
@@ -21,7 +21,7 @@ public class Rrhh {
         /*Conection conn = new Conection();
         conn.getCon();*/
         
-        Inicio formulario = new Inicio();
+        InicioForm formulario = new InicioForm();
         formulario.setVisible(true);
     }
     

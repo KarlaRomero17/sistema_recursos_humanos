@@ -56,7 +56,7 @@ public class AdministradorDependencias {
         }
         return nombres;
     }
-    public void cargarContactosDesdeCSV() throws CsvValidationException, IOException {
+    /*public void cargarContactosDesdeCSV() throws CsvValidationException, IOException {
         try (CSVReader reader = new CSVReader(new FileReader(archivoCSV))) {
             String[] linea;
             while ((linea = reader.readNext()) != null) {
@@ -68,6 +68,6 @@ public class AdministradorDependencias {
                 listaContactos.add(contacto);
             }
         }
-    }
+    }*/
 
 }
