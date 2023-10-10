@@ -30,6 +30,8 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     Puestos puesto = new Puestos();
     DefaultComboBoxModel<String> Modelo;
     
+    
+    
     PuestoController puestoController = new PuestoController();
     ArrayList<Puestos> puestosList = new ArrayList<>();
     int id_user;
@@ -85,14 +87,16 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             List<Clase.Dependencias> dependencias = puestoController.mostrarDependencias();
             String[] nombresDependencias;
             nombresDependencias = new String[dependencias.size()];
-
+            cmb_dependencia.addItem("Seleccionar");
             for (int i = 0; i < dependencias.size(); i++) {
                 Clase.Dependencias dep = dependencias.get(i);
                 nombresDependencias[i] = dep.getNombre();
+                cmb_dependencia.addItem(nombresDependencias[i]);
             }
 
         Modelo = new DefaultComboBoxModel<>(nombresDependencias);
-        cmb_dependencia.setModel(Modelo);
+        //cmb_dependencia.addItem("Seleccionar");
+        //cmb_dependencia.setModel(Modelo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -118,10 +122,11 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_puestos = new javax.swing.JTable();
         btn_cerrar = new javax.swing.JButton();
-        lbl_id = new javax.swing.JLabel();
+        jLabelId = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
         btn_nuevo = new javax.swing.JButton();
         btn_restaurar = new javax.swing.JButton();
+        lbl_id = new javax.swing.JLabel();
 
         jLabel1.setText("Nombre del Puesto");
 
@@ -167,6 +172,11 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
 
             }
         ));
+        tbl_puestos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_puestosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_puestos);
 
         btn_cerrar.setText("Cerrar");
@@ -176,7 +186,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }
         });
 
-        lbl_id.setText("Id");
+        jLabelId.setText("Next Id");
 
         txt_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,7 +226,10 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
                                         .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(btn_enviar)))
                                 .addComponent(jLabel1)
-                                .addComponent(lbl_id))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabelId)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(123, 123, 123)))
@@ -241,7 +254,9 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(83, Short.MAX_VALUE)
-                .addComponent(lbl_id)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelId)
+                    .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -323,6 +338,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         deshabilitarBotones();
         btn_enviar.setEnabled(true);
         cmb_dependencia.setEnabled(true);
+        actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
@@ -335,11 +351,18 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_restaurarActionPerformed
 
+    private void tbl_puestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_puestosMouseClicked
+        // TODO add your handling code here:
+        llenarTabla();
+    }//GEN-LAST:event_tbl_puestosMouseClicked
+
     
      public void insertar() throws Exception{
         String nombre = this.txt_nombrePuesto.getText(); 
-        if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        int index = this.cmb_dependencia.getSelectedIndex();
+        if (nombre.isEmpty() || index == 0) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío y"
+                    + "debe seleccionar un valor para departamento");
         } else {
             puesto.setNombre(this.txt_nombrePuesto.getText());
             puesto.setDependencia(cmb_dependencia.getSelectedIndex());
@@ -350,47 +373,51 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     }
     
     public void actualizar() throws Exception{
-        String nombre = this.txt_nombrePuesto.getText();
-        if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
-        } else {
-            puesto.setNombre(this.txt_nombrePuesto.getText());
-            puesto.setDependencia(cmb_dependencia.getSelectedIndex());
-            puestoController.editarPuesto(puesto);
-            JOptionPane.showMessageDialog(null, "Datos Actualizados correctmente");
-            //cleanAll();
-        }
+        puesto.setNombre(this.txt_nombrePuesto.getText());
+        puesto.setDependencia(this.cmb_dependencia.getSelectedIndex());
+        puesto.setId(Integer.parseInt(this.txt_id.getText()));
+            String nombre = this.txt_nombrePuesto.getText().trim(); 
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+            } else {
+                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                if(msg_alert==0){
+                    puestoController.editarPuesto(puesto);
+                    JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                    CrearModelo();
+                    limpiarCampos();
+                }
+                limpiarCampos();     
+            }  
     }
     
     public void eliminar() throws Exception{
-        int confirmacion = Integer.parseInt(JOptionPane.
-                showInputDialog("¿Desea eliminar el regirstro Seleccionado?"
-                        + "\n[1] --> Si"
-                        + "\n[2] --> No"));
-        if(confirmacion == 1) {
-         puestoController.eliminarPuesto(puesto);
-         JOptionPane.showMessageDialog(null, "Registro Eliminado");
-        }else if(confirmacion == 2){
-            JOptionPane.showMessageDialog(null, "Accion Cancelada");
-        }else{
-            JOptionPane.showMessageDialog(null, "Opcion No valida, intente de nuevo");
-        }
+        puesto.setId(Integer.parseInt(this.txt_id.getText()));
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de eliminar?"
+                    , "Eliminar Puesto", JOptionPane.YES_NO_OPTION);
+            if(msg_alert==0){
+                puestoController.eliminarPuesto(puesto);
+                JOptionPane.showMessageDialog(rootPane, "Puesto eliminado exitosamente"
+                        , "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                CrearModelo();
+                limpiarCampos();
+            }
+            limpiarCampos();
         
     }
     
     public void restaurar() throws Exception{
-        int confirmacion = Integer.parseInt(JOptionPane.
-                showInputDialog("¿Desea restaurar el regirstro Seleccionado?"
-                        + "\n[1] --> Si"
-                        + "\n[2] --> No"));
-        if(confirmacion == 1) {
-         puestoController.restaurarPuesto(puesto);
-         JOptionPane.showMessageDialog(null, "Registro Restaurado");
-        }else if(confirmacion == 2){
-            JOptionPane.showMessageDialog(null, "Accion Cancelada");
-        }else{
-            JOptionPane.showMessageDialog(null, "Opcion No valida, intente de nuevo");
-        }
+        puesto.setId(Integer.parseInt(this.txt_id.getText()));
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de Restaurar?"
+                    , "Restaurar Puesto", JOptionPane.YES_NO_OPTION);
+            if(msg_alert==0){
+                puestoController.restaurarPuesto(puesto);
+                JOptionPane.showMessageDialog(rootPane, "Puesto Restaurado exitosamente"
+                        , "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                CrearModelo();
+                limpiarCampos();
+            }
+            limpiarCampos();
         
     }
     
@@ -444,8 +471,10 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }
             ls=puestoController.mostrarDependencias();
             this.tbl_puestos.setModel(Model);
-            int id = puesto.getId()+1;
-            txt_id.setText(String.valueOf(id));
+            
+            int NextId = puesto.getId()+1;
+            lbl_id.setText(String.valueOf(NextId));
+            txt_id.setText(String.valueOf(NextId));
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -460,6 +489,13 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             modelo.addRow(fila);
         }
     }
+    public void llenarTabla(){
+        int fila= this.tbl_puestos.getSelectedRow();
+        this.txt_id.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 0)));
+        this.txt_nombrePuesto.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 1)));
+        this.cmb_dependencia.setEnabled(true);
+        btn_enviar.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cerrar;
@@ -472,6 +508,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelId;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JTable tbl_puestos;
@@ -482,7 +519,6 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
 
     private void actualizarTablaLimpliarCampos() {
         CrearModelo();
-        deshabilitarBotones();
         txt_nombrePuesto.setText("");
         cmb_dependencia.setSelectedIndex(0);
     }

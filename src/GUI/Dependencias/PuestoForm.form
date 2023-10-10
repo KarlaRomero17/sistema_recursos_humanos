@@ -35,7 +35,11 @@
                                   </Group>
                               </Group>
                               <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbl_id" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabelId" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="lbl_id" min="-2" pref="31" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="txt_id" min="-2" pref="47" max="-2" attributes="0"/>
@@ -70,7 +74,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace pref="83" max="32767" attributes="0"/>
-              <Component id="lbl_id" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelId" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbl_id" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="txt_id" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
@@ -180,6 +187,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_puestosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -191,9 +201,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cerrarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbl_id">
+    <Component class="javax.swing.JLabel" name="jLabelId">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Id"/>
+        <Property name="text" type="java.lang.String" value="Next Id"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_id">
@@ -216,6 +226,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_restaurarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_id">
     </Component>
   </SubComponents>
 </Form>
