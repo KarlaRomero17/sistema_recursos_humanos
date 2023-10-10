@@ -10,14 +10,23 @@ import GUI.InicioForm;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import Controlador.DependenciasController;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import java.util.prefs.Preferences;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -45,7 +54,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = jTableDependencias.getSelectedRow();
                     jButtonEditar.setEnabled(selectedRow != -1); // Habilitar el botón 
-                    jButtonEliminar.setEnabled(selectedRow != -1); 
+                    //jButtonEliminar.setEnabled(selectedRow != -1); 
                     jButtonGuardar.setEnabled(false);
                 }
             }
@@ -67,11 +76,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelDatos = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableDependencias = new javax.swing.JTable();
-        jTextFieldBuscar = new javax.swing.JTextField();
-        jLabelBuscar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButtonGuardar = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
@@ -83,68 +87,17 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         txt_id = new javax.swing.JTextField();
         jLabelNombre = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldBuscar = new javax.swing.JTextField();
+        jLabelBuscar = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableDependencias = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Dependencias");
         setFocusable(false);
-
-        jTableDependencias.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jTableDependencias.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableDependenciasMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableDependencias);
-
-        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBuscarActionPerformed(evt);
-            }
-        });
-        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFieldBuscarKeyReleased(evt);
-            }
-        });
-
-        jLabelBuscar.setText("Buscar:");
-
-        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
-        jPanelDatos.setLayout(jPanelDatosLayout);
-        jPanelDatosLayout.setHorizontalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanelDatosLayout.setVerticalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDatosLayout.createSequentialGroup()
-                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -166,6 +119,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
 
         jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.setEnabled(false);
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEliminarActionPerformed(evt);
@@ -239,7 +193,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addGap(92, 92, 92)
                 .addComponent(jLabelNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -247,7 +201,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelAgenda)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelId)
                     .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,17 +210,56 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyReleased(evt);
+            }
+        });
+
+        jLabelBuscar.setText("Buscar:");
+
+        jTableDependencias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jTableDependencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDependenciasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableDependencias);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,8 +268,12 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -338,7 +335,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
         try {
-            eliminar();
+           // eliminar();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -374,7 +371,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     }
     
     //borrado logico
-    public void eliminar(){
+    public void eliminar(int id){
         try {
             
             int filaSeleccionada = jTableDependencias.getSelectedRow(); // Obtiene la fila seleccionada
@@ -407,10 +404,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     DefaultTableModel Modelo;
     private void CrearModelo() {
        // String [] col = {"ID", "Nombre" };
-        Object[] obj = new Object[5];
+        Object[] obj = new Object[6];
         try {
             Modelo = (new DefaultTableModel(null, new String[]{
-                "#", "Dependencia", "Estado", "Creado por", "Fecha_registro"}) {});
+                "#", "Dependencia", "Estado", "Creado por", "Fecha_registro","Acción"}) {});
             jTableDependencias.setModel(Modelo);
             
             List ls;
@@ -428,6 +425,11 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 obj[2]=estado; 
                 obj[3]=dep.getCreated_by(); 
                 obj[4]=dep.getCreated_at(); 
+                jTableDependencias.getColumnModel().getColumn(5).setCellRenderer(new btnEliminarTable());
+                jTableDependencias.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor());
+
+                jTableDependencias.setRowHeight(20);
+   
                 Modelo.addRow(obj);    
             }
             ls=depController.mostrarDependencias();
@@ -437,6 +439,70 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+    
+    private class ButtonEditor extends DefaultCellEditor {
+        private JButton button;
+        private int clickedRow;
+
+        public ButtonEditor() {
+            super(new JTextField()); 
+
+            button = new JButton(); // Creamos el botón sin un ícono inicialmente
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row = jTableDependencias.getSelectedRow(); 
+                    if (row != -1) {
+                        int id = (int) jTableDependencias.getValueAt(row, 0);
+                        eliminar(id);
+                        //JOptionPane.showMessageDialog(null, "Button clicked at row " + row + ", ID: " + id);
+                    }
+                }
+            });
+            button.setFocusable(false);
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            clickedRow = row; 
+            Object estadoActual = table.getValueAt(row, 2);
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return null; 
+        }
+    }
+    
+    private class btnEliminarTable extends DefaultTableCellRenderer {
+        private JButton button;
+
+        public btnEliminarTable() {
+            button = new JButton();
+            button.setBorderPainted(false); // Para quitar el borde del botón
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Object estadoActual = table.getValueAt(row, 2); // Obtener el estado actual de la fila (columna 2)
+
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
+        }
+    }
+
     
     private void limpiarCampos() {
         jTextFieldNombre.setText("");
@@ -470,8 +536,8 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelDatos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableDependencias;
     private javax.swing.JTextField jTextFieldBuscar;
     private javax.swing.JTextField jTextFieldNombre;
