@@ -272,7 +272,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -427,7 +427,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 obj[4]=dep.getCreated_at(); 
                 jTableDependencias.getColumnModel().getColumn(5).setCellRenderer(new btnEliminarTable());
                 jTableDependencias.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor());
-
+ 
                 jTableDependencias.setRowHeight(20);
    
                 Modelo.addRow(obj);    
