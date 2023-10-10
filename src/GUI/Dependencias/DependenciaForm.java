@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import Controlador.DependenciasController;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import java.util.prefs.Preferences;
@@ -281,7 +283,15 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            editar();
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    public void editar() throws Exception{
         try {
             dep.setNombre(this.jTextFieldNombre.getText());
             dep.setId(Integer.parseInt(this.txt_id.getText()));
@@ -289,7 +299,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
             } else {
-                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                //int msg_alert = JOptionPane.showConfirmDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                Object[] options = {"Aceptar", "Cancelar"};
+                int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
                 if(msg_alert==0){
                     depController.editarDependencia(dep);
                     JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
@@ -297,13 +310,12 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                     limpiarCampos();
                 }
                 limpiarCampos();     
+                nueva_dependencia();
             }  
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButtonEditarActionPerformed
-
-   
+    }
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
@@ -364,15 +376,30 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     //borrado logico
     public void eliminar(){
         try {
+            
+            int filaSeleccionada = jTableDependencias.getSelectedRow(); // Obtiene la fila seleccionada
+            Object estadoActtual=0;
+            if (filaSeleccionada != -1) { // Verifica si se ha seleccionado alguna fila
+                estadoActtual = jTableDependencias.getValueAt(filaSeleccionada, 2); // Obtiene el valor de la columna 3 (índice 2)
+            }
+            //System.out.print(estadoActtual);
+            boolean status=false;
+            if(estadoActtual=="Inactivo"){
+                status=true;
+            }
+            String msjPregunta = status ? "ACTIVAR" : "DESACTIVAR";
+            String msjRespuesta = status ? "activado" : "desactivado";
             dep.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de eliminar?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION);
+            Object[] options = {"Aceptar", "Cancelar"};
+            int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de " + msjPregunta + "?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if(msg_alert==0){
                 depController.eliminarDependencia(dep);
-                JOptionPane.showMessageDialog(rootPane, "Dependencia eliminada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                JOptionPane.showMessageDialog(rootPane, "Dependencia "+ msjRespuesta +" exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
                 CrearModelo();
                 limpiarCampos();
             }
             limpiarCampos();
+            nueva_dependencia();
         } catch (Exception e) {
         }
     }
@@ -458,7 +485,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         } else {
             dep.setNombre(this.jTextFieldNombre.getText());
             depController.insertarDependencias(dep, this.id_user);
-            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
             limpiarCampos();
         }
     }
