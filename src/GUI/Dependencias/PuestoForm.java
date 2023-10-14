@@ -361,11 +361,12 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         String nombre = this.txt_nombrePuesto.getText(); 
         int index = this.cmb_dependencia.getSelectedIndex();
         if (nombre.isEmpty() || index == 0) {
-            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío y"
-                    + "debe seleccionar un valor para departamento");
+            JOptionPane.showMessageDialog(null, "ALERTA!!\n"
+                        + "El campo Nombre no puede estar vacío\n"
+                        + "Debe Seleccionar un departamento");
         } else {
             puesto.setNombre(this.txt_nombrePuesto.getText());
-            puesto.setDependencia(cmb_dependencia.getSelectedIndex());
+            puesto.setIntDependencia(cmb_dependencia.getSelectedIndex());
             puestoController.insertarPuesto(puesto, this.id_user);
             JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
             //cleanAll();
@@ -374,13 +375,16 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     
     public void actualizar() throws Exception{
         puesto.setNombre(this.txt_nombrePuesto.getText());
-        puesto.setDependencia(this.cmb_dependencia.getSelectedIndex());
+        puesto.setIntDependencia(this.cmb_dependencia.getSelectedIndex());
         puesto.setId(Integer.parseInt(this.txt_id.getText()));
             String nombre = this.txt_nombrePuesto.getText().trim(); 
-            if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
-            } else {
-                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+            int index = cmb_dependencia.getSelectedIndex();
+            if (nombre.isEmpty() || index == 0) {
+                JOptionPane.showMessageDialog(null, "ALERTA!!\n"
+                        + "El campo Nombre no puede estar vacío\n"
+                        + "Debe Seleccionar un departamento");
+            }else{
+                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
                 if(msg_alert==0){
                     puestoController.editarPuesto(puesto);
                     JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
@@ -393,7 +397,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     
     public void eliminar() throws Exception{
         puesto.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de eliminar?"
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de eliminar?"
                     , "Eliminar Puesto", JOptionPane.YES_NO_OPTION);
             if(msg_alert==0){
                 puestoController.eliminarPuesto(puesto);
@@ -408,7 +412,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     
     public void restaurar() throws Exception{
         puesto.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de Restaurar?"
+            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de Restaurar?"
                     , "Restaurar Puesto", JOptionPane.YES_NO_OPTION);
             if(msg_alert==0){
                 puestoController.restaurarPuesto(puesto);
@@ -446,7 +450,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         Object[] obj = new Object[5];
         try {
             Model = (new DefaultTableModel(null, new String[]{
-                "#", "Puesto", "Estado", "Creado por", "Fecha_registro"}) {});
+                "#", "Puesto", "Dependencia", "Creado por", "Estado"}) {});
             tbl_puestos.setModel(Model);
             
             List ls;
@@ -454,16 +458,16 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             ls = puestoController.mostrarPuestos(); // tal vez era aca xd
             for (int i = 0 ; i < ls.size() ; i++) {
                 puesto = (Puestos)ls.get(i);
-                obj[0] =puesto.getId();
-                obj[1]=puesto.getNombre(); 
+                obj[0] =puesto.getId();  // Id
+                obj[1]=puesto.getNombre(); //NOMBRE PUESTO
                 if(puesto.isEstado()){
                     estado="Activo" ;
                 }else{
                     estado="Inactivo";
                 }
-                obj[2]=estado; 
-                obj[3]=puesto.getCreated_by(); 
-                obj[4]=puesto.getCreated_at(); 
+                obj[2]=puesto.getDependencia(); //Dependencia
+                obj[3]=puesto.getCreated_by(); // Creado Por
+                obj[4]=estado; // Estado
                 
                 
                 Model.addRow(obj);
@@ -493,6 +497,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         int fila= this.tbl_puestos.getSelectedRow();
         this.txt_id.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 0)));
         this.txt_nombrePuesto.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 1)));
+        this.cmb_dependencia.setSelectedItem(this.tbl_puestos.getValueAt(fila, 2));
         this.cmb_dependencia.setEnabled(true);
         btn_enviar.setEnabled(false);
     }
