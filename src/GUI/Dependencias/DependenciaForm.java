@@ -416,7 +416,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         Object[] obj = new Object[6];
         try {
             Modelo = (new DefaultTableModel(null, new String[]{
-                "#", "Dependencia", "Estado", "Creado por", "Fecha_registro","Accion"}) {});
+                "ID", "Dependencia", "Estado", "Creado por", "Fecha registro","Eliminar"}) {});
             jTableDependencias.setModel(Modelo);
             /*JScrollPane scrollPane = new JScrollPane(jTableDependencias);
             add(scrollPane, BorderLayout.CENTER);*/
