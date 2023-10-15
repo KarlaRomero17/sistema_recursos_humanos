@@ -5,6 +5,7 @@
 package Controlador;
 import Clase.*;
 import com.sun.jdi.connect.spi.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
@@ -56,12 +57,12 @@ public class PuestoController extends Conection {
      
         ResultSet res;
         String sql="";
-        sql="select * from puestos";
+        sql= "SELECT p.id, p.nombre, p.id_dependencia, d.nombre, p.created_by, u.usuario, p.estado FROM puestos p "
+                + "JOIN dependencia d ON p.id_dependencia = d.id JOIN usuarios u ON p.created_by = u.id;";
         PreparedStatement st;
               // combo.removeAllItems();
         List<Puestos> estadosCiviles = new ArrayList<>();
         try{
-
            this.conectar();
            st=this.getCon().prepareStatement(sql);
             res=st.executeQuery(sql);
@@ -71,9 +72,10 @@ public class PuestoController extends Conection {
                Puestos puesto = new Puestos();
                puesto.setId(res.getInt("id"));
                puesto.setNombre(res.getString("nombre"));
+               puesto.setDependencia(res.getString("d.nombre"));
+               //puesto.setCreated_at(res.getDate("created_at"));
+               puesto.setCreated_by(res.getString("u.usuario"));
                puesto.setEstado(res.getBoolean("estado"));
-               puesto.setCreated_at(res.getDate("created_at"));
-               puesto.setCreated_by(res.getString("created_by"));
                estadosCiviles.add(puesto);
             }
             return estadosCiviles;
@@ -95,7 +97,7 @@ public class PuestoController extends Conection {
             st.setBoolean(2, true);
             st.setInt(3, id_user);
             st.setDate(4, new java.sql.Date(System.currentTimeMillis()));
-            st.setInt(5, puesto.getDependencia());
+            st.setInt(5, puesto.getIntDependencia());
             st.executeUpdate();
         }  catch (Exception e) {
             throw e;
@@ -110,7 +112,7 @@ public class PuestoController extends Conection {
             String query ="UPDATE puestos SET nombre=?, id_dependencia=? WHERE id=?";
             PreparedStatement st = this.getCon().prepareStatement(query);
             st.setString(1, puesto.getNombre());
-            st.setInt(2, puesto.getDependencia());
+            st.setInt(2, puesto.getIntDependencia());
             st.setInt(3, puesto.getId());
             st.executeUpdate();
         } catch (Exception e) { 
