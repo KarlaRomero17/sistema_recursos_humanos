@@ -135,7 +135,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txt_usuario">
       <Properties>
-        <Property name="text" type="java.lang.String" value="kromero"/>
+        <Property name="text" type="java.lang.String" value="admin"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_usuarioActionPerformed"/>

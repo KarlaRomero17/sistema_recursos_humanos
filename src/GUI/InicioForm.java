@@ -83,7 +83,7 @@ public class InicioForm extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Sistema \nde \nGestión de Empleados");
 
-        txt_usuario.setText("kromero");
+        txt_usuario.setText("admin");
         txt_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_usuarioActionPerformed(evt);
