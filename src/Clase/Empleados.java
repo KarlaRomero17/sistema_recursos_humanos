@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Clase;
+import java.util.Date;
 
 /**
  *
@@ -11,9 +12,10 @@ package Clase;
 public class Empleados {
 
 int idEmpleado;
+String CodEmpleado;
 String Nombre;
 String Apellido;
-String FechaNacimiento;
+Date FechaNacimiento;
 String Sexo;
 String EstadoCivil;
 String TipoSanguineo;
@@ -21,9 +23,12 @@ boolean EstadoEmpleado;
 String ContactoEmergencia;
 String TelefonoEmergencia;
 String Parentesco;
+String Telefono;
+String Correo;
 
-    public Empleados(int idEmpleado, String Nombre, String Apellido, String FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, String Parentesco) {
+    public Empleados(int idEmpleado,String CodEmpleado,String Nombre, String Apellido, Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, String Parentesco, String Telefono, String Correo) {
         this.idEmpleado = idEmpleado;
+        this.CodEmpleado=CodEmpleado;
         this.Nombre = Nombre;
         this.Apellido = Apellido;
         this.FechaNacimiento = FechaNacimiento;
@@ -34,8 +39,40 @@ String Parentesco;
         this.ContactoEmergencia = ContactoEmergencia;
         this.TelefonoEmergencia = TelefonoEmergencia;
         this.Parentesco = Parentesco;
+        this.Telefono=Telefono;
+        this.Correo=Correo;
     }
 
+     public Empleados(){
+    
+    }
+
+    public String getTelefono() {
+        return Telefono;
+    }
+
+    public void setTelefono(String Telefono) {
+        this.Telefono = Telefono;
+    }
+
+    public String getCorreo() {
+        return Correo;
+    }
+
+    public void setCorreo(String Correo) {
+        this.Correo = Correo;
+    }
+    
+    
+    public void setCodEmpleado(String CodEmpleado) {
+        this.CodEmpleado = CodEmpleado;
+    }
+
+    public String getCodEmpleado() {
+        return CodEmpleado;
+    }
+
+       
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -60,11 +97,11 @@ String Parentesco;
         this.Apellido = Apellido;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return FechaNacimiento;
     }
 
-    public void setFechaNacimiento(String FechaNacimiento) {
+    public void setFechaNacimiento(Date FechaNacimiento) {
         this.FechaNacimiento = FechaNacimiento;
     }
 
