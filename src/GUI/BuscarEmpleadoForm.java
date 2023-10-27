@@ -29,6 +29,8 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
     ArrayList<Empleados> emplead= new ArrayList<Empleados>();
     Empleados emp =new Empleados();
     EmpleadosController empController = new EmpleadosController();
+    
+   public int IdBuscar;
    
     /**
      * Creates new form BuscarEmpleadoForm
