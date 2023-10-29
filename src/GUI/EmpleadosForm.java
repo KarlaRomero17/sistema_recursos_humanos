@@ -112,7 +112,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             //emp.setEstadoEmpleado(true);
            // emp.setSexo((String )this.cbbSexo.getSelectedItem());
             empController.insertarEmpleado(emp, this.id_user);
-            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            JOptionPane.showMessageDialog(null, "Empleado ingresado correctamente");
             //limpiarCampos();
         }
      

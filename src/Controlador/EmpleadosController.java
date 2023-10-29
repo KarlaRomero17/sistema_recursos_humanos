@@ -165,7 +165,7 @@ public class EmpleadosController extends Conection{
     public void insertarEmpleado(Empleados emp, int id_user) throws Exception{
         try {
             this.conectar();
-            String query ="insert into empleados (codigo_empleado, nombre, apellidos, telefono, correo, nombre_contacto, telefono_contacto, parentesco_contacto, created_by, created_at) values (?,?,?,?,?,?,?,?,?,?)";
+            String query ="insert into empleados (codigo_empleado, nombre, apellidos, telefono, correo, nombre_contacto, telefono_contacto, parentesco_contacto, created_by, created_at) values (?,?,?,?,?,?,?,?,?,?); SELECT LAST_INSERT_ID()";
             PreparedStatement st = this.getCon().prepareStatement(query);
             st.setString(1, emp.getCodEmpleado());
             st.setString(2, emp.getNombre());
