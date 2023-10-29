@@ -129,7 +129,7 @@ String Correo;
         this.TipoSanguineo = TipoSanguineo;
     }
 
-    public boolean isEstadoEmpleado() {
+    public boolean getEstadoEmpleado() {
         return EstadoEmpleado;
     }
 

@@ -11,6 +11,7 @@ import GUI.BuscarEmpleadoForm;
 import Controlador.EmpleadosController;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -25,6 +26,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     TipoSanguineo instancia_TSangre=new TipoSanguineo();
     DefaultComboBoxModel<String> Modelo;
     Clase.Empleados emp =new Empleados();
+    int id_user;
     /**
      * Creates new form EmpleadosForm
      */
@@ -34,6 +36,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         //ccbEstadoCivil.setModel(Modelo); 
         mostrarEstado();
         mostrarTipoSangre();
+        
+        Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
+        this.id_user = prefs.getInt("id", 0);
     }
      public void mostrarEstado () {
         try { 
@@ -90,6 +95,30 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         }
      }
      
+     public void InsertarEmpleado()throws Exception{
+     
+          String nombre = this.txtNombre.getText().trim(); 
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        } else {
+            emp.setCodEmpleado(this.txtCodEmpleado.getText());
+            emp.setNombre(this.txtNombre.getText());
+            emp.setApellido(this.txtApellido.getText());
+            emp.setTelefono(this.txtTelefono.getText());
+            emp.setCorreo(this.txtCorreo.getText());
+            emp.setContactoEmergencia(this.txtContactoEmergencia.getText());
+            emp.setTelefonoEmergencia(this.txtTelefonoEmergencia.getText());
+            emp.setParentesco(this.txtParentesco.getText());
+            //emp.setEstadoEmpleado(true);
+           // emp.setSexo((String )this.cbbSexo.getSelectedItem());
+            empController.insertarEmpleado(emp, this.id_user);
+            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            //limpiarCampos();
+        }
+     
+     }
+     
+     
      
     /**
      * This method is called from within the constructor to initialize the form.
@@ -125,6 +154,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtCodEmpleado = new javax.swing.JTextField();
@@ -140,7 +170,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         cbbTipoSanguineo = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        cbxEstado = new javax.swing.JCheckBox();
 
         setClosable(true);
         setIconifiable(true);
@@ -316,6 +346,13 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             }
         });
 
+        btnGuardar.setText("Guadar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -327,6 +364,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addComponent(btnEditar)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -336,7 +375,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnGuardar))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -376,7 +416,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Estado Empleado");
 
-        jCheckBox1.setText("Activo");
+        cbxEstado.setText("Activo");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -419,7 +459,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)))
+                        .addComponent(cbxEstado)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -445,7 +485,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbbTipoSanguineo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jCheckBox1))
+                    .addComponent(cbxEstado))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -498,15 +538,25 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
        mostrarEmpleado();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        try {
+            InsertarEmpleado();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbbEstadoCivil;
     private javax.swing.JComboBox<String> cbbSexo;
     private javax.swing.JComboBox<String> cbbTipoSanguineo;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox cbxEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
