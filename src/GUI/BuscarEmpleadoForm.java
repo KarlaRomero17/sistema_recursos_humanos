@@ -4,17 +4,41 @@
  */
 package GUI;
 
+import Clase.Empleados;
+import java.util.List;
+import Controlador.EmpleadosController;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import java.util.prefs.Preferences;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemEvent;
+       
+
+
+
 /**
  *
  * @author Lissette
  */
 public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
-
+    ArrayList<Empleados> emplead= new ArrayList<Empleados>();
+    Empleados emp =new Empleados();
+    EmpleadosController empController = new EmpleadosController();
+    
+   public int IdBuscar;
+   
     /**
      * Creates new form BuscarEmpleadoForm
      */
     public BuscarEmpleadoForm() {
         initComponents();
+        
+        //CrearModelo();
     }
 
     /**
@@ -28,30 +52,27 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableResultado = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtValor = new javax.swing.JTextField();
+        cbbFiltro = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "CODIGO", "NOMBRE", "APELLIDOS"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableResultado);
 
         jButton2.setText("Seleccionar");
 
@@ -60,14 +81,13 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(jButton2)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(157, 157, 157)
+                .addComponent(jButton2)
+                .addContainerGap(162, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,9 +101,14 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Buscar");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Apellido" }));
+        cbbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Apellido" }));
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,9 +118,9 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
                 .addGap(8, 8, 8)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -106,8 +131,8 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(17, 17, 17))
         );
@@ -121,7 +146,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,16 +161,57 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        CrearModelo();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+
+    DefaultTableModel Modelo;
+    private void CrearModelo(){
+        
+        Object[] obj=new Object[4];
+        
+        try{
+            Modelo = (new DefaultTableModel(null, new String[] {
+            "ID","CODIGO","NOMBRE", "APELLIDO" }) {} );
+            jTableResultado.setModel(Modelo);
+            
+            List ls;
+            ls=empController.buscarEmpleados(txtValor.getText(), (String )cbbFiltro.getSelectedItem());
+            
+            for(int i =0; i<ls.size();i++){
+                emp=(Empleados)ls.get(i);
+                obj[0]=emp.getIdEmpleado();
+                obj[1]=emp.getCodEmpleado();
+                obj[2]=emp.getNombre();
+                obj[3]=emp.getApellido();
+                
+                Modelo.addRow(obj);
+            }
+            ls=empController.buscarEmpleados(txtValor.getText(), (String )cbbFiltro.getSelectedItem());
+            this.jTableResultado.setModel(Modelo);
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        
+        }
+    
+    
+    }
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbbFiltro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jTableResultado;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,12 +13,14 @@ import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 /**
  *
  * @author Lissette
  */
-public class HomeForm extends javax.swing.JFrame {
+public class HomeForm extends javax.swing.JFrame  {
+    
+        
+        Conection conn = new Conection(); 
     //private String name;
     /**
      * Creates new form Home
@@ -60,7 +62,7 @@ public class HomeForm extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -137,9 +139,19 @@ public class HomeForm extends javax.swing.JFrame {
         jMenuBar1.add(jMenu6);
 
         jMenu1.setText("Reportes");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
-        jMenu2.setText("Reportes");
-        jMenu1.add(jMenu2);
+        jMenuItem4.setText("Test");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
 
@@ -151,6 +163,11 @@ public class HomeForm extends javax.swing.JFrame {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 jMenu7MenuSelected(evt);
+            }
+        });
+        jMenu7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu7ActionPerformed(evt);
             }
         });
         jMenuBar1.add(jMenu7);
@@ -210,6 +227,27 @@ public class HomeForm extends javax.swing.JFrame {
         ventana.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:   
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
+        // TODO add your handling code here:
+        cerrarSesion();
+    }//GEN-LAST:event_jMenu7ActionPerformed
+
+    private void cerrarSesion() {
+        // Aquí puedes realizar cualquier acción necesaria para cerrar la sesión, como limpiar datos de usuario, etc.
+        // Luego, cierra la ventana actual y abre la ventana de inicio de sesión.
+        HomeForm home = new HomeForm();
+        home.setVisible(true);
+        dispose(); // Cierra la ventana principal
+    }
     /**
      * @param args the command line arguments
      */
@@ -248,7 +286,6 @@ public class HomeForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu6;
@@ -257,6 +294,7 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JDesktopPane jPanelEscritorio;
     private javax.swing.JMenuItem menuItem_crearDependencia;
     private javax.swing.JLabel txt_user_log;
