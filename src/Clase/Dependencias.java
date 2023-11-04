@@ -94,5 +94,10 @@ public class Dependencias {
         this.updated_by = updated_by;
     }*/
     
+        
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
     
 }

@@ -22,7 +22,7 @@ public class Puestos {
     }
 
     public Puestos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 
@@ -57,4 +57,12 @@ public class Puestos {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
+
 }

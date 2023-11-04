@@ -257,7 +257,7 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JDesktopPane jPanelEscritorio;
+    public javax.swing.JDesktopPane jPanelEscritorio;
     private javax.swing.JMenuItem menuItem_crearDependencia;
     private javax.swing.JLabel txt_user_log;
     // End of variables declaration//GEN-END:variables
