@@ -227,6 +227,12 @@ public class HomeForm extends javax.swing.JFrame  {
         ventana.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    public void cargarFormEmpleados(){
+        
+        BuscarEmpleadoForm ventana = new BuscarEmpleadoForm();
+        jPanelEscritorio.add(ventana);
+        ventana.show();
+    }
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
        

@@ -85,7 +85,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         try{
             
             List ls;
-            ls=empController.mostrarEmpleados(Valorx);
+            //ls=empController.mostrarEmpleados(Valorx);
 
             emp=(Empleados) empController.mostrarEmpleados(Valorx);
             
@@ -98,6 +98,26 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         
         }
      }
+    public void showEmp(int id) {
+        try {
+            emp = empController.mostrarEmp(id);
+
+            // Asumiendo que empController.mostrarEmp(id) devuelve un objeto Empleados válido
+            // Si es necesario, configura los campos en tu formulario con los datos de 'emp'
+
+            txtCodEmpleado.setText(emp.getCodEmpleado());
+            txtNombre.setText(emp.getNombre());
+            txtApellido.setText(emp.getApellido());
+            
+            
+            Date fechaNacimiento = emp.getFechaNacimiento();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String fechaNacimientoStr = dateFormat.format(fechaNacimiento);
+            System.out.println(emp.getNombre() + " - " + emp.getFechaNacimiento() + " - " + fechaNacimientoStr);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
      
      public void InsertarEmpleado()throws Exception{
      

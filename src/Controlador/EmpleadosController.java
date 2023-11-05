@@ -144,10 +144,10 @@ public class EmpleadosController extends Conection{
                     empl.setNombre(res.getString("nombre"));
                     empl.setApellido(res.getString("apellidos"));
                     empl.setTelefono(res.getString("telefono"));
-                    empl.setCorreo(res.getString("correo"));
-                    empl.setContactoEmergencia(res.getString("nombre_contacto"));
-                    empl.setTelefonoEmergencia(res.getString("telefono_contacto"));
-                    empl.setParentesco(res.getString("parentesco_contacto"));
+                   // empl.setCorreo(res.getString("correo"));
+                    //empl.setContactoEmergencia(res.getString("nombre_contacto"));
+                    //empl.setTelefonoEmergencia(res.getString("telefono_contacto"));
+                    //empl.setParentesco(res.getString("parentesco_contacto"));
                     //empl.setEstadoEmpleado(res.getBoolean("estado"));
                    // empl.setSexo(res.getString("sexo"));
                     //empl.setFechaNacimiento(res.getDate("fecha_nacimiento"));
@@ -194,5 +194,53 @@ public class EmpleadosController extends Conection{
         }
     }
     
-    
+    //Show empleado
+    public Empleados mostrarEmp(int id) throws Exception{
+        this.conectar();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Empleados empleado = null;
+
+        try {
+            String sql = "SELECT * FROM empleados WHERE id = ?";
+            preparedStatement = this.getCon().prepareStatement(sql);
+            preparedStatement.setInt(1, id); // Establece el valor del parámetro ID
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleados();
+                empleado.setCodEmpleado(resultSet.getString("codigo_empleado"));
+                empleado.setNombre(resultSet.getString("nombre"));
+                empleado.setApellido(resultSet.getString("apellidos"));
+                empleado.setDireccion(resultSet.getString("direccion"));
+                empleado.setTelefono(resultSet.getString("telefono"));
+                empleado.setCorreo(resultSet.getString("correo"));
+                empleado.setNumero_documento(resultSet.getString("numero_documento"));
+                empleado.setSalario(resultSet.getDouble("salario"));
+               // empleado.setNombre_contacto(resultSet.getString("nombre_contacto"));
+               // empleado.setTelefono_contacto(resultSet.getString("telefono_contacto"));
+               // empleado.setParentesco_contacto(resultSet.getString("parentesco_contacto"));
+               empleado.setFecha_contratacion(resultSet.getDate("fecha_contratacion"));
+               //empleado.setFecha_terminacion(resultSet.getDate("fecha_terminacion"));
+               //empleado.setCreated_at(resultSet.getDate("created_at"));
+               empleado.setEstadoEmpleado(resultSet.getBoolean("estado"));
+               empleado.setSexo(resultSet.getString("sexo"));
+               //empleado.setFechaNacimiento(resultSet.getDate("fecha_nacimiento"));
+               //String fechaNacimientoStr = resultSet.getString("fecha_nacimiento");
+               // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                //Date fechaNacimiento = dateFormat.parse(fechaNacimientoStr);
+
+                //empleado.setFechaNacimiento(new java.sql.Date(fechaNacimiento.getTime()));
+
+            //System.out.println();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        } finally {
+            this.desconectar();
+        }
+        return empleado;
+    }
+
 }
