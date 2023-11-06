@@ -6,8 +6,7 @@ package GUI;
 
 import Controlador.*;
 import Clase.*;
-import GUI.Dependencias.DependenciaForm;
-import GUI.Dependencias.Puesto;
+import GUI.Dependencias.*;
 import java.awt.Image;
 import java.util.prefs.Preferences;
 import javax.swing.Icon;
@@ -186,7 +185,7 @@ public class HomeForm extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        Puesto ventana = new Puesto();
+        PuestoForm ventana = new PuestoForm();
         jPanelEscritorio.add(ventana);
         ventana.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed

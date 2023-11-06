@@ -446,12 +446,10 @@ public class EmpleadosController extends Conection{
     //private static ResultSet Resultado;
     
     public void insertarEmpleado(Empleados emp, int id_user) throws Exception{
-        //int Id=0;
-        
         try {
             this.conectar();
-            String query ="insert into empleados (codigo_empleado, nombre, apellidos, telefono, correo, nombre_contacto, telefono_contacto, parentesco_contacto, created_by, created_at) values (?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement st =/*(PreparedStatement)*/ this.getCon().prepareStatement(query/*,Statement.RETURN_GENERATED_KEYS*/);
+            String query ="insert into empleados (codigo_empleado, nombre, apellidos, telefono, correo, nombre_contacto, telefono_contacto, parentesco_contacto, created_by, created_at, numero_documento, salario, fecha_contratacion, fecha_nacimiento, sexo) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement st = this.getCon().prepareStatement(query);
             st.setString(1, emp.getCodEmpleado());
             st.setString(2, emp.getNombre());
             st.setString(3, emp.getApellido());
@@ -461,25 +459,22 @@ public class EmpleadosController extends Conection{
             st.setString(7, emp.getTelefonoEmergencia());
             st.setString(8, emp.getParentesco());
             //st.setBoolean(9, emp.getEstadoEmpleado());
-            //st.setString(9, emp.getSexo());
             st.setInt(9, id_user);
             st.setDate(10, new java.sql.Date(System.currentTimeMillis()));
-            st.executeUpdate();
-            /*
-            Resultado= (ResultSet) st.getGeneratedKeys();
-            if(Resultado.next()){
-                Id=Resultado.getIn(1);
-            }
-            */
-                              
+            st.setString(11, emp.getNumero_documento());
+            st.setDouble(12,  emp.getSalario());
+            st.setDate(13, new java.sql.Date(System.currentTimeMillis()));
             
+            java.util.Date utilDate = emp.getFechaNacimiento();
+            java.sql.Date sqlFechaNac = new java.sql.Date(utilDate.getTime());
+            st.setDate(14, sqlFechaNac);
+            st.setString(15, emp.getSexo());
+            st.executeUpdate();
         }  catch (Exception e) {
             throw e;
         } finally {
             this.desconectar();
         }
-        
-        //  return Id;
     }
     
     

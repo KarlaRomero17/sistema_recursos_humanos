@@ -12,7 +12,9 @@ import GUI.*;
 import Controlador.PuestoController;
 import Controlador.EmpleadosController;
 import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultComboBoxModel;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lissette
  */
+@SuppressWarnings("unchecked")
 public class EmpleadosForm extends javax.swing.JInternalFrame {
     ArrayList<Empleados> emplead= new ArrayList<Empleados>();
     EmpleadosController empController = new EmpleadosController();
@@ -193,6 +196,14 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             //emp.setEstadoEmpleado(true);
            // emp.setSexo((String )this.cbbSexo.getSelectedItem());
             //Id= empController.insertarEmpleado(emp, this.id_user);
+            emp.setNumero_documento(this.txtNumDocumento.getText());
+            emp.setSalario(Double.parseDouble(this.txtSalario.getText()));
+            emp.setSexo((String )this.cbbSexo.getSelectedItem());
+        
+            
+            System.out.println(this.dtcFechaNacimiento.getDate());
+            emp.setFechaNacimiento(this.dtcFechaNacimiento.getDate());
+            empController.insertarEmpleado(emp, this.id_user);            
             JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
             //limpiarCampos();
         }
@@ -279,6 +290,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         cbxEstado = new javax.swing.JCheckBox();
         dtcFechaNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel25 = new javax.swing.JLabel();
+        txtNumDocumento = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -564,7 +577,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -602,8 +615,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jTabbedPane1)
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -702,6 +715,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         cbxEstado.setText("Activo");
 
+        jLabel25.setText("DUI");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -747,7 +762,11 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxEstado)))
+                        .addComponent(cbxEstado)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel25)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNumDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -775,8 +794,10 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbbTipoSanguineo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxEstado)
-                    .addComponent(jLabel8))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel25)
+                    .addComponent(txtNumDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -789,7 +810,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -817,6 +838,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         BuscarEmpleadoForm buscar=new BuscarEmpleadoForm();
         home.jPanelEscritorio.add(buscar);
         buscar.show();
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -949,6 +971,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -979,6 +1002,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumDoc;
+    private javax.swing.JTextField txtNumDocumento;
     private javax.swing.JTextField txtParentesco;
     private javax.swing.JTextField txtSalario;
     private javax.swing.JTextField txtTelefono;

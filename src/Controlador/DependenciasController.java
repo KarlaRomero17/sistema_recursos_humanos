@@ -81,9 +81,22 @@ public class DependenciasController extends Conection{
     public void eliminarDependencia(Dependencias dep) throws Exception{
         try {
             this.conectar();
+            //validar estado
+            String obtenerEstado = "SELECT estado FROM dependencia WHERE id=?";
+            PreparedStatement obtenerEstadoStatement = this.getCon().prepareStatement(obtenerEstado);
+            obtenerEstadoStatement.setInt(1, dep.getId());
+            ResultSet resultSet = obtenerEstadoStatement.executeQuery();
+
+            boolean estadoActual = false; // Valor predeterminado en caso de que no se encuentre ninguna dependencia con ese ID
+
+            if (resultSet.next()) {
+                estadoActual = resultSet.getBoolean("estado"); // Obtener el estado actual de la dependencia
+               
+            }
+            
             String query ="UPDATE dependencia SET estado=? WHERE id=?"; 
             PreparedStatement st = this.getCon().prepareStatement(query);
-            st.setBoolean(1, false);
+            st.setBoolean(1, !estadoActual);
             st.setInt(2, dep.getId());
             st.executeUpdate();
         } catch (Exception e) { 
