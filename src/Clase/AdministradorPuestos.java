@@ -1,9 +1,5 @@
 package Clase;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
-import java.io.FileReader;
 import java.io.FileWriter;
 
 import java.io.IOException;
@@ -29,21 +25,6 @@ public class AdministradorPuestos {
     }
     public List<Puestos> getPuestos() {
         return listaPuestos;
-    }
-    
-    public void guardarPuestoEnCSV() throws IOException {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(archivoCSV))) {
-            for (Puestos puesto : listaPuestos) {
-            // Supongamos que quieres guardar los campos en orden: id, nombre, estado, dependencia
-                  String[] linea = {
-                  String.valueOf(puesto.getId()),
-                  puesto.getNombre(),
-                  String.valueOf(puesto.getDependencia()),
-                  String.valueOf(puesto.isEstado())
-                   };
-            writer.writeNext(linea);
-            }
-        }
     }
     
 /*    public void cargarPuestosDesdeCSV() throws CsvValidationException, IOException {

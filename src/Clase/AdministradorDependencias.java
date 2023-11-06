@@ -3,13 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Clase;
-
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +29,7 @@ public class AdministradorDependencias {
     public List<Dependencias> getContactos() {
         return listaContactos;
     }
-    public void guardarContactosEnCSV() throws IOException {
+    /*public void guardarContactosEnCSV() throws IOException {
         try (CSVWriter writer = new CSVWriter(new FileWriter(archivoCSV))) {
         for (Dependencias contacto : listaContactos) {
             // Supongamos que quieres guardar los campos en orden: id, nombre, apellidos,direccion
@@ -47,7 +40,7 @@ public class AdministradorDependencias {
             writer.writeNext(linea);
             }
         }
-    }
+    }*/
     //obtener nombres para combobox
     public ArrayList<String> obtenerNombres() {
         ArrayList<String> nombres = new ArrayList<>();
