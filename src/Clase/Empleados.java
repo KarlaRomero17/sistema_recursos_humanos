@@ -28,8 +28,14 @@ String Correo;
 String numero_documento;
 Double salario;
 Date fecha_contratacion;
+String Direccion;
 
-    public Empleados(int idEmpleado,String CodEmpleado,String Nombre, String Apellido, Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, String Parentesco, String Telefono, String Correo, String numero_documento, Double salario, Date fecha_contratacion) {
+
+    public Empleados(int idEmpleado,String CodEmpleado,String Nombre, String Apellido, 
+            Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, 
+            boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, 
+            String Parentesco, String Telefono, String Correo, String numero_documento, 
+            Double salario, Date fecha_contratacion,String Direccion) {
         this.idEmpleado = idEmpleado;
         this.CodEmpleado=CodEmpleado;
         this.Nombre = Nombre;
@@ -47,6 +53,7 @@ Date fecha_contratacion;
         this.numero_documento = numero_documento;
         this.salario = salario;
         this.fecha_contratacion = fecha_contratacion;
+        this.Direccion = Direccion;
     }
 
      public Empleados(){
@@ -191,7 +198,13 @@ Date fecha_contratacion;
         this.fecha_contratacion = fecha_contratacion;
     }
 
+    public String getDireccion() {
+        return Direccion;
+    }
 
-
+    public void setDireccion(String Direccion) {
+        this.Direccion = Direccion;
+    }
+    
     
 }

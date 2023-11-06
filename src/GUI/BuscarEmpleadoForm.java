@@ -7,6 +7,8 @@ package GUI;
 import Clase.Empleados;
 import java.util.List;
 import Controlador.EmpleadosController;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemEvent;
+import javax.swing.JDesktopPane;
+import javax.swing.SwingUtilities;
        
 
 
@@ -29,7 +33,6 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
     ArrayList<Empleados> emplead= new ArrayList<Empleados>();
     Empleados emp =new Empleados();
     EmpleadosController empController = new EmpleadosController();
-    
    public int IdBuscar;
    
     /**
@@ -75,6 +78,11 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTableResultado);
 
         jButton2.setText("Seleccionar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -165,6 +173,37 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         CrearModelo();
     }//GEN-LAST:event_jButton1ActionPerformed
+    private EmpleadosForm f1;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Cerrar la ventana si esta abierta
+            if (f1 != null && !f1.isClosed()) {
+                f1.dispose();
+            }
+            int filaSeleccionada = jTableResultado.getSelectedRow(); // Obtiene la fila seleccionada
+            Object codigo=0;
+            if (filaSeleccionada != -1) { // Verifica si se ha seleccionado alguna fila
+                codigo = jTableResultado.getValueAt(filaSeleccionada, 0);
+                    int id = (Integer) codigo;
+                    System.out.println(codigo + " - " + id);
+
+                    f1 = new EmpleadosForm();
+                    JDesktopPane desktopPane = getDesktopPane();
+                    desktopPane.add(f1);
+                    f1.showEmp(id); // Llama al método showEmp con el valor id
+                    f1.setVisible(true);
+
+                    System.out.println("Ventana f1 creada y mostrada");
+            }
+        } catch (Exception e) {
+                
+                  System.out.println(e.getMessage());
+            
+            e.printStackTrace();
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     DefaultTableModel Modelo;
