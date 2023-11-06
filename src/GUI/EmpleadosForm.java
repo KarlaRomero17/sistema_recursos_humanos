@@ -30,7 +30,10 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     TipoSanguineo instancia_TSangre=new TipoSanguineo();
     DefaultComboBoxModel<String> Modelo;
     Clase.Empleados emp =new Empleados();
+    Clase.DetalleEmpleado detemp=new DetalleEmpleado();
     int id_user;
+    int idSangre;
+    int idEsCivil;
     /**
      * Creates new form EmpleadosForm
      */
@@ -56,7 +59,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     
      public void mostrarEstado () {
         try { 
-            List<EstadoCivil> estadosCiviles = empController.mostrarEstadoCivil();
+            /*List<EstadoCivil> estadosCiviles = empController.mostrarEstadoCivil();
             String[] nombresEstados = new String[estadosCiviles.size()];
 
             for (int i = 0; i < estadosCiviles.size(); i++) {
@@ -65,7 +68,15 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             }
 
         Modelo = new DefaultComboBoxModel<>(nombresEstados);
-        cbbEstadoCivil.setModel(Modelo);
+        cbbEstadoCivil.setModel(Modelo);*/
+            
+        EmpleadosController cc = new EmpleadosController();
+        
+        DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(cc.mostrarEstadoCivil());
+        cbbEstadoCivil.setModel(modelEstado);    
+            
+            
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -74,7 +85,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     
      public void mostrarTipoSangre () {
         try { 
-            List<TipoSanguineo> TipoSangre = empController.mostrarTipoSanguineo();
+           /* List<TipoSanguineo> TipoSangre = empController.mostrarTipoSanguineo();
             String[] TipoSang = new String[TipoSangre.size()];
 
             for (int i = 0; i < TipoSangre.size(); i++) {
@@ -83,7 +94,13 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             }
 
         Modelo = new DefaultComboBoxModel<>(TipoSang);
-        cbbTipoSanguineo.setModel(Modelo);
+        cbbTipoSanguineo.setModel(Modelo);*/
+        EmpleadosController cc = new EmpleadosController();
+        
+        DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(cc.mostrarTipoSanguineo());
+        cbbTipoSanguineo.setModel(modelEstado);
+           
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -185,15 +202,16 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             emp.setCodEmpleado(this.txtCodEmpleado.getText());
             emp.setNombre(this.txtNombre.getText());
             emp.setApellido(this.txtApellido.getText());
-            emp.setTelefono(this.txtTelefono.getText());
-            emp.setCorreo(this.txtCorreo.getText());
-            emp.setContactoEmergencia(this.txtContactoEmergencia.getText());
-            emp.setTelefonoEmergencia(this.txtTelefonoEmergencia.getText());
-            emp.setParentesco(this.txtParentesco.getText());
-            //emp.setEstadoEmpleado(true);
-           // emp.setSexo((String )this.cbbSexo.getSelectedItem());
-            //Id= empController.insertarEmpleado(emp, this.id_user);
-            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            emp.setFechaNacimiento(this.dtcFechaNacimiento.getDate());
+            emp.setSexo((String)this.cbbSexo.getSelectedItem());
+            detemp.setId_estado_civil(idEsCivil);
+            detemp.setId_tipo_sangre(idSangre);
+            emp.setEstadoEmpleado(true);
+            
+            System.out.print(detemp.getId_tipo_sangre()+"-"+detemp.getId_estado_civil());
+            
+            empController.insertarEmpleado(emp, detemp,this.id_user);
+            JOptionPane.showMessageDialog(null, "Empleado ingresado correctmente");
             //limpiarCampos();
         }
      
@@ -223,7 +241,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDocumentos = new javax.swing.JTable();
         jLabel22 = new javax.swing.JLabel();
         cbbTipoDoc = new javax.swing.JComboBox<>();
         jLabel23 = new javax.swing.JLabel();
@@ -251,8 +269,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         txtContactoEmergencia = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtTelefonoEmergencia = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
         txtParentesco = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         lblCorreo = new javax.swing.JLabel();
@@ -261,6 +279,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnGuardarCabecera = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -320,7 +339,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbDepartamento, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(421, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,18 +363,18 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Direccion", jScrollPane5);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblDocumentos);
 
         jLabel22.setText("Tipo Documento");
 
@@ -386,7 +405,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(cbbInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -494,7 +513,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(cbbDependencia, 0, 127, Short.MAX_VALUE)
                     .addComponent(cbbPuesto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSalario))
-                .addContainerGap(470, Short.MAX_VALUE))
+                .addContainerGap(632, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,7 +583,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,6 +637,11 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -626,7 +650,14 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             }
         });
 
-        btnGuardar.setText("Guadar");
+        btnGuardarCabecera.setText("Guadar Cabecera");
+        btnGuardarCabecera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarCabeceraActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -644,7 +675,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addComponent(btnEditar)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardarCabecera)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -656,6 +689,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)
                     .addComponent(btnBuscar)
+                    .addComponent(btnGuardarCabecera)
                     .addComponent(btnGuardar))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -690,6 +724,12 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Estado Civil");
 
+        cbbEstadoCivil.setOpaque(true);
+        cbbEstadoCivil.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbEstadoCivilItemStateChanged(evt);
+            }
+        });
         cbbEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbEstadoCivilActionPerformed(evt);
@@ -698,9 +738,17 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Tipo Sanguineo");
 
+        cbbTipoSanguineo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbTipoSanguineoItemStateChanged(evt);
+            }
+        });
+
         jLabel8.setText("Estado Empleado");
 
         cbxEstado.setText("Activo");
+
+        dtcFechaNacimiento.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -789,7 +837,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -828,17 +876,24 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtTelefonoEmergenciaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-       mostrarEmpleado();
+       //mostrarEmpleado();
+       this.dispose();
+        EmpleadosForm ventana = new EmpleadosForm();
+        //HomeForm.jPanelEscritorio.add(ventana);
+        ventana.show();
+        ventana.vistaCrear();
+       
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnGuardarCabeceraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCabeceraActionPerformed
         // TODO add your handling code here:
         try {
             InsertarEmpleado();
+            vistaGuardarCabecera();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnGuardarCabeceraActionPerformed
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
         // TODO add your handling code here:
@@ -912,11 +967,58 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cbbDependenciaItemStateChanged
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        vistaEditar();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+        vistaBloquearCampos();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void cbbEstadoCivilItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbEstadoCivilItemStateChanged
+        // TODO add your handling code here:
+        try { 
+          
+           
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+            EstadoCivil est = (EstadoCivil) cbbEstadoCivil.getSelectedItem();
+            EmpleadosController mun = new EmpleadosController();
+            idEsCivil=est.getId();
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_cbbEstadoCivilItemStateChanged
+
+    private void cbbTipoSanguineoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbTipoSanguineoItemStateChanged
+        // TODO add your handling code here:
+        try { 
+          
+           
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+            TipoSanguineo est = (TipoSanguineo) cbbTipoSanguineo.getSelectedItem();
+            EmpleadosController mun = new EmpleadosController();
+            idSangre=est.getId();
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }//GEN-LAST:event_cbbTipoSanguineoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnGuardarCabecera;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbbDepartamento;
     private javax.swing.JComboBox<String> cbbDependencia;
@@ -970,8 +1072,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCorreo;
+    private javax.swing.JTable tblDocumentos;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCodEmpleado;
     private javax.swing.JTextField txtContactoEmergencia;
@@ -984,4 +1086,188 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtTelefonoEmergencia;
     // End of variables declaration//GEN-END:variables
+
+
+
+    
+    
+    public void vistaCrear(){
+        //JOptionPane.showMessageDialog(null, " 1°Complete la cabecera -> 2° Guardar-> 3° Complete los tabs");
+        this.txtContactoEmergencia.setEditable(false);
+        this.txtCorreo.setEditable(false);
+        this.txtDireccion.setEditable(false);
+        this.txtNumDoc.setEditable(false);
+        this.txtParentesco.setEditable(false);
+        this.txtSalario.setEditable(false);
+        this.txtTelefonoEmergencia.setEditable(false);
+        this.txtTelefono.setEditable(false);
+        this.cbbDepartamento.setEnabled(false);
+        this.cbbDependencia.setEnabled(false);
+        this.cbbInstitucion.setEnabled(false);
+        this.cbbMunicipio.setEnabled(false);
+        this.cbbPuesto.setEnabled(false);
+        this.cbbTipoContratacion.setEnabled(false);
+        this.cbbTipoDoc.setEnabled(false);
+        this.dtcFechaInicio.setEnabled(false);
+        this.dtcFechaTermino.setEnabled(false);
+        this.tblDocumentos.setEnabled(false);
+        this.btnGuardarCabecera.setEnabled(true);
+        this.btnGuardar.setEnabled(false);
+        this.btnEditar.setEnabled(false);
+                
+        
+    }
+    
+    public void vistaGuardarCabecera(){
+    
+        
+        this.txtContactoEmergencia.setEditable(true);
+        this.txtCorreo.setEditable(true);
+        this.txtDireccion.setEditable(true);
+        this.txtNumDoc.setEditable(true);
+        this.txtParentesco.setEditable(true);
+        this.txtSalario.setEditable(true);
+        this.txtTelefonoEmergencia.setEditable(true);
+        this.txtTelefono.setEditable(true);
+        this.cbbDepartamento.setEnabled(true);
+        this.cbbDependencia.setEnabled(true);
+        this.cbbInstitucion.setEnabled(true);
+        this.cbbMunicipio.setEnabled(true);
+        this.cbbPuesto.setEnabled(true);
+        this.cbbTipoContratacion.setEnabled(true);
+        this.cbbTipoDoc.setEnabled(true);
+        this.dtcFechaInicio.setEnabled(true);
+        this.dtcFechaTermino.setEnabled(true);
+        this.tblDocumentos.setEnabled(true);
+        this.btnGuardar.setEnabled(true);
+        this.btnGuardarCabecera.setEnabled(false);
+        this.btnEditar.setEnabled(false);
+    
+    }
+    
+    public void vistaEditar(){
+        this.txtNombre.setEditable(true);
+        this.txtApellido.setEditable(true);
+        this.cbbEstadoCivil.setEnabled(true);
+        this.dtcFechaNacimiento.setEnabled(true);
+        this.cbbSexo.setEnabled(true);
+        this.cbbTipoSanguineo.setEnabled(true);
+        this.cbxEstado.setEnabled(true);
+        this.txtContactoEmergencia.setEditable(true);
+        this.txtCorreo.setEditable(true);
+        this.txtDireccion.setEditable(true);
+        this.txtNumDoc.setEditable(true);
+        this.txtParentesco.setEditable(true);
+        this.txtSalario.setEditable(true);
+        this.txtTelefonoEmergencia.setEditable(true);
+        this.txtTelefono.setEditable(true);
+        this.cbbDepartamento.setEnabled(true);
+        this.cbbDependencia.setEnabled(true);
+        this.cbbInstitucion.setEnabled(true);
+        this.cbbMunicipio.setEnabled(true);
+        this.cbbPuesto.setEnabled(true);
+        this.cbbTipoContratacion.setEnabled(true);
+        this.cbbTipoDoc.setEnabled(true);
+        this.dtcFechaInicio.setEnabled(true);
+        this.dtcFechaTermino.setEnabled(true);
+        this.tblDocumentos.setEnabled(true);
+        this.btnGuardar.setVisible(true);
+        this.btnGuardarCabecera.setVisible(false);
+    
+    }
+    
+    public void vistaNuevo(){
+        this.txtCodEmpleado.setText("");
+        this.txtNombre.setEnabled(true);
+        this.txtNombre.setText("");
+        this.txtApellido.setEnabled(true);
+        this.txtApellido.setText("");
+        this.cbbEstadoCivil.setEnabled(true);
+        mostrarEstado();
+        this.dtcFechaNacimiento.setEnabled(true);
+        this.dtcFechaNacimiento.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.cbbSexo.setEnabled(true);
+        this.cbbSexo.addItem("Seleecionar");
+        this.cbbSexo.addItem("Femenino");
+        this.cbbSexo.addItem("Masculino");
+        this.cbbTipoSanguineo.setEnabled(true);
+        mostrarTipoSangre();
+        this.cbxEstado.setEnabled(true);
+        this.cbxEstado.setSelected(true);
+        this.txtContactoEmergencia.setEnabled(true);
+        this.txtContactoEmergencia.setText("");
+        this.txtCorreo.setEnabled(true);
+        this.txtCorreo.setText("");
+        this.txtDireccion.setEnabled(true);
+        this.txtDireccion.setText("");
+        this.txtNumDoc.setEnabled(true);
+        this.txtNumDoc.setText("");
+        this.txtParentesco.setEnabled(true);
+        this.txtParentesco.setText("");
+        this.txtSalario.setEnabled(true);
+        this.txtSalario.setText("");
+        this.txtTelefonoEmergencia.setEnabled(true);
+        this.txtTelefonoEmergencia.setText("");
+        this.txtTelefono.setEnabled(true);
+        this.txtTelefono.setText("");
+        this.cbbDepartamento.setEnabled(true);
+        mostrarDepartamentos();
+        this.cbbDependencia.setEnabled(true);
+        mostrarDependencias();
+        this.cbbInstitucion.setEnabled(true);
+        this.cbbInstitucion.addItem("Seleccionar");
+        this.cbbMunicipio.setEnabled(true);
+        this.cbbMunicipio.addItem("Seleccionar");
+        this.cbbPuesto.setEnabled(true);
+        this.cbbPuesto.addItem("Seleccinar");
+        this.cbbTipoContratacion.setEnabled(true);
+        mostrarTipoContrata();
+        this.cbbTipoDoc.setEnabled(true);
+        mostrarTipoDocumentos();
+        this.dtcFechaInicio.setEnabled(true);
+        this.dtcFechaInicio.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.dtcFechaTermino.setEnabled(true);
+        this.dtcFechaTermino.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.tblDocumentos.setEnabled(true);
+    
+    }
+    
+    
+    public void vistaBloquearCampos(){
+    
+        this.txtNombre.setEditable(false);
+        this.txtApellido.setEditable(false);
+        this.cbbEstadoCivil.setEnabled(false);
+        this.dtcFechaNacimiento.setEnabled(false);
+        this.cbbSexo.setEnabled(false);
+        this.cbbTipoSanguineo.setEnabled(false);
+        this.cbxEstado.setEnabled(false);
+        this.txtContactoEmergencia.setEditable(false);
+        this.txtCorreo.setEditable(false);
+        this.txtDireccion.setEditable(false);
+        this.txtNumDoc.setEditable(false);
+        this.txtParentesco.setEditable(false);
+        this.txtSalario.setEditable(false);
+        this.txtTelefonoEmergencia.setEditable(false);
+        this.txtTelefono.setEditable(false);
+        this.cbbDepartamento.setEnabled(false);
+        this.cbbDependencia.setEnabled(false);
+        this.cbbInstitucion.setEnabled(false);
+        this.cbbMunicipio.setEnabled(false);
+        this.cbbPuesto.setEnabled(false);
+        this.cbbTipoContratacion.setEnabled(false);
+        this.cbbTipoDoc.setEnabled(false);
+        this.dtcFechaInicio.setEnabled(false);
+        this.dtcFechaTermino.setEnabled(false);
+        this.tblDocumentos.setEnabled(false);
+        this.btnGuardar.setVisible(false);
+        this.btnGuardarCabecera.setVisible(false);
+        this.btnBuscar.setEnabled(true);
+        this.btnEditar.setEnabled(true);
+        this.btnNuevo.setEnabled(true);
+    
+    }
+    
+    
+
 }
