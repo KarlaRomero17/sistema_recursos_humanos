@@ -8,17 +8,17 @@ package Clase;
  *
  * @author Sergio Gomez
  */
-public class TipoSanguineo {
+public class TipoDocumento {
     int id;
-    String tipo;
+    String nombre;
 
-   public TipoSanguineo(){
-   
-    } 
-    
-    public TipoSanguineo(int id, String tipo) {
+    public TipoDocumento(int id, String nombre) {
         this.id = id;
-        this.tipo = tipo;
+        this.nombre = nombre;
+    }
+    
+    public TipoDocumento(){
+    
     }
 
     public int getId() {
@@ -29,16 +29,18 @@ public class TipoSanguineo {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
-    
-    
-    
+        
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
     
 }

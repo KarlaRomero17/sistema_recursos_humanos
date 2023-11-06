@@ -7,11 +7,14 @@ package Controlador;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import Clase.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 /**
  *
  * @author Sergio Gomez
@@ -79,6 +82,285 @@ public class EmpleadosController extends Conection{
         }
     }
       
+    
+    
+    
+     public Vector<Departamentos>  mostrarDepartamento() throws Exception{
+     PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<Departamentos> datos = new Vector<Departamentos>();
+        Departamentos dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from departamentos";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+
+            dat = new Departamentos();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Departamentos();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+    
+    
+    
+     
+      public Vector<Municipios> mostrarMunicipios(int idDep)  throws Exception{
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Conexion conn = new Conexion();
+        //Connection con = conn.getConexion();
+
+        Vector<Municipios> datos = new Vector<Municipios>();
+        Municipios dat = null;
+        try {
+            this.conectar();
+            String sql = "SELECT * FROM municipios WHERE id_departamento=" + idDep;
+            ps = this.getCon().prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            dat = new Municipios();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Municipios();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+     
+    
+
+      public Vector<Institucion> mostrarInstitucion(int idDoc)  throws Exception{
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Conexion conn = new Conexion();
+        //Connection con = conn.getConexion();
+
+        Vector<Institucion> datos = new Vector<Institucion>();
+        Institucion dat = null;
+        try {
+            this.conectar();
+            String sql = "SELECT * FROM institucion WHERE id_tipo_documento=" + idDoc;
+            ps = this.getCon().prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            dat = new Institucion();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Institucion();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+     
+    
+    public List<TipoContrato>  mostrarTipoContrato() throws Exception{
+     
+        ResultSet res;
+        String sql="";
+        sql="select * from tipo_contrato";
+        PreparedStatement st;
+              // combo.removeAllItems();
+        List<TipoContrato> TipoCont = new ArrayList<>();
+        try{
+
+           this.conectar();
+           st=this.getCon().prepareStatement(sql);
+            res=st.executeQuery(sql);
+
+            while(res.next()){
+               // combo.addItem(res.getString("nombre"));
+               TipoContrato tc = new TipoContrato();
+               tc.setTipo(res.getString("tipo"));               
+               TipoCont.add(tc);
+
+            }
+            return TipoCont;
+        } catch (Exception e){
+           throw e; 
+           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
+        } finally {
+               // Desconectar la conexión aquí si es necesario
+        }
+    }
+    
+    
+    /*
+      public List<TipoDocumento>  mostrarTipoDocumento() throws Exception{
+     
+        ResultSet res;
+        String sql="";
+        sql="select * from tipo_documento";
+        PreparedStatement st;
+              // combo.removeAllItems();
+        List<TipoDocumento> TipoDoc = new ArrayList<>();
+        try{
+
+           this.conectar();
+           st=this.getCon().prepareStatement(sql);
+            res=st.executeQuery(sql);
+
+            while(res.next()){
+               // combo.addItem(res.getString("nombre"));
+               TipoDocumento td = new TipoDocumento();
+               td.setNombre(res.getString("nombre"));               
+               TipoDoc.add(td);
+
+            }
+            return TipoDoc;
+        } catch (Exception e){
+           throw e; 
+           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
+        } finally {
+               // Desconectar la conexión aquí si es necesario
+        }
+    }
+    */
+    
+    public Vector<TipoDocumento>  mostrarTipoDocumento() throws Exception{
+     PreparedStatement st = null;
+        ResultSet rs = null;
+        //Conection conn = new Conection();
+      
+
+        Vector<TipoDocumento> datos = new Vector<TipoDocumento>();
+        TipoDocumento dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from tipo_documento";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+            
+            
+            dat = new TipoDocumento();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new TipoDocumento();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+     
+    
+    
+    public Vector<Dependencias>  listaDependencias() throws Exception{
+        PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<Dependencias> datos = new Vector<Dependencias>();
+        Dependencias dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from dependencia";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+
+            dat = new Dependencias();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Dependencias();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+    
+    
+    
+    public Vector<Puestos> mostrarPuestos(int idDep)  throws Exception{
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Conexion conn = new Conexion();
+        //Connection con = conn.getConexion();
+
+        Vector<Puestos> datos = new Vector<Puestos>();
+        Puestos dat = null;
+        try {
+            this.conectar();
+            String sql = "SELECT * FROM puestos WHERE id_dependencia=" + idDep;
+            ps = this.getCon().prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            dat = new Puestos();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Puestos();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+    
+    
+    
+    
+    
+    
     public List<Empleados> buscarEmpleados(String valor, String filtro) throws Exception{
         String criterio;
 
@@ -161,6 +443,7 @@ public class EmpleadosController extends Conection{
             return lst;
     }
     
+    //private static ResultSet Resultado;
     
     public void insertarEmpleado(Empleados emp, int id_user) throws Exception{
         try {
@@ -193,6 +476,7 @@ public class EmpleadosController extends Conection{
             this.desconectar();
         }
     }
+    
     
     
 }

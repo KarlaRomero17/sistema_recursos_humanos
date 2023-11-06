@@ -8,15 +8,16 @@ package Clase;
  *
  * @author Sergio Gomez
  */
-public class TipoSanguineo {
+public class TipoContrato {
     int id;
     String tipo;
 
-   public TipoSanguineo(){
-   
-    } 
+    public TipoContrato(){
     
-    public TipoSanguineo(int id, String tipo) {
+    }
+    
+    
+    public TipoContrato(int id, String tipo) {
         this.id = id;
         this.tipo = tipo;
     }
@@ -36,7 +37,6 @@ public class TipoSanguineo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
     
     
     

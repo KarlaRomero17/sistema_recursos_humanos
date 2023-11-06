@@ -190,6 +190,8 @@ Date fecha_contratacion;
     public void setFecha_contratacion(Date fecha_contratacion) {
         this.fecha_contratacion = fecha_contratacion;
     }
-    
+
+
+
     
 }
