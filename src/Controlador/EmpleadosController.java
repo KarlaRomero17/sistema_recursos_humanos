@@ -8,13 +8,16 @@ package Controlador;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import Clase.*;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.*;
 /**
  *
  * @author Sergio Gomez
@@ -22,7 +25,7 @@ import java.util.Vector;
 public class EmpleadosController extends Conection{
     
      
-    public List<EstadoCivil>  mostrarEstadoCivil() throws Exception{
+    /*public List<EstadoCivil>  mostrarEstadoCivil() throws Exception{
      
         ResultSet res;
         String sql="";
@@ -50,9 +53,41 @@ public class EmpleadosController extends Conection{
                // Desconectar la conexión aquí si es necesario
         }
      
+    }*/
+    
+     public Vector<EstadoCivil>  mostrarEstadoCivil() throws Exception{
+     	PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<EstadoCivil> datos = new Vector<EstadoCivil>();
+        EstadoCivil dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from estado_civil";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+
+            dat = new EstadoCivil();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new EstadoCivil();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
     }
     
-    public List<TipoSanguineo>  mostrarTipoSanguineo() throws Exception{
+    /*public List<TipoSanguineo>  mostrarTipoSanguineo() throws Exception{
      
         ResultSet res;
         String sql="";
@@ -80,9 +115,39 @@ public class EmpleadosController extends Conection{
         } finally {
                // Desconectar la conexión aquí si es necesario
         }
-    }
+    }*/
       
-    
+     public Vector<TipoSanguineo>  mostrarTipoSanguineo() throws Exception{
+     	PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<TipoSanguineo> datos = new Vector<TipoSanguineo>();
+        TipoSanguineo dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from tipo_sangre";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+
+            dat = new TipoSanguineo();
+            dat.setId(0);
+            dat.setTipo("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new TipoSanguineo();
+                dat.setId(rs.getInt("id"));
+                dat.setTipo(rs.getString("tipo"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
     
     
      public Vector<Departamentos>  mostrarDepartamento() throws Exception{
@@ -124,8 +189,7 @@ public class EmpleadosController extends Conection{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Conexion conn = new Conexion();
-        //Connection con = conn.getConexion();
+    
 
         Vector<Municipios> datos = new Vector<Municipios>();
         Municipios dat = null;
@@ -159,8 +223,7 @@ public class EmpleadosController extends Conection{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Conexion conn = new Conexion();
-        //Connection con = conn.getConexion();
+
 
         Vector<Institucion> datos = new Vector<Institucion>();
         Institucion dat = null;
@@ -195,7 +258,7 @@ public class EmpleadosController extends Conection{
         String sql="";
         sql="select * from tipo_contrato";
         PreparedStatement st;
-              // combo.removeAllItems();
+              
         List<TipoContrato> TipoCont = new ArrayList<>();
         try{
 
@@ -220,37 +283,6 @@ public class EmpleadosController extends Conection{
     }
     
     
-    /*
-      public List<TipoDocumento>  mostrarTipoDocumento() throws Exception{
-     
-        ResultSet res;
-        String sql="";
-        sql="select * from tipo_documento";
-        PreparedStatement st;
-              // combo.removeAllItems();
-        List<TipoDocumento> TipoDoc = new ArrayList<>();
-        try{
-
-           this.conectar();
-           st=this.getCon().prepareStatement(sql);
-            res=st.executeQuery(sql);
-
-            while(res.next()){
-               // combo.addItem(res.getString("nombre"));
-               TipoDocumento td = new TipoDocumento();
-               td.setNombre(res.getString("nombre"));               
-               TipoDoc.add(td);
-
-            }
-            return TipoDoc;
-        } catch (Exception e){
-           throw e; 
-           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
-        } finally {
-               // Desconectar la conexión aquí si es necesario
-        }
-    }
-    */
     
     public Vector<TipoDocumento>  mostrarTipoDocumento() throws Exception{
      PreparedStatement st = null;
@@ -327,8 +359,6 @@ public class EmpleadosController extends Conection{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Conexion conn = new Conexion();
-        //Connection con = conn.getConexion();
 
         Vector<Puestos> datos = new Vector<Puestos>();
         Puestos dat = null;
@@ -356,10 +386,7 @@ public class EmpleadosController extends Conection{
         return datos;
     }
     
-    
-    
-    
-    
+ 
     
     public List<Empleados> buscarEmpleados(String valor, String filtro) throws Exception{
         String criterio;
@@ -445,25 +472,33 @@ public class EmpleadosController extends Conection{
     
     //private static ResultSet Resultado;
     
-    public void insertarEmpleado(Empleados emp, int id_user) throws Exception{
+    public void insertarEmpleado(Empleados emp, DetalleEmpleado detemp, int id_user) throws Exception{
+        //int Id=0;
         try {
             this.conectar();
-            String query ="insert into empleados (codigo_empleado, nombre, apellidos, telefono, correo, nombre_contacto, telefono_contacto, parentesco_contacto, created_by, created_at, numero_documento, salario, fecha_contratacion, fecha_nacimiento, sexo) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement st = this.getCon().prepareStatement(query);
+            String query ="insert into empleados (codigo_empleado, nombre, apellidos, fecha_nacimiento, sexo, estado, created_by, created_at) values (?,?,?,?,?,?,?,?) " +
+            "SET @IdEmpleado=last_insert_id(); " +
+            "insert into detalle_empleado( id_empleado, id_estado_civil, id_tipo_sangre) values(@IdEmpleado,?,?);";
+            PreparedStatement st =this.getCon().prepareStatement(query);
             st.setString(1, emp.getCodEmpleado());
             st.setString(2, emp.getNombre());
             st.setString(3, emp.getApellido());
-            st.setString(4, emp.getTelefono());
-            st.setString(5, emp.getCorreo());
-            st.setString(6, emp.getContactoEmergencia());
-            st.setString(7, emp.getTelefonoEmergencia());
-            st.setString(8, emp.getParentesco());
-            //st.setBoolean(9, emp.getEstadoEmpleado());
-            st.setInt(9, id_user);
-            st.setDate(10, new java.sql.Date(System.currentTimeMillis()));
-            st.setString(11, emp.getNumero_documento());
-            st.setDouble(12,  emp.getSalario());
-            st.setDate(13, new java.sql.Date(System.currentTimeMillis()));
+            //st.setDate(4,(Date) affiliate.emp.getFechaNacimiento());
+            st.setDate(4,new  java.sql.Date(emp.getFechaNacimiento().getTime()));
+            st.setString(5, emp.getSexo());
+            st.setBoolean(6, emp.getEstadoEmpleado());
+            st.setInt(7, id_user);
+            st.setDate(8, new java.sql.Date(System.currentTimeMillis()));
+            st.setInt(9,detemp.getId_estado_civil());
+            st.setInt(10,detemp.getId_tipo_sangre());
+            st.executeUpdate();
+            /*
+            Resultado= (ResultSet) st.getGeneratedKeys();
+            if(Resultado.next()){
+                Id=Resultado.getIn(1);
+            }
+            */
+                              
             
             java.util.Date utilDate = emp.getFechaNacimiento();
             java.sql.Date sqlFechaNac = new java.sql.Date(utilDate.getTime());
@@ -498,7 +533,7 @@ public class EmpleadosController extends Conection{
                 empleado.setDireccion(resultSet.getString("direccion"));
                 empleado.setTelefono(resultSet.getString("telefono"));
                 empleado.setCorreo(resultSet.getString("correo"));
-                empleado.setNumero_documento(resultSet.getString("numero_documento"));
+                empleado.setNumero_documento(resultSet.getString("dui"));
                 empleado.setSalario(resultSet.getDouble("salario"));
                // empleado.setNombre_contacto(resultSet.getString("nombre_contacto"));
                // empleado.setTelefono_contacto(resultSet.getString("telefono_contacto"));

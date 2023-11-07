@@ -38,7 +38,11 @@ public class TipoSanguineo {
     }
     
     
-    
+        
+    @Override
+    public String toString() {
+        return this.tipo;
+    }
     
     
 }

@@ -200,6 +200,7 @@ public class HomeForm extends javax.swing.JFrame {
         EmpleadosForm ventana = new EmpleadosForm();
         jPanelEscritorio.add(ventana);
         ventana.show();
+        ventana.vistaCrear();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
