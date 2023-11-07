@@ -10,12 +10,30 @@ import GUI.InicioForm;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import Controlador.DependenciasController;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import static java.nio.file.Files.delete;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import java.util.prefs.Preferences;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -37,13 +55,13 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         this.id_user = prefs.getInt("id", 0);
         administradorDependencias = new AdministradorDependencias();
         desabilitar_botones();
-        jTableContactos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        jTableDependencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRow = jTableContactos.getSelectedRow();
+                    int selectedRow = jTableDependencias.getSelectedRow();
                     jButtonEditar.setEnabled(selectedRow != -1); // Habilitar el botón 
-                    jButtonEliminar.setEnabled(selectedRow != -1); 
+                    //jButtonEliminar.setEnabled(selectedRow != -1); 
                     jButtonGuardar.setEnabled(false);
                 }
             }
@@ -65,16 +83,11 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelDatos = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableContactos = new javax.swing.JTable();
-        jTextFieldBuscar = new javax.swing.JTextField();
-        jLabelBuscar = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jButtonGuardar = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
-        jButtonCerrar = new javax.swing.JButton();
         jButtonNuevo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabelAgenda = new javax.swing.JLabel();
@@ -82,6 +95,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         txt_id = new javax.swing.JTextField();
         jLabelNombre = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldBuscar = new javax.swing.JTextField();
+        jLabelBuscar = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableDependencias = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -89,66 +106,9 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         setTitle("Dependencias");
         setFocusable(false);
 
-        jTableContactos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jTableContactos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableContactosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableContactos);
-
-        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBuscarActionPerformed(evt);
-            }
-        });
-        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFieldBuscarKeyReleased(evt);
-            }
-        });
-
-        jLabelBuscar.setText("Buscar:");
-
-        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
-        jPanelDatos.setLayout(jPanelDatosLayout);
-        jPanelDatosLayout.setHorizontalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanelDatosLayout.setVerticalGroup(
-            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDatosLayout.createSequentialGroup()
-                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButtonGuardar.setBackground(new java.awt.Color(0, 153, 0));
-        jButtonGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,8 +116,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jButtonEditar.setBackground(new java.awt.Color(51, 0, 204));
-        jButtonEditar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar.png"))); // NOI18N
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,26 +124,16 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jButtonEliminar.setBackground(new java.awt.Color(204, 0, 0));
-        jButtonEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.setEnabled(false);
         jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEliminarActionPerformed(evt);
             }
         });
 
-        jButtonCerrar.setBackground(new java.awt.Color(0, 0, 255));
-        jButtonCerrar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCerrar.setText("Cerrar");
-        jButtonCerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCerrarActionPerformed(evt);
-            }
-        });
-
-        jButtonNuevo.setBackground(new java.awt.Color(0, 0, 255));
-        jButtonNuevo.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         jButtonNuevo.setText("Nuevo");
         jButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,26 +156,23 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jButtonNuevo)
-                .addGap(83, 83, 83)
-                .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonGuardar)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonCerrar)
-                .addGap(20, 20, 20))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCerrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -254,7 +200,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addGap(92, 92, 92)
                 .addComponent(jLabelNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -262,26 +208,64 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelAgenda)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelId)
                     .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNombre))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
+
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyReleased(evt);
+            }
+        });
+
+        jLabelBuscar.setText("Buscar:");
+
+        jTableDependencias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jTableDependencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDependenciasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableDependencias);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabelBuscar)
+                                .addGap(52, 52, 52)
+                                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,16 +273,28 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBuscar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            editar();
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    public void editar() throws Exception{
         try {
             dep.setNombre(this.jTextFieldNombre.getText());
             dep.setId(Integer.parseInt(this.txt_id.getText()));
@@ -306,7 +302,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
             } else {
-                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                //int msg_alert = JOptionPane.showConfirmDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                Object[] options = {"Aceptar", "Cancelar"};
+                int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
                 if(msg_alert==0){
                     depController.editarDependencia(dep);
                     JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
@@ -314,28 +313,12 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                     limpiarCampos();
                 }
                 limpiarCampos();     
+                nueva_dependencia();
             }  
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButtonEditarActionPerformed
-
-   
-    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
-
-    private void jTextFieldBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyReleased
-        // TODO add your handling code here:
-        String textoBusqueda = jTextFieldBuscar.getText().trim();
-        buscarContacto(textoBusqueda);
-    }//GEN-LAST:event_jTextFieldBuscarKeyReleased
-
-    private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jButtonCerrarActionPerformed
-
+    }
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
         try {
@@ -348,16 +331,16 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
         try {
-            eliminar();
+          //  eliminar();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
-    private void jTableContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContactosMouseClicked
+    private void jTableDependenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDependenciasMouseClicked
         // TODO add your handling code here:
         llenarTabla();
-    }//GEN-LAST:event_jTableContactosMouseClicked
+    }//GEN-LAST:event_jTableDependenciasMouseClicked
 
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         // TODO add your handling code here:
@@ -371,48 +354,78 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private void jButtonNuevoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonNuevoKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonNuevoKeyReleased
+
+    private void jTextFieldBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyReleased
+        // TODO add your handling code here:
+        String textoBusqueda = jTextFieldBuscar.getText().trim();
+        buscarDependecia(textoBusqueda);
+    }//GEN-LAST:event_jTextFieldBuscarKeyReleased
+
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
     
     public void nueva_dependencia(){
         jButtonGuardar.setEnabled(true);
         jButtonEditar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
-        if (jTableContactos.getSelectedRow() != -1) {
-            jTableContactos.clearSelection();
+        if (jTableDependencias.getSelectedRow() != -1) {
+            jTableDependencias.clearSelection();
         }
         limpiarCampos();
 
     }
     
     //borrado logico
-    public void eliminar(){
+    public void eliminar(int id){
         try {
-            dep.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seugro de eliminar?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION);
+            
+            int filaSeleccionada = jTableDependencias.getSelectedRow(); // Obtiene la fila seleccionada
+            Object estadoActtual=0;
+            if (filaSeleccionada != -1) { // Verifica si se ha seleccionado alguna fila
+                estadoActtual = jTableDependencias.getValueAt(filaSeleccionada, 2); // Obtiene el valor de la columna 3 (índice 2)
+            }
+            //System.out.print(estadoActtual);
+            boolean status=false;
+            if(estadoActtual=="Inactivo"){
+                status=true;
+            }
+            String msjPregunta = status ? "ACTIVAR" : "DESACTIVAR";
+            String msjRespuesta = status ? "activado" : "desactivado";
+           // dep.setId(Integer.parseInt(this.txt_id.getText()));
+            dep.setId(id);
+            Object[] options = {"Aceptar", "Cancelar"};
+            int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de " + msjPregunta + "?", "Eliminar Dependencia", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if(msg_alert==0){
                 depController.eliminarDependencia(dep);
-                JOptionPane.showMessageDialog(rootPane, "Dependencia eliminada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                JOptionPane.showMessageDialog(rootPane, "Dependencia "+ msjRespuesta +" exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
                 CrearModelo();
                 limpiarCampos();
             }
             limpiarCampos();
+            nueva_dependencia();
         } catch (Exception e) {
         }
     }
+    
+ 
 
     DefaultTableModel Modelo;
     private void CrearModelo() {
        // String [] col = {"ID", "Nombre" };
-        Object[] obj = new Object[5];
+        Object[] obj = new Object[6];
         try {
             Modelo = (new DefaultTableModel(null, new String[]{
-                "#", "Dependencia", "Estado", "Creado por", "Fecha_registro"}) {});
-            jTableContactos.setModel(Modelo);
-            
+                "ID", "Dependencia", "Estado", "Creado por", "Fecha registro","Eliminar"}) {});
+            jTableDependencias.setModel(Modelo);
+            /*JScrollPane scrollPane = new JScrollPane(jTableDependencias);
+            add(scrollPane, BorderLayout.CENTER);*/
             List ls;
-             String estado;
+            String estado;
             ls = depController.mostrarDependencias();
             for (int i = 0 ; i < ls.size() ; i++) {
                 dep = (Dependencias)ls.get(i);
+                int id = dep.getId();
                 obj[0] =dep.getId();
                 obj[1]=dep.getNombre(); 
                 if(dep.isEstado()){
@@ -423,37 +436,93 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 obj[2]=estado; 
                 obj[3]=dep.getCreated_by(); 
                 obj[4]=dep.getCreated_at(); 
-                
-                
-                Modelo.addRow(obj);
-                
+                jTableDependencias.getColumnModel().getColumn(5).setCellRenderer(new btnEliminarTable());
+                jTableDependencias.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor());
+                jTableDependencias.setRowHeight(25);
+                Modelo.addRow(obj);    
             }
             ls=depController.mostrarDependencias();
-            this.jTableContactos.setModel(Modelo);
+            this.jTableDependencias.setModel(Modelo);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+            e.printStackTrace();
         }
     }
+    private class ButtonEditor extends DefaultCellEditor {
+        private JButton button;
+        private int clickedRow;
+
+        public ButtonEditor() {
+            super(new JTextField()); 
+
+            button = new JButton(); // Creamos el botón sin un ícono inicialmente
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row = jTableDependencias.getSelectedRow(); 
+                    if (row != -1) {
+                        int id = (int) jTableDependencias.getValueAt(row, 0);
+                        eliminar(id);
+                        //JOptionPane.showMessageDialog(null, "Button clicked at row " + row + ", ID: " + id);
+                    }
+                }
+            });
+            button.setFocusable(false);
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            clickedRow = row; 
+            Object estadoActual = table.getValueAt(row, 2);
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return null; 
+        }
+    }
+    
+    private class btnEliminarTable extends DefaultTableCellRenderer {
+        private JButton button;
+
+        public btnEliminarTable() {
+            button = new JButton();
+            button.setBorderPainted(false); // Para quitar el borde del botón
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Object estadoActual = table.getValueAt(row, 2); // Obtener el estado actual de la fila (columna 2)
+
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
+        }
+    }
+
     
     private void limpiarCampos() {
         jTextFieldNombre.setText("");
         txt_id.setText("");
     }
-    private boolean existeContactoConID(int id) {
-        for (Dependencias dependencia : area) {
-            if (dependencia.getId() == id) {
-                return true;
-            }
-        }
-        return false;
-    }
     
     
-    private void buscarContacto(String textoBusqueda) {
-        DefaultTableModel modelo = (DefaultTableModel) jTableContactos.getModel();
+    private void buscarDependecia(String textoBusqueda) {
+        DefaultTableModel modelo = (DefaultTableModel) jTableDependencias.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-        jTableContactos.setRowSorter(sorter);
+        jTableDependencias.setRowSorter(sorter);
         if (textoBusqueda.trim().length() == 0) {
             sorter.setRowFilter(null);
         } else {
@@ -461,12 +530,11 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         }
     }
     public void llenarTabla(){
-        int fila= this.jTableContactos.getSelectedRow();
-        this.txt_id.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 0)));
-        this.jTextFieldNombre.setText(String.valueOf(this.jTableContactos.getValueAt(fila, 1)));
+        int fila= this.jTableDependencias.getSelectedRow();
+        this.txt_id.setText(String.valueOf(this.jTableDependencias.getValueAt(fila, 0)));
+        this.jTextFieldNombre.setText(String.valueOf(this.jTableDependencias.getValueAt(fila, 1)));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCerrar;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
@@ -477,9 +545,9 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelDatos;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableContactos;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableDependencias;
     private javax.swing.JTextField jTextFieldBuscar;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField txt_id;
@@ -492,7 +560,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         } else {
             dep.setNombre(this.jTextFieldNombre.getText());
             depController.insertarDependencias(dep, this.id_user);
-            JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
+            JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
             limpiarCampos();
         }
     }

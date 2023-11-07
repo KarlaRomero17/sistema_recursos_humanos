@@ -35,7 +35,7 @@ public class Conection {
     public void conectar() throws Exception{
         try {
             // Debes cargar el controlador JDBC correctamente
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistema_rrhh?user=root&password=''");
             con =  DriverManager.getConnection(cadena, user, password);
             //JOptionPane.showMessageDialog(null, "Se conectó correctamente a la base de datos AAAA");

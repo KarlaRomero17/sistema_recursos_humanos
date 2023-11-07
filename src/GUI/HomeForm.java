@@ -6,8 +6,7 @@ package GUI;
 
 import Controlador.*;
 import Clase.*;
-import GUI.Dependencias.DependenciaForm;
-import GUI.Dependencias.Puesto;
+import GUI.Dependencias.*;
 import java.awt.Image;
 import java.util.prefs.Preferences;
 import javax.swing.Icon;
@@ -186,7 +185,7 @@ public class HomeForm extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        Puesto ventana = new Puesto();
+        PuestoForm ventana = new PuestoForm();
         jPanelEscritorio.add(ventana);
         ventana.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -211,6 +210,33 @@ public class HomeForm extends javax.swing.JFrame {
         ventana.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    public void cargarFormEmpleados(){
+        
+        BuscarEmpleadoForm ventana = new BuscarEmpleadoForm();
+        jPanelEscritorio.add(ventana);
+        ventana.show();
+    }
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:   
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
+        // TODO add your handling code here:
+        cerrarSesion();
+    }//GEN-LAST:event_jMenu7ActionPerformed
+
+    private void cerrarSesion() {
+        // Aquí puedes realizar cualquier acción necesaria para cerrar la sesión, como limpiar datos de usuario, etc.
+        // Luego, cierra la ventana actual y abre la ventana de inicio de sesión.
+        HomeForm home = new HomeForm();
+        home.setVisible(true);
+        dispose(); // Cierra la ventana principal
+    }
     /**
      * @param args the command line arguments
      */
