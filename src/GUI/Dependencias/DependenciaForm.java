@@ -561,6 +561,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             dep.setNombre(this.jTextFieldNombre.getText());
             depController.insertarDependencias(dep, this.id_user);
             JOptionPane.showMessageDialog(null, "Datos ingresados correctamente");
+            CrearModelo();
             limpiarCampos();
         }
     }
