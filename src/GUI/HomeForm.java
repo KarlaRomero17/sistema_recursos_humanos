@@ -152,6 +152,11 @@ public class HomeForm extends javax.swing.JFrame {
                 jMenu7MenuSelected(evt);
             }
         });
+        jMenu7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu7ActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
@@ -180,7 +185,12 @@ public class HomeForm extends javax.swing.JFrame {
 
     private void jMenu7MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu7MenuSelected
         // TODO add your handling code here:
-        this.dispose();
+        Object[] options = {"Aceptar", "Cancelar"};
+        int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de cerrar sesion?"
+                , "Cierre de Sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        if(msg_alert==0){
+                this.dispose();
+            }
     }//GEN-LAST:event_jMenu7MenuSelected
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -227,16 +237,9 @@ public class HomeForm extends javax.swing.JFrame {
 
     private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
         // TODO add your handling code here:
-        cerrarSesion();
+        
     }//GEN-LAST:event_jMenu7ActionPerformed
 
-    private void cerrarSesion() {
-        // Aquí puedes realizar cualquier acción necesaria para cerrar la sesión, como limpiar datos de usuario, etc.
-        // Luego, cierra la ventana actual y abre la ventana de inicio de sesión.
-        HomeForm home = new HomeForm();
-        home.setVisible(true);
-        dispose(); // Cierra la ventana principal
-    }
     /**
      * @param args the command line arguments
      */

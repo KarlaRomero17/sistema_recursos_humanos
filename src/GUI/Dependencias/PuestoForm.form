@@ -117,7 +117,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sleccione una Dependencia"/>
+        <Property name="text" type="java.lang.String" value="Seleccione una Dependencia"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cmb_dependencia">

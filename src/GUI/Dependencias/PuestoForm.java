@@ -4,6 +4,9 @@ package GUI.Dependencias;
 import Clase.*;
 import Controlador.*;
 import GUI.InicioForm;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -16,9 +19,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 /**
  *
  * @author fjrod
@@ -83,20 +92,9 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         cmb_dependencia.setSelectedIndex(0);
     }
     public void llenarComboBox(){
-        try { 
-            List<Clase.Dependencias> dependencias = puestoController.mostrarDependencias();
-            String[] nombresDependencias;
-            nombresDependencias = new String[dependencias.size()];
-            cmb_dependencia.addItem("Seleccionar");
-            for (int i = 0; i < dependencias.size(); i++) {
-                Clase.Dependencias dep = dependencias.get(i);
-                nombresDependencias[i] = dep.getNombre();
-                cmb_dependencia.addItem(nombresDependencias[i]);
-            }
-
-        Modelo = new DefaultComboBoxModel<>(nombresDependencias);
-        //cmb_dependencia.addItem("Seleccionar");
-        //cmb_dependencia.setModel(Modelo);
+        try {         
+            DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(empController.listaDependencias());
+            cmb_dependencia.setModel(modelEstado);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -137,7 +135,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nombre del Puesto");
 
-        jLabel2.setText("Sleccione una Dependencia");
+        jLabel2.setText("Seleccione una Dependencia");
 
         tbl_puestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -352,7 +350,9 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         // TODO add your handling code here:
        try {
-            eliminar();
+           int row = tbl_puestos.getSelectedRow(); 
+           int id = (int) tbl_puestos.getValueAt(row, 0);
+            eliminar(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -430,21 +430,45 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }  
     }
     
-    public void eliminar() throws Exception{
-        puesto.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de eliminar?"
-                    , "Eliminar Puesto", JOptionPane.YES_NO_OPTION);
+    public void eliminar(int id){
+        try {
+            int filaSeleccionada = tbl_puestos.getSelectedRow(); // Obtiene la fila seleccionada
+            Object estadoActtual=0;
+            if (filaSeleccionada != -1) { // Verifica si se ha seleccionado alguna fila
+                estadoActtual = tbl_puestos.getValueAt(filaSeleccionada, 4); // Obtiene el valor de la columna 3 (índice 2)
+            }
+            //System.out.print(estadoActtual);
+            boolean status=false;
+            if(estadoActtual=="Inactivo"){
+                status=true;
+            }
+            String msjPregunta = status ? "ACTIVAR" : "DESACTIVAR";
+            String msjRespuesta = status ? "activado" : "desactivado";
+           // dep.setId(Integer.parseInt(this.txt_id.getText()));
+            puesto.setId(id);
+            Object[] options = {"Aceptar", "Cancelar"};
+            int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de " + msjPregunta + "?", "Eliminar Puesto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if(msg_alert==0){
                 puestoController.eliminarPuesto(puesto);
-                JOptionPane.showMessageDialog(rootPane, "Puesto eliminado exitosamente"
-                        , "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                JOptionPane.showMessageDialog(rootPane,"Puesto "+ msjRespuesta +" exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
                 CrearModelo();
                 limpiarCampos();
             }
             limpiarCampos();
-        
+            nueva_dependencia();
+        } catch (Exception e) {
+        }
     }
-    
+        public void nueva_dependencia(){
+        btn_enviar.setEnabled(true);
+        btn_editar.setEnabled(false);
+        btn_eliminar.setEnabled(false);
+        if (tbl_puestos.getSelectedRow() != -1) {
+            tbl_puestos.clearSelection();
+        }
+        limpiarCampos();
+
+    }
     public void restaurar() throws Exception{
         puesto.setId(Integer.parseInt(this.txt_id.getText()));
             int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de Restaurar?"
@@ -482,10 +506,10 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     
     DefaultTableModel Model;
     private void CrearModelo() {
-        Object[] obj = new Object[5];
+        Object[] obj = new Object[6];
         try {
             Model = (new DefaultTableModel(null, new String[]{
-                "Código", "Puesto", "Dependencia", "Creado por", "Estado"}) {});
+                "Código", "Puesto", "Dependencia", "Creado por", "Estado", "Eliminar"}) {});
             tbl_puestos.setModel(Model);
             
             List ls;
@@ -503,7 +527,9 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
                 obj[2]=puesto.getDependencia(); //Dependencia
                 obj[3]=puesto.getCreated_by(); // Creado Por
                 obj[4]=estado; // Estado
-                
+                tbl_puestos.getColumnModel().getColumn(5).setCellRenderer(new PuestoForm.btnEliminarTable());
+                tbl_puestos.getColumnModel().getColumn(5).setCellEditor(new PuestoForm.ButtonEditor());
+                tbl_puestos.setRowHeight(25);
                 
                 Model.addRow(obj);
                 
@@ -517,6 +543,72 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    private class ButtonEditor extends DefaultCellEditor {
+        private JButton button;
+        private int clickedRow;
+
+        public ButtonEditor() {
+            super(new JTextField()); 
+
+            button = new JButton(); // Creamos el botón sin un ícono inicialmente
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row = tbl_puestos.getSelectedRow(); 
+                    if (row != -1) {
+                        int id = (int) tbl_puestos.getValueAt(row, 0);
+                        try {
+                            eliminar(id);
+                        } catch (Exception er) {
+                        }
+                        //JOptionPane.showMessageDialog(null, "Button clicked at row " + row + ", ID: " + id);
+                    }
+                }
+            });
+            button.setFocusable(false);
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            clickedRow = row; 
+            Object estadoActual = table.getValueAt(row, 4);
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return null; 
+        }
+    }
+    
+    private class btnEliminarTable extends DefaultTableCellRenderer {
+        private JButton button;
+
+        public btnEliminarTable() {
+            button = new JButton();
+            button.setBorderPainted(false); // Para quitar el borde del botón
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Object estadoActual = table.getValueAt(row, 4); // Obtener el estado actual de la fila (columna 2)
+
+            if ("Activo".equals(estadoActual)) {
+                button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
+            } else {
+                button.setIcon(new ImageIcon("src/Imagenes/desactivar.png"));
+            }
+
+            return button;
         }
     }
     

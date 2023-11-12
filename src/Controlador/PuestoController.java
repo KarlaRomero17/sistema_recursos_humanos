@@ -7,8 +7,10 @@ import Clase.*;
 import com.sun.jdi.connect.spi.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 /**
  *
  * @author fjrod
@@ -21,6 +23,7 @@ public class PuestoController extends Conection {
     Metodo inconcluso aun.
     deberia mandar a llamar solo el ID y/o nombre? para que se muestre en mi Cmb
     */
+    /*
     public List<Dependencias> mostrarDependencias() throws Exception{
      
         ResultSet res;
@@ -51,7 +54,39 @@ public class PuestoController extends Conection {
         }
      
     }
+    */
+    public Vector<Dependencias>  mostrarDependencias() throws Exception{
+        PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<Dependencias> datos = new Vector<Dependencias>();
+        Dependencias dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from dependencia";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
 
+            dat = new Dependencias();
+            dat.setId(0);
+            dat.setNombre("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new Dependencias();
+                dat.setId(rs.getInt("id"));
+                dat.setNombre(rs.getString("nombre"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+    }
+    
     public List<Puestos> mostrarPuestos() throws Exception{
      
         ResultSet res;
@@ -124,9 +159,22 @@ public class PuestoController extends Conection {
     public void eliminarPuesto(Puestos puesto) throws Exception{
         try {
             this.conectar();
+            //validar estado
+            String obtenerEstado = "SELECT estado from puestos WHERE id=?";
+            PreparedStatement obtenerEstadoStatement = this.getCon().prepareStatement(obtenerEstado);
+            obtenerEstadoStatement.setInt(1, puesto.getId());
+            ResultSet resultSet = obtenerEstadoStatement.executeQuery();
+
+            boolean estadoActual = false; // Valor predeterminado en caso de que no se encuentre ninguna dependencia con ese ID
+
+            if (resultSet.next()) {
+                estadoActual = resultSet.getBoolean("estado"); // Obtener el estado actual de la dependencia
+               
+            }
+            
             String query ="UPDATE puestos SET estado=? WHERE id=?"; 
             PreparedStatement st = this.getCon().prepareStatement(query);
-            st.setBoolean(1, false);
+            st.setBoolean(1, !estadoActual);
             st.setInt(2, puesto.getId());
             st.executeUpdate();
         } catch (Exception e) { 
