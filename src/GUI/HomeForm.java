@@ -125,6 +125,7 @@ public class HomeForm extends javax.swing.JFrame {
 
         jMenu6.setText("Puestos");
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         jMenuItem3.setText("Crear");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

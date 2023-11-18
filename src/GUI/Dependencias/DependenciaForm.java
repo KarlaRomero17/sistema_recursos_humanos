@@ -71,7 +71,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     public void desabilitar_botones(){
         jButtonEditar.setEnabled(false); 
         jButtonGuardar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
     }
     
     /**
@@ -87,7 +86,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jButtonGuardar = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
-        jButtonEliminar = new javax.swing.JButton();
         jButtonNuevo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabelAgenda = new javax.swing.JLabel();
@@ -124,15 +122,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
-        jButtonEliminar.setText("Eliminar");
-        jButtonEliminar.setEnabled(false);
-        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarActionPerformed(evt);
-            }
-        });
-
         jButtonNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         jButtonNuevo.setText("Nuevo");
         jButtonNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -160,8 +149,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addComponent(jButtonGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonEliminar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -171,8 +158,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -183,7 +169,7 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
 
         txt_id.setEnabled(false);
 
-        jLabelNombre.setText("Nombre:");
+        jLabelNombre.setText("Nombre de la dependencia*");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -197,10 +183,10 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_id))
                     .addComponent(jLabelAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(92, 92, 92)
+                .addGap(59, 59, 59)
                 .addComponent(jLabelNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -328,15 +314,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
-    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
-        try {
-          //  eliminar();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jButtonEliminarActionPerformed
-
     private void jTableDependenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDependenciasMouseClicked
         // TODO add your handling code here:
         llenarTabla();
@@ -368,7 +345,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     public void nueva_dependencia(){
         jButtonGuardar.setEnabled(true);
         jButtonEditar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
         if (jTableDependencias.getSelectedRow() != -1) {
             jTableDependencias.clearSelection();
         }
@@ -536,7 +512,6 @@ public class DependenciaForm extends javax.swing.JInternalFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonNuevo;
     private javax.swing.JLabel jLabelAgenda;
