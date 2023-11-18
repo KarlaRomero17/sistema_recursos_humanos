@@ -28,6 +28,7 @@ String Correo;
 String numero_documento;
 Double salario;
 Date fecha_contratacion;
+Date fecha_terminacion;
 String Direccion;
 
 
@@ -35,7 +36,7 @@ String Direccion;
             Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, 
             boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, 
             String Parentesco, String Telefono, String Correo, String numero_documento, 
-            Double salario, Date fecha_contratacion,String Direccion) {
+            Double salario, Date fecha_contratacion,String Direccion, Date fecha_terminacion) {
         this.idEmpleado = idEmpleado;
         this.CodEmpleado=CodEmpleado;
         this.Nombre = Nombre;
@@ -54,6 +55,15 @@ String Direccion;
         this.salario = salario;
         this.fecha_contratacion = fecha_contratacion;
         this.Direccion = Direccion;
+        this.fecha_terminacion=fecha_terminacion;
+    }
+
+    public Date getFecha_terminacion() {
+        return fecha_terminacion;
+    }
+
+    public void setFecha_terminacion(Date fecha_terminacion) {
+        this.fecha_terminacion = fecha_terminacion;
     }
 
      public Empleados(){

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.*;
+import java.sql.CallableStatement;
 /**
  *
  * @author Sergio Gomez
@@ -252,7 +253,7 @@ public class EmpleadosController extends Conection{
     }
      
     
-    public List<TipoContrato>  mostrarTipoContrato() throws Exception{
+    /*public List<TipoContrato>  mostrarTipoContrato() throws Exception{
      
         ResultSet res;
         String sql="";
@@ -281,8 +282,41 @@ public class EmpleadosController extends Conection{
                // Desconectar la conexión aquí si es necesario
         }
     }
+    */
     
-    
+      
+      public Vector<TipoContrato>  mostrarTipoContrato() throws Exception{
+        PreparedStatement st = null;
+        ResultSet rs = null;
+     
+        Vector<TipoContrato> datos = new Vector<TipoContrato>();
+        TipoContrato dat = null;
+        try {
+            
+            this.conectar();
+           
+            String sql = "select * from tipo_contrato";
+            st = this.getCon().prepareStatement(sql);
+            rs = st.executeQuery();
+
+            dat = new TipoContrato();
+            dat.setId(0);
+            dat.setTipo("Seleccionar");
+            datos.add(dat);
+
+            while (rs.next()) {
+                dat = new TipoContrato();
+                dat.setId(rs.getInt("id"));
+                dat.setTipo(rs.getString("tipo"));
+                datos.add(dat);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            System.err.println("Error consulta :" + ex.getMessage());
+        }
+        return datos;
+      
+      }
     
     public Vector<TipoDocumento>  mostrarTipoDocumento() throws Exception{
      PreparedStatement st = null;
@@ -472,6 +506,7 @@ public class EmpleadosController extends Conection{
     
     //private static ResultSet Resultado;
     
+    /*
     public void insertarEmpleado(Empleados emp, DetalleEmpleado detemp, int id_user) throws Exception{
         //int Id=0;
         try {
@@ -492,13 +527,7 @@ public class EmpleadosController extends Conection{
             st.setInt(9,detemp.getId_estado_civil());
             st.setInt(10,detemp.getId_tipo_sangre());
             st.executeUpdate();
-            /*
-            Resultado= (ResultSet) st.getGeneratedKeys();
-            if(Resultado.next()){
-                Id=Resultado.getIn(1);
-            }
-            */
-                              
+              
             
             java.util.Date utilDate = emp.getFechaNacimiento();
             java.sql.Date sqlFechaNac = new java.sql.Date(utilDate.getTime());
@@ -511,46 +540,227 @@ public class EmpleadosController extends Conection{
             this.desconectar();
         }
     }
+    */
     
-    //Show empleado
-    public Empleados mostrarEmp(int id) throws Exception{
+    
+    public void InsertarEmpleados(String nombre, String apellido, String sexo, int estado, int createdby, int idestdociv,int idsangre,
+            String direccion,String dui ,java.sql.Date fechacontrata, java.sql.Date fechanacimiento,java.sql.Date fechatermino,String nombrecontacto, 
+            String parentescontac,double salario ,String telefono,String telecontacto,int iddepart,int iddependencia,int idmunicipio,
+            int idpuesto,int idtipocontrat,int idusuario,String correo)throws Exception{
+    
+                
+        try {
+            this.conectar();
+            String query="call insertar_empleados(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            CallableStatement callable=this.getCon().prepareCall(query);
+            callable.setString(1, nombre);
+            callable.setString(2, apellido);
+            callable.setString(3,sexo);
+            callable.setInt(4, estado);
+            callable.setInt(5,createdby);
+            callable.setDate(6, new java.sql.Date(System.currentTimeMillis()));
+            callable.setInt(7, idestdociv);
+            callable.setInt(8, idsangre);
+            callable.setString(9, direccion);
+            callable.setString(10, dui);
+            callable.setDate(11, fechacontrata);
+            callable.setDate(12, fechanacimiento);
+            callable.setDate(13, fechatermino);
+            callable.setString(14, nombrecontacto);
+            callable.setString(15, parentescontac);
+            callable.setDouble(16, salario);
+            callable.setString(17, telefono);
+            callable.setString(18, telecontacto);
+            callable.setInt(19, iddepart);
+            callable.setInt(20, iddependencia);
+            callable.setInt(21, idmunicipio);
+            callable.setInt(22, idpuesto);
+            callable.setInt(23,idtipocontrat);
+            callable.setInt(24, idusuario);
+            callable.setString(25, correo);
+            
+            callable.executeUpdate();
+            
+        }  catch (Exception e) {
+            throw e;
+        } finally {
+            this.desconectar();
+    
+    
+        }
+    }
+       
+    
+    public Empleados codEmpleado() throws Exception{
         this.conectar();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Empleados empleado = null;
 
         try {
-            String sql = "SELECT * FROM empleados WHERE id = ?";
+            
+            preparedStatement = this.getCon().prepareCall("call codemp()");
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                empleado = new Empleados();
+                empleado.setCodEmpleado(resultSet.getString("codigo_empleado"));
+                
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw e;
+        } finally {
+            this.desconectar();
+        }
+        return empleado;
+    }
+    
+    
+    public void ActualizarEmpleados(String codempleado,String nombre, String apellido, String sexo, int estado,String estdociv,
+            String sangre,String direccion,String dui ,java.sql.Date fechacontrata, java.sql.Date fechanacimiento,
+            java.sql.Date fechatermino,String nombrecontacto, String parentescontac,double salario ,String telefono,
+            String telecontacto,String depart,String dependencia,String municipio, String puesto,String tipocontrat,String correo)throws Exception{
+    
+        try {
+            this.conectar();
+            String query="call actualiza_empleados(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            CallableStatement callable=this.getCon().prepareCall(query);
+            callable.setString(1, codempleado);
+            callable.setString(2, nombre);
+            callable.setString(3, apellido);
+            callable.setString(4,sexo);
+            callable.setInt(5,estado);
+            callable.setString(6, estdociv);
+            callable.setString(7,sangre);
+            callable.setString(8, direccion);
+            callable.setString(9, dui);
+            callable.setDate(10, fechacontrata);
+            callable.setDate(11, fechanacimiento);
+            callable.setDate(12, fechatermino);
+            callable.setString(13, nombrecontacto);
+            callable.setString(14, parentescontac);
+            callable.setDouble(15, salario);
+            callable.setString(16, telefono);
+            callable.setString(17, telecontacto);
+            callable.setString(18,depart);
+            callable.setString(19,dependencia);
+            callable.setString(20,municipio);
+            callable.setString(21,puesto);
+            callable.setString(22,tipocontrat);
+            callable.setString(23,correo);
+            callable.executeUpdate();
+            
+            
+        }  catch (Exception e) {
+            throw e;
+        } finally {
+            this.desconectar();
+    
+    
+        }
+        
+    }
+    
+    
+    public void ActualizarEmpleadosxxx(String codempleado,String nombre, String apellido, String sexo, int estado, int idestdociv,int idsangre)throws Exception{
+        
+        try {
+            this.conectar();
+            String query="call update_empleado(?,?,?,?,?,?)";
+
+            CallableStatement callable=this.getCon().prepareCall(query);
+            callable.setString(1, codempleado);
+            callable.setString(2, nombre);
+            callable.setString(3, apellido);
+            callable.setString(4,sexo);
+            callable.setInt(5, estado);
+            callable.setInt(6, idestdociv);
+            callable.setInt(7, idsangre);
+            callable.executeUpdate();
+            
+        }  catch (Exception e) {
+            throw e;
+        } finally {
+            this.desconectar();
+                
+            //MODIFICAR EL PROCEDIMIENTO PARA QUE OBTENGA LOS CODIGOS DE ESTADO CIVIL Y TIPO SANGRE
+    
+        }
+        
+        
+    }
+    
+    
+    public Empleados mostrarEmp(int id) throws Exception{
+        this.conectar();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Empleados empleado = null;
+        
+        EstadoCivil estadociv=null;
+        TipoSanguineo tiposangre=null;
+        Departamentos departamento=null;
+        Municipios municipio=null;
+        TipoContrato tipcontrato=null;
+        Dependencias dependencia=null;
+        Puestos puesto=null;
+        
+        
+        
+     
+        try {
+            String sql = "SELECT * FROM empleados_view WHERE id = ?";
             preparedStatement = this.getCon().prepareStatement(sql);
             preparedStatement.setInt(1, id); // Establece el valor del parámetro ID
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 empleado = new Empleados();
+                empleado.setIdEmpleado(resultSet.getInt("id"));
                 empleado.setCodEmpleado(resultSet.getString("codigo_empleado"));
                 empleado.setNombre(resultSet.getString("nombre"));
                 empleado.setApellido(resultSet.getString("apellidos"));
+                empleado.setFechaNacimiento(resultSet.getDate("fecha_nacimiento"));
+                empleado.setSexo(resultSet.getString("sexo"));
+                
+                estadociv=new EstadoCivil();
+                estadociv.setNombre(resultSet.getString("estado_civil"));
+                tiposangre=new TipoSanguineo();
+                tiposangre.setTipo(resultSet.getString("tipo_sanguineo"));
+                empleado.setEstadoEmpleado(resultSet.getBoolean("estado_empl"));
+                empleado.setNumero_documento(resultSet.getString("dui"));
+                
+                departamento=new Departamentos();
+                departamento.setNombre(resultSet.getString("departamento"));
+                
+                municipio=new Municipios();
+                municipio.setNombre(resultSet.getString("municipio"));
+                
                 empleado.setDireccion(resultSet.getString("direccion"));
+                
+                tipcontrato=new TipoContrato();
+                tipcontrato.setTipo(resultSet.getString("Tipo_contratacion"));
+                                
+                empleado.setFecha_contratacion(resultSet.getDate("fecha_contratacion"));
+                empleado.setFecha_terminacion(resultSet.getDate("fecha_terminacion"));
+                
+                dependencia=new Dependencias();
+                dependencia.setNombre(resultSet.getString("dependencia"));
+                
+                puesto=new Puestos();
+                puesto.setNombre(resultSet.getString("puesto"));
+                
+                empleado.setSalario(resultSet.getDouble("salario"));
+                
                 empleado.setTelefono(resultSet.getString("telefono"));
                 empleado.setCorreo(resultSet.getString("correo"));
-                empleado.setNumero_documento(resultSet.getString("dui"));
-                empleado.setSalario(resultSet.getDouble("salario"));
-               // empleado.setNombre_contacto(resultSet.getString("nombre_contacto"));
-               // empleado.setTelefono_contacto(resultSet.getString("telefono_contacto"));
-               // empleado.setParentesco_contacto(resultSet.getString("parentesco_contacto"));
-               empleado.setFecha_contratacion(resultSet.getDate("fecha_contratacion"));
-               //empleado.setFecha_terminacion(resultSet.getDate("fecha_terminacion"));
-               //empleado.setCreated_at(resultSet.getDate("created_at"));
-               empleado.setEstadoEmpleado(resultSet.getBoolean("estado"));
-               empleado.setSexo(resultSet.getString("sexo"));
-               //empleado.setFechaNacimiento(resultSet.getDate("fecha_nacimiento"));
-               //String fechaNacimientoStr = resultSet.getString("fecha_nacimiento");
-               // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                //Date fechaNacimiento = dateFormat.parse(fechaNacimientoStr);
+                empleado.setContactoEmergencia(resultSet.getString("nombre_contacto"));
+                empleado.setTelefonoEmergencia(resultSet.getString("telefono_contacto"));
+                empleado.setParentesco(resultSet.getString("parentesco_contacto"));
 
-                //empleado.setFechaNacimiento(new java.sql.Date(fechaNacimiento.getTime()));
-
-            //System.out.println();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
