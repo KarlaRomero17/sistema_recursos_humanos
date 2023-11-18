@@ -731,7 +731,7 @@ public class EmpleadosController extends Conection{
                 tiposangre=new TipoSanguineo();
                 tiposangre.setTipo(resultSet.getString("tipo_sanguineo"));
                 empleado.setEstadoEmpleado(resultSet.getBoolean("estado_empl"));
-                empleado.setNumero_documento(resultSet.getString("dui"));
+                empleado.setDui(resultSet.getString("dui"));
                 
                 departamento=new Departamentos();
                 departamento.setNombre(resultSet.getString("departamento"));

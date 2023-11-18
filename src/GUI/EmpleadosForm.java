@@ -230,11 +230,34 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             String fecha1=dateFormat.format(emp.getFechaNacimiento());
             Date nacimiento=null;
             nacimiento=dateFormat.parse(fecha1);
-            
             dtcFechaNacimiento.setDate(nacimiento);
+            
             cbbSexo.setSelectedItem((String)emp.getSexo());
             cbxEstado.setSelected(emp.getEstadoEmpleado());
-            //txtDui.setText(emp.get);
+            txtDui.setText(emp.getDui());
+            //cbbEstadoCivil.setSelectedItem((String) emp.get);
+            txtDireccion.setText(emp.getDireccion());
+            
+            String fecha2=dateFormat.format(emp.getFecha_contratacion());
+            Date inicio=null;
+            inicio=dateFormat.parse(fecha2);
+            dtcFechaInicio.setDate(inicio);
+            
+            String fecha3=dateFormat.format(emp.getFecha_terminacion());
+            Date fin=null;
+            fin=dateFormat.parse(fecha3);
+            dtcFechaTermino.setDate(fin);
+            
+            txtSalario.setText(emp.getSalario().toString());
+            txtTelefono.setText(emp.getTelefono());        
+            txtCorreo.setText(emp.getCorreo());
+            txtContactoEmergencia.setText(emp.getContactoEmergencia());
+            txtParentesco.setText(emp.getParentesco());
+            txtTelefonoEmergencia.setText(emp.getTelefonoEmergencia());
+            
+          //  instancia_estado=empController.mostrarEmp(id);
+            
+            
             
             
             

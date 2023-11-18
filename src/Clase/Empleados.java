@@ -30,13 +30,14 @@ Double salario;
 Date fecha_contratacion;
 Date fecha_terminacion;
 String Direccion;
+String Dui;
 
 
     public Empleados(int idEmpleado,String CodEmpleado,String Nombre, String Apellido, 
             Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, 
             boolean EstadoEmpleado, String ContactoEmergencia, String TelefonoEmergencia, 
             String Parentesco, String Telefono, String Correo, String numero_documento, 
-            Double salario, Date fecha_contratacion,String Direccion, Date fecha_terminacion) {
+            Double salario, Date fecha_contratacion,String Direccion, Date fecha_terminacion, String Dui) {
         this.idEmpleado = idEmpleado;
         this.CodEmpleado=CodEmpleado;
         this.Nombre = Nombre;
@@ -56,6 +57,15 @@ String Direccion;
         this.fecha_contratacion = fecha_contratacion;
         this.Direccion = Direccion;
         this.fecha_terminacion=fecha_terminacion;
+        this.Dui=Dui;
+    }
+
+    public String getDui() {
+        return Dui;
+    }
+
+    public void setDui(String Dui) {
+        this.Dui = Dui;
     }
 
     public Date getFecha_terminacion() {
