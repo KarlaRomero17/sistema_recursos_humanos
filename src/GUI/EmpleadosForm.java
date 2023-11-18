@@ -13,12 +13,19 @@ import Controlador.PuestoController;
 import Controlador.EmpleadosController;
 import java.awt.event.ItemEvent;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.sql.Time;
+
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -37,6 +44,15 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     int id_user;
     int idSangre;
     int idEsCivil;
+    int idDepartamento;
+    int idDependencia;
+    int idMunicipio;
+    int idPuesto;
+    int idTipoContratacion;
+    //long DateInicio;
+    //long DateCumple;
+    //long DateFin;
+    
     /**
      * Creates new form EmpleadosForm
      */
@@ -143,17 +159,13 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     
     
     public void mostrarTipoContrata () {
-        try { 
-            List<TipoContrato> TipCon = empController.mostrarTipoContrato();
-            String[] Con = new String[TipCon.size()];
-
-            for (int i = 0; i < TipCon.size(); i++) {
-                TipoContrato Tcon = TipCon.get(i);
-                Con[i] = Tcon.getTipo();
-            }
-
-        Modelo = new DefaultComboBoxModel<>(Con);
-        cbbTipoContratacion.setModel(Modelo);
+         try { 
+        
+        EmpleadosController cc = new EmpleadosController();
+        
+        DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(cc.mostrarTipoContrato());
+        cbbTipoContratacion.setModel(modelEstado);
+        
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -207,11 +219,26 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             txtNombre.setText(emp.getNombre());
             txtApellido.setText(emp.getApellido());
             
-            
+            /*
             Date fechaNacimiento = emp.getFechaNacimiento();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             String fechaNacimientoStr = dateFormat.format(fechaNacimiento);
             System.out.println(emp.getNombre() + " - " + emp.getFechaNacimiento() + " - " + fechaNacimientoStr);
+            */
+            
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha1=dateFormat.format(emp.getFechaNacimiento());
+            Date nacimiento=null;
+            nacimiento=dateFormat.parse(fecha1);
+            
+            dtcFechaNacimiento.setDate(nacimiento);
+            cbbSexo.setSelectedItem((String)emp.getSexo());
+            cbxEstado.setSelected(emp.getEstadoEmpleado());
+            //txtDui.setText(emp.get);
+            
+            
+            
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -219,29 +246,129 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
      
      public void InsertarEmpleado()throws Exception{
          int Id=0;
-          String nombre = this.txtNombre.getText().trim(); 
+         
+         String nombre = this.txtNombre.getText().trim();
+         long DateInicio=this.dtcFechaInicio.getDate().getTime();
+         long DateCumple=this.dtcFechaNacimiento.getDate().getTime();
+         long DateFin=this.dtcFechaTermino.getDate().getTime();
+         java.sql.Date mDateIni=new java.sql.Date(DateInicio);
+         java.sql.Date mDateCump=new java.sql.Date(DateCumple);
+         java.sql.Date mDateFin=new java.sql.Date(DateFin);
+         
+         //System.out.println(mDateIni);
+         
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
         } else {
-            emp.setCodEmpleado(this.txtCodEmpleado.getText());
-            emp.setNombre(this.txtNombre.getText());
-            emp.setApellido(this.txtApellido.getText());
-            emp.setFechaNacimiento(this.dtcFechaNacimiento.getDate());
-            emp.setSexo((String)this.cbbSexo.getSelectedItem());
-            detemp.setId_estado_civil(idEsCivil);
-            detemp.setId_tipo_sangre(idSangre);
-            emp.setEstadoEmpleado(true);
+           
+            empController.InsertarEmpleados(this.txtNombre.getText(), this.txtApellido.getText(), (String)this.cbbSexo.getSelectedItem(), 1, this.id_user, idEsCivil, idSangre,this.txtDireccion.getText(),this.txtDui.getText(),mDateIni,mDateCump,mDateFin,this.txtContactoEmergencia.getText(),this.txtParentesco.getText(),Double.parseDouble(this.txtSalario.getText()),this.txtTelefono.getText(),this.txtTelefonoEmergencia.getText(),this.idDepartamento,this.idDependencia, this.idMunicipio, this.idPuesto, this.idTipoContratacion, this.id_user, this.txtCorreo.getText());
             
-            System.out.print(detemp.getId_tipo_sangre()+"-"+detemp.getId_estado_civil());
+            //empController.insertarEmpleado(emp, detemp,this.id_user);
+            asignarCodEmp();
+            //JOptionPane.showMessageDialog(null, "Empleado ingresado correctmente");
             
-            empController.insertarEmpleado(emp, detemp,this.id_user);
-            JOptionPane.showMessageDialog(null, "Empleado ingresado correctmente");
-            //limpiarCampos();
+            System.out.print(mDateIni);
         }
      
      }
      
      
+    public void asignarCodEmp() {
+        try {
+            emp = empController.codEmpleado();
+            txtCodEmpleado.setText(emp.getCodEmpleado());
+            JOptionPane.showMessageDialog(null, " Empleado ingresado correctamente\n codigo asignado al empleado: "+emp.getCodEmpleado());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+     
+     
+     public void ActualizarEmpleado()throws Exception{
+     
+         int Id=0;
+          String nombre = this.txtNombre.getText().trim(); 
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo Nombre no puede estar vacío");
+        } else {
+                    
+         /*   SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                  
+            String Dft = this.dtcFechaTermino.getDate().toString().trim();
+            String Dfc=this.dtcFechaInicio.getDate().toString().trim();
+            String Dfn=this.dtcFechaNacimiento.getDate().toString().trim();
+            Date DfechaTerm;
+            Date DfechaContrata;
+            Date DfechaNac;
+           */ 
+         long DateInicio=this.dtcFechaInicio.getDate().getTime();
+         long DateCumple=this.dtcFechaNacimiento.getDate().getTime();
+         long DateFin=this.dtcFechaTermino.getDate().getTime();
+         java.sql.Date mDateIni=new java.sql.Date(DateInicio);
+         java.sql.Date mDateCump=new java.sql.Date(DateCumple);
+         java.sql.Date mDateFin=new java.sql.Date(DateFin);
+            
+            if (DateInicio==0){
+                mDateIni=null;
+            }
+            
+            if (DateCumple==0){
+                mDateCump=null;
+            }
+
+            if (DateFin==0){
+                mDateFin=null;
+            }
+            
+            
+            boolean chk = this.cbxEstado.isSelected();
+            int activo;
+            if (chk=true){
+                activo=1;
+            }else{
+                activo=0;
+            }
+            
+           
+            String ESCV; 
+            EstadoCivil est = (EstadoCivil) cbbEstadoCivil.getSelectedItem();
+            ESCV=est.getNombre();
+            
+            String SANG; 
+            TipoSanguineo san = (TipoSanguineo) cbbTipoSanguineo.getSelectedItem();
+            SANG=san.getTipo();
+            
+            String DEP; 
+            Departamentos deptos = (Departamentos) cbbDepartamento.getSelectedItem();
+            DEP=deptos.getNombre();
+            
+            String DEPC; 
+            Dependencias depcia = (Dependencias) cbbDependencia.getSelectedItem();
+            DEPC=depcia.getNombre();
+            
+            String MU; 
+            Municipios mum = (Municipios) cbbMunicipio.getSelectedItem();
+            MU=mum.getNombre();
+            
+            String PU; 
+            Puestos pue = (Puestos) cbbPuesto.getSelectedItem();
+            PU=pue.getNombre();
+            
+            String TCON; 
+            TipoContrato tc = (TipoContrato) cbbTipoContratacion.getSelectedItem();
+            TCON=tc.getTipo();
+            
+            //EL ERROR SE DEBE A QUE LA SELECCION DEVUELVE EL ID Y NO EL TEXTO, PERO POSIBLEMENTE PORQUE EL FORM TIENE CARGADO
+            //EL MODELO DE DATOS POR LA SELECCION DEL COMBOBOX, HAY QUE PROBAR SI EL FORM SE CARGA DES DE BUSQUEDA DE EMPLEADO
+            
+            //System.out.println(seleccion);
+            empController.ActualizarEmpleados(this.txtCodEmpleado.getText(),this.txtNombre.getText(), this.txtApellido.getText(), (String)this.cbbSexo.getSelectedItem(), activo,ESCV,SANG, this.txtDireccion.getText(),this.txtDui.getText(),mDateIni, mDateCump,mDateFin,this.txtContactoEmergencia.getText(),this.txtParentesco.getText(),Double.parseDouble( this.txtSalario.getText()),this.txtTelefono.getText(),this.txtTelefonoEmergencia.getText(),DEP,DEPC,MU,PU,TCON,this.txtCorreo.getText());
+                                            
+            JOptionPane.showMessageDialog(null, "Empleado actualizado correctamente");
+           
+        }
+         
+     }
      
     /**
      * This method is called from within the constructor to initialize the form.
@@ -303,7 +430,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        btnGuardarCabecera = new javax.swing.JButton();
+        btnGuardarNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -322,7 +449,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         cbxEstado = new javax.swing.JCheckBox();
         jLabel25 = new javax.swing.JLabel();
-        txtNumDocumento = new javax.swing.JTextField();
+        txtDui = new javax.swing.JTextField();
         dtcFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
@@ -345,6 +472,12 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         cbbDepartamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbDepartamentoActionPerformed(evt);
+            }
+        });
+
+        cbbMunicipio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbMunicipioItemStateChanged(evt);
             }
         });
 
@@ -460,6 +593,11 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
         jLabel16.setText("Tipo Contratacion");
 
+        cbbTipoContratacion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbTipoContratacionItemStateChanged(evt);
+            }
+        });
         cbbTipoContratacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbTipoContratacionActionPerformed(evt);
@@ -482,20 +620,20 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dtcFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16)
                             .addComponent(jLabel17))
-                        .addGap(18, 18, 18)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cbbTipoContratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(dtcFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(35, 35, 35)))))
-                .addContainerGap())
+                                .addGap(34, 34, 34))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dtcFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(572, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,18 +642,15 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(cbbTipoContratacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(14, 14, 14)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel17)
                     .addComponent(dtcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel18))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dtcFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18)
+                    .addComponent(dtcFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel6);
@@ -531,6 +666,12 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         cbbDependencia.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbbDependenciaItemStateChanged(evt);
+            }
+        });
+
+        cbbPuesto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbPuestoItemStateChanged(evt);
             }
         });
 
@@ -604,22 +745,20 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addGap(21, 21, 21)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(txtTelefonoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtTelefonoEmergencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtContactoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(26, 26, 26)
-                            .addComponent(lblCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(lblCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -633,14 +772,15 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addComponent(txtContactoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtContactoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12)
+                        .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(txtTelefonoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtTelefonoEmergencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Contacto", jPanel4);
@@ -686,14 +826,14 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             }
         });
 
-        btnGuardarCabecera.setText("Guadar Cabecera");
-        btnGuardarCabecera.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarNuevo.setText("Guardar");
+        btnGuardarNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarCabeceraActionPerformed(evt);
+                btnGuardarNuevoActionPerformed(evt);
             }
         });
 
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText("Guardar Cambios");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -712,8 +852,8 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscar)
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardarCabecera)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarNuevo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -725,7 +865,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)
                     .addComponent(btnBuscar)
-                    .addComponent(btnGuardarCabecera)
+                    .addComponent(btnGuardarNuevo)
                     .addComponent(btnGuardar))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -806,39 +946,37 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                             .addComponent(cbbTipoSanguineo, 0, 104, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(34, 34, 34)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbbSexo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(cbbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(jLabel6)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbbEstadoCivil, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel6))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtDui)
+                                .addComponent(cbbEstadoCivil, 0, 128, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbxEstado)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel25)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNumDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbxEstado)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -862,13 +1000,14 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                         .addComponent(cbbEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(dtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(cbbTipoSanguineo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxEstado)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel25)
-                    .addComponent(txtNumDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(cbbTipoSanguineo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxEstado)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel25))
+                    .addComponent(txtDui, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -923,23 +1062,23 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
        //mostrarEmpleado();
-       this.dispose();
-        EmpleadosForm ventana = new EmpleadosForm();
+       //this.dispose();
+        //EmpleadosForm ventana = new EmpleadosForm();
         //HomeForm.jPanelEscritorio.add(ventana);
-        ventana.show();
-        ventana.vistaCrear();
+        //ventana.show();
+        vistaNuevo();
        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnGuardarCabeceraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCabeceraActionPerformed
+    private void btnGuardarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarNuevoActionPerformed
         // TODO add your handling code here:
         try {
             InsertarEmpleado();
-            vistaGuardarCabecera();
+            vistaBloquearCampos();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_btnGuardarCabeceraActionPerformed
+    }//GEN-LAST:event_btnGuardarNuevoActionPerformed
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
         // TODO add your handling code here:
@@ -959,6 +1098,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             EmpleadosController mun = new EmpleadosController();
             DefaultComboBoxModel modelMunicipio = new DefaultComboBoxModel(mun.mostrarMunicipios(est.getId()));
             cbbMunicipio.setModel(modelMunicipio);
+            idDepartamento=est.getId();
            
         }
       
@@ -1003,7 +1143,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             EmpleadosController mun = new EmpleadosController();
             DefaultComboBoxModel modelPuestos = new DefaultComboBoxModel(mun.mostrarPuestos(est.getId()));
             cbbPuesto.setModel(modelPuestos);
-           
+            idDependencia=est.getId();
         }
       
            
@@ -1019,9 +1159,14 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            ActualizarEmpleado();
+            vistaBloquearCampos();
+        } catch (Exception ex) {
+            Logger.getLogger(EmpleadosForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        vistaBloquearCampos();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cbbEstadoCivilItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbEstadoCivilItemStateChanged
@@ -1059,12 +1204,65 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cbbTipoSanguineoItemStateChanged
 
+    private void cbbMunicipioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbMunicipioItemStateChanged
+        // TODO add your handling code here:
+        try { 
+          
+           
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Municipios est = (Municipios) cbbMunicipio.getSelectedItem();
+            EmpleadosController mun = new EmpleadosController();
+            idMunicipio=est.getId();
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_cbbMunicipioItemStateChanged
+
+    private void cbbTipoContratacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbTipoContratacionItemStateChanged
+        // TODO add your handling code here:
+        try { 
+          
+           
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+            TipoContrato est = (TipoContrato) cbbTipoContratacion.getSelectedItem();
+            EmpleadosController mun = new EmpleadosController();
+            idTipoContratacion=est.getId();
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_cbbTipoContratacionItemStateChanged
+
+    private void cbbPuestoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbPuestoItemStateChanged
+        // TODO add your handling code here:
+        try { 
+          
+           
+          if (evt.getStateChange() == ItemEvent.SELECTED) {
+            Puestos est = (Puestos) cbbPuesto.getSelectedItem();
+            EmpleadosController mun = new EmpleadosController();
+            idPuesto=est.getId();
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_cbbPuestoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnGuardarCabecera;
+    private javax.swing.JButton btnGuardarNuevo;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbbDepartamento;
     private javax.swing.JComboBox<String> cbbDependencia;
@@ -1126,9 +1324,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtContactoEmergencia;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtDui;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumDoc;
-    private javax.swing.JTextField txtNumDocumento;
     private javax.swing.JTextField txtParentesco;
     private javax.swing.JTextField txtSalario;
     private javax.swing.JTextField txtTelefono;
@@ -1141,32 +1339,32 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     
     public void vistaCrear(){
         //JOptionPane.showMessageDialog(null, " 1°Complete la cabecera -> 2° Guardar-> 3° Complete los tabs");
-        this.txtContactoEmergencia.setEditable(false);
-        this.txtCorreo.setEditable(false);
-        this.txtDireccion.setEditable(false);
-        this.txtNumDoc.setEditable(false);
-        this.txtParentesco.setEditable(false);
-        this.txtSalario.setEditable(false);
-        this.txtTelefonoEmergencia.setEditable(false);
-        this.txtTelefono.setEditable(false);
-        this.cbbDepartamento.setEnabled(false);
-        this.cbbDependencia.setEnabled(false);
-        this.cbbInstitucion.setEnabled(false);
-        this.cbbMunicipio.setEnabled(false);
-        this.cbbPuesto.setEnabled(false);
-        this.cbbTipoContratacion.setEnabled(false);
-        this.cbbTipoDoc.setEnabled(false);
-        this.dtcFechaInicio.setEnabled(false);
-        this.dtcFechaTermino.setEnabled(false);
-        this.tblDocumentos.setEnabled(false);
-        this.btnGuardarCabecera.setEnabled(true);
-        this.btnGuardar.setEnabled(false);
-        this.btnEditar.setEnabled(false);
+        //this.txtContactoEmergencia.setEditable(false);
+        //this.txtCorreo.setEditable(false);
+        //this.txtDireccion.setEditable(false);
+        //this.txtNumDoc.setEditable(false);
+        //this.txtParentesco.setEditable(false);
+        //this.txtSalario.setEditable(false);
+        //this.txtTelefonoEmergencia.setEditable(false);
+        //this.txtTelefono.setEditable(false);
+        //this.cbbDepartamento.setEnabled(false);
+        //this.cbbDependencia.setEnabled(false);
+        //this.cbbInstitucion.setEnabled(false);
+        //this.cbbMunicipio.setEnabled(false);
+        //this.cbbPuesto.setEnabled(false);
+        //this.cbbTipoContratacion.setEnabled(false);
+        //this.cbbTipoDoc.setEnabled(false);
+        //this.dtcFechaInicio.setEnabled(false);
+        //this.dtcFechaTermino.setEnabled(false);
+        //this.tblDocumentos.setEnabled(false);
+        //this.btnGuardarCabecera.setEnabled(true);
+        //this.btnGuardar.setEnabled(false);
+        //this.btnEditar.setEnabled(false);
                 
         
     }
     
-    public void vistaGuardarCabecera(){
+    public void vistaGuardarNuevo(){
     
         
         this.txtContactoEmergencia.setEditable(true);
@@ -1188,7 +1386,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.dtcFechaTermino.setEnabled(true);
         this.tblDocumentos.setEnabled(true);
         this.btnGuardar.setEnabled(true);
-        this.btnGuardarCabecera.setEnabled(false);
+        this.btnGuardarNuevo.setEnabled(false);
         this.btnEditar.setEnabled(false);
     
     }
@@ -1201,6 +1399,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.cbbSexo.setEnabled(true);
         this.cbbTipoSanguineo.setEnabled(true);
         this.cbxEstado.setEnabled(true);
+        this.txtDui.setEditable(true);
         this.txtContactoEmergencia.setEditable(true);
         this.txtCorreo.setEditable(true);
         this.txtDireccion.setEditable(true);
@@ -1220,7 +1419,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.dtcFechaTermino.setEnabled(true);
         this.tblDocumentos.setEnabled(true);
         this.btnGuardar.setVisible(true);
-        this.btnGuardarCabecera.setVisible(false);
+        this.btnGuardarNuevo.setVisible(false);
     
     }
     
@@ -1233,11 +1432,13 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.cbbEstadoCivil.setEnabled(true);
         mostrarEstado();
         this.dtcFechaNacimiento.setEnabled(true);
-        this.dtcFechaNacimiento.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.dtcFechaNacimiento.setDate(null);
         this.cbbSexo.setEnabled(true);
         this.cbbSexo.addItem("Seleecionar");
         this.cbbSexo.addItem("Femenino");
         this.cbbSexo.addItem("Masculino");
+        this.txtDui.setEnabled(true);
+        this.txtDui.setText("");
         this.cbbTipoSanguineo.setEnabled(true);
         mostrarTipoSangre();
         this.cbxEstado.setEnabled(true);
@@ -1273,9 +1474,10 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.cbbTipoDoc.setEnabled(true);
         mostrarTipoDocumentos();
         this.dtcFechaInicio.setEnabled(true);
-        this.dtcFechaInicio.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.dtcFechaInicio.setDate(null);
         this.dtcFechaTermino.setEnabled(true);
-        this.dtcFechaTermino.setDate(new java.sql.Date(System.currentTimeMillis()));
+        this.dtcFechaTermino.setDate(null);
+        //this.dtcFechaTermino.setDate(new java.sql.Date(System.currentTimeMillis()));
         this.tblDocumentos.setEnabled(true);
     
     }
@@ -1290,6 +1492,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.cbbSexo.setEnabled(false);
         this.cbbTipoSanguineo.setEnabled(false);
         this.cbxEstado.setEnabled(false);
+        this.txtDui.setEditable(false);
         this.txtContactoEmergencia.setEditable(false);
         this.txtCorreo.setEditable(false);
         this.txtDireccion.setEditable(false);
@@ -1309,7 +1512,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.dtcFechaTermino.setEnabled(false);
         this.tblDocumentos.setEnabled(false);
         this.btnGuardar.setVisible(false);
-        this.btnGuardarCabecera.setVisible(false);
+        this.btnGuardarNuevo.setVisible(false);
         this.btnBuscar.setEnabled(true);
         this.btnEditar.setEnabled(true);
         this.btnNuevo.setEnabled(true);
