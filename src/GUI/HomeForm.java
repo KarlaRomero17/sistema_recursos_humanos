@@ -62,8 +62,6 @@ public class HomeForm extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
 
         jMenuItem4.setText("jMenuItem4");
@@ -87,7 +85,7 @@ public class HomeForm extends javax.swing.JFrame {
             jPanelEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelEscritorioLayout.createSequentialGroup()
                 .addComponent(txt_user_log, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 287, Short.MAX_VALUE))
+                .addGap(0, 288, Short.MAX_VALUE))
         );
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/empleados.png"))); // NOI18N
@@ -156,13 +154,6 @@ public class HomeForm extends javax.swing.JFrame {
         jMenu5.add(jMenuItem6);
 
         jMenuBar1.add(jMenu5);
-
-        jMenu1.setText("Reportes");
-
-        jMenu2.setText("Reportes");
-        jMenu1.add(jMenu2);
-
-        jMenuBar1.add(jMenu1);
 
         jMenu7.setText("Salir");
         jMenu7.addMenuListener(new javax.swing.event.MenuListener() {
@@ -305,8 +296,6 @@ public class HomeForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
