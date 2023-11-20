@@ -220,7 +220,7 @@ public class EmpleadosController extends Conection{
      
     
 
-      public Vector<Institucion> mostrarInstitucion(int idDoc)  throws Exception{
+      public Vector<Institucion> mostrarInstitucion(int idDoc,String ItemIni)  throws Exception{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -234,10 +234,10 @@ public class EmpleadosController extends Conection{
             ps = this.getCon().prepareStatement(sql);
             rs = ps.executeQuery();
 
-            //dat = new Institucion();
-            //dat.setId(0);
-            //dat.setNombre("Seleccionar");
-            //datos.add(dat);
+            dat = new Institucion();
+            dat.setId(0);
+            dat.setNombre(ItemIni);
+            datos.add(dat);
 
             while (rs.next()) {
                 dat = new Institucion();
@@ -318,7 +318,7 @@ public class EmpleadosController extends Conection{
       
       }
     
-    public Vector<TipoDocumento>  mostrarTipoDocumento() throws Exception{
+    public Vector<TipoDocumento>  mostrarTipoDocumento(String Ini) throws Exception{
      PreparedStatement st = null;
         ResultSet rs = null;
         //Conection conn = new Conection();
@@ -337,7 +337,7 @@ public class EmpleadosController extends Conection{
             
             dat = new TipoDocumento();
             dat.setId(0);
-            dat.setNombre(null);
+            dat.setNombre(Ini);
             datos.add(dat);
 
             while (rs.next()) {

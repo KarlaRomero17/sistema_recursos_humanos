@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Time;
-import java.text.ParseException;
+//import java.text.ParseException;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -69,7 +69,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         //mostrarEstado();
         //mostrarTipoSangre();
         //mostrarDepartamentos();
-        mostrarTipoDocumentos();
+        //mostrarTipoDocumentos(ItemIniCombo);
 //        mostrarTipoContrata();
         //mostrarDependencias();
         
@@ -161,12 +161,12 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     }
     
     
-    public void mostrarTipoDocumentos () {
+    public void mostrarTipoDocumentos (String ItemIni) {
        try { 
         
         EmpleadosController ccc = new EmpleadosController();
         
-        DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(ccc.mostrarTipoDocumento());
+        DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(ccc.mostrarTipoDocumento(ItemIni));
         this.cbbTipoDoc.setModel(modelEstado);
         
         } catch (Exception e) {
@@ -174,6 +174,19 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         }
     } 
     
+    public void mostrarInstit(String Ini){
+        try {
+            EmpleadosController cc=new EmpleadosController();
+            
+            DefaultComboBoxModel modelEstado=new DefaultComboBoxModel(cc.mostrarInstitucion(0,Ini));
+            this.cbbInstitucion.setModel(modelEstado);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    
+    }
+            
     
     
     public void mostrarTipoContrata (String ItemIni) {
@@ -309,6 +322,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             mostrarPuesto(ItemIniCombo);
             this.cbbPuesto.setSelectedItem((String)empv.getPuesto());
             
+            ItemIniCombo=null;
            
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -483,9 +497,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
      
     public void NuevoDocumento()throws Exception{
     
-        String numdoc =txtNumDoc.getText().trim();
-        String tipodoc=(String)cbbTipoDoc.getSelectedItem();
-        String institu=(String) cbbInstitucion.getSelectedItem();
+        String numdoc =this.txtNumDoc.getText().trim();
+        String tipodoc=(String)this.cbbTipoDoc.getSelectedItem();
+        String institu=(String)this.cbbInstitucion.getSelectedItem();
         String codemp= txtCodEmpleado.getText().trim();
         
         System.out.println(numdoc+" "+" "+tipodoc+" "+institu+" "+codemp);
@@ -658,7 +672,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         jScrollPane5.setViewportView(jPanel5);
@@ -771,7 +785,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(msgDocumentos)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel8);
@@ -835,7 +849,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel18)
                     .addComponent(dtcFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         jScrollPane6.setViewportView(jPanel6);
@@ -892,7 +906,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         jScrollPane7.setViewportView(jPanel7);
@@ -972,7 +986,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                                     .addComponent(txtParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Contacto", jPanel4);
@@ -990,7 +1004,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -1218,7 +1232,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1264,6 +1278,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         //HomeForm.jPanelEscritorio.add(ventana);
         //ventana.show();
        // vistaNuevo();
+       System.out.println((String) this.cbbTipoDoc.getSelectedItem()+"+"+this.txtNumDoc.getText()+"+"+(String)this.cbbInstitucion.getSelectedItem() );
+       
+       
        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -1319,9 +1336,9 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
           if (evt.getStateChange() == ItemEvent.SELECTED) {
             TipoDocumento est = (TipoDocumento) this.cbbTipoDoc.getSelectedItem();
             EmpleadosController mun = new EmpleadosController();
-            DefaultComboBoxModel modelInstitucion = new DefaultComboBoxModel(mun.mostrarInstitucion(est.getId()));
+            DefaultComboBoxModel modelInstitucion = new DefaultComboBoxModel(mun.mostrarInstitucion(est.getId(),ItemIniCombo));
             this.cbbInstitucion.setModel(modelInstitucion);
-           System.out.println( cbbTipoDoc.getSelectedItem()+txtCodEmpleado.getText());
+           System.out.println( this.cbbTipoDoc.getSelectedItem()+"+"+this.txtCodEmpleado.getText()+"+"+this.txtNumDoc.getText()+"+"+this.cbbInstitucion.getSelectedItem());
         }
       
            
@@ -1462,21 +1479,25 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbbEstadoCivilMouseClicked
 
     private void btnAgregarTblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTblActionPerformed
+        
+       // System.out.println((String) this.cbbTipoDoc.getSelectedItem()+"+"+this.txtNumDoc.getText()+"+"+(String)this.cbbInstitucion.getSelectedItem() );
+        /*
         try {
             // TODO add your handling code here:
-            System.out.println((String) cbbTipoDoc.getSelectedItem());
+            
             NuevoDocumento();
         } catch (Exception ex) {
             Logger.getLogger(EmpleadosForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     }//GEN-LAST:event_btnAgregarTblActionPerformed
 
     private void tblDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDocumentosMouseClicked
         // TODO add your handling code here:
-        int filaSeleccionada = tblDocumentos.getSelectedRow();
+        int filaSeleccionada = this.tblDocumentos.getSelectedRow();
         try { 
             llenarCampos(filaSeleccionada);
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(EmpleadosForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -1584,6 +1605,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         mostrarDepartamentos(ItemIniCombo);
         mostrarTipoContrata(ItemIniCombo);
         mostrarDependencias(ItemIniCombo);
+        mostrarTipoDocumentos(ItemIniCombo);
         this.btnEliminaTbl.setEnabled(false);
         this.btnAgregarTbl.setEnabled(false);
         this.btnLimpiar.setEnabled(false);
@@ -1656,6 +1678,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.btnGuardarNuevo.setVisible(false);
         this.msgDocumentos.setVisible(false);
         this.btnLimpiar.setEnabled(true);
+        mostrarTipoDocumentos(ItemIniCombo);
     
     }
     
@@ -1708,7 +1731,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         this.cbbTipoContratacion.setEnabled(true);
         mostrarTipoContrata(ItemIniCombo);
         this.cbbTipoDoc.setEnabled(true);
-        mostrarTipoDocumentos();
+        //mostrarTipoDocumentos();
         this.dtcFechaInicio.setEnabled(true);
         this.dtcFechaInicio.setDate(null);
         this.dtcFechaTermino.setEnabled(true);
@@ -1762,16 +1785,23 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
   
     
     
-    private void llenarCampos(int filaSeleccionada) throws ParseException {
+    private void llenarCampos(int filaSeleccionada) throws Exception {
         if (filaSeleccionada != -1) { // Seleccionó alguna fila
             
             String tdoc=String.valueOf(this.tblDocumentos.getValueAt(filaSeleccionada,1));
-            cbbTipoDoc.getModel().setSelectedItem(tdoc );
             
-            txtNumDoc.setText(String.valueOf(this.tblDocumentos.getValueAt(filaSeleccionada, 2)));
+            ItemIniCombo=tdoc;
+            mostrarTipoDocumentos(ItemIniCombo);
+            //this.cbbPuesto.setSelectedItem((String)empv.getPuesto());
+            
+            //this.cbbTipoDoc.setSelectedItem(tdoc );
+            
+            this.txtNumDoc.setText(String.valueOf(this.tblDocumentos.getValueAt(filaSeleccionada, 2)));
             
             String inst=String.valueOf(this.tblDocumentos.getValueAt(filaSeleccionada,3));
-            cbbInstitucion.getModel().setSelectedItem(inst );
+            ItemIniCombo=inst;
+            mostrarInstit(inst);
+            //this.cbbInstitucion.setSelectedItem(inst );
             
             //String sexo = String.valueOf(this.tblPersona.getValueAt(filaSeleccionada,3));
             //cbbSexo.getModel().setSelectedItem(sexo);
