@@ -14,7 +14,12 @@ import org.apache.commons.codec.binary.Base64;
  * Facebook https://web.facebook.com/developers08062019
  */
 public class Encoder {
+    
     String secretKey = "SistemaRRHH";
+
+    public String getSecretKey() {
+        return secretKey;
+    }
     
     public String encode(String cadena) {
         String encriptacion = "";
