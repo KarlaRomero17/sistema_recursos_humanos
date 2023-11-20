@@ -40,6 +40,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
      */
     public BuscarEmpleadoForm() {
         initComponents();
+       
         
         //CrearModelo();
     }
@@ -191,7 +192,8 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
                     f1 = new EmpleadosForm();
                     JDesktopPane desktopPane = getDesktopPane();
                     desktopPane.add(f1);
-                    f1.showEmp(id); // Llama al método showEmp con el valor id
+                    f1.showEmp(id);
+                    f1.vistaBloquearCampos();// Llama al método showEmp con el valor id
                     f1.setVisible(true);
 
                     System.out.println("Ventana f1 creada y mostrada");

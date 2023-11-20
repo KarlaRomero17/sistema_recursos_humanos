@@ -56,7 +56,7 @@ public class EmpleadosController extends Conection{
      
     }*/
     
-     public Vector<EstadoCivil>  mostrarEstadoCivil() throws Exception{
+     public Vector<EstadoCivil>  mostrarEstadoCivil(String ItemIni) throws Exception{
      	PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -72,7 +72,7 @@ public class EmpleadosController extends Conection{
 
             dat = new EstadoCivil();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -118,7 +118,7 @@ public class EmpleadosController extends Conection{
         }
     }*/
       
-     public Vector<TipoSanguineo>  mostrarTipoSanguineo() throws Exception{
+     public Vector<TipoSanguineo>  mostrarTipoSanguineo(String ItemIni) throws Exception{
      	PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -132,10 +132,10 @@ public class EmpleadosController extends Conection{
             st = this.getCon().prepareStatement(sql);
             rs = st.executeQuery();
 
-            dat = new TipoSanguineo();
-            dat.setId(0);
-            dat.setTipo("Seleccionar");
-            datos.add(dat);
+           dat = new TipoSanguineo();
+           dat.setId(0);
+           dat.setTipo(ItemIni);
+           datos.add(dat);
 
             while (rs.next()) {
                 dat = new TipoSanguineo();
@@ -151,7 +151,7 @@ public class EmpleadosController extends Conection{
     }
     
     
-     public Vector<Departamentos>  mostrarDepartamento() throws Exception{
+     public Vector<Departamentos>  mostrarDepartamento(String ItemIni) throws Exception{
      PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -167,7 +167,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Departamentos();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -186,7 +186,7 @@ public class EmpleadosController extends Conection{
     
     
      
-      public Vector<Municipios> mostrarMunicipios(int idDep)  throws Exception{
+      public Vector<Municipios> mostrarMunicipios(int idDep,String ItemIni)  throws Exception{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -202,7 +202,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Municipios();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -234,10 +234,10 @@ public class EmpleadosController extends Conection{
             ps = this.getCon().prepareStatement(sql);
             rs = ps.executeQuery();
 
-            dat = new Institucion();
-            dat.setId(0);
-            dat.setNombre("Seleccionar");
-            datos.add(dat);
+            //dat = new Institucion();
+            //dat.setId(0);
+            //dat.setNombre("Seleccionar");
+            //datos.add(dat);
 
             while (rs.next()) {
                 dat = new Institucion();
@@ -285,7 +285,7 @@ public class EmpleadosController extends Conection{
     */
     
       
-      public Vector<TipoContrato>  mostrarTipoContrato() throws Exception{
+      public Vector<TipoContrato>  mostrarTipoContrato(String Ini) throws Exception{
         PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -301,7 +301,7 @@ public class EmpleadosController extends Conection{
 
             dat = new TipoContrato();
             dat.setId(0);
-            dat.setTipo("Seleccionar");
+            dat.setTipo(Ini);
             datos.add(dat);
 
             while (rs.next()) {
@@ -337,7 +337,7 @@ public class EmpleadosController extends Conection{
             
             dat = new TipoDocumento();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(null);
             datos.add(dat);
 
             while (rs.next()) {
@@ -355,7 +355,7 @@ public class EmpleadosController extends Conection{
      
     
     
-    public Vector<Dependencias>  listaDependencias() throws Exception{
+    public Vector<Dependencias>  listaDependencias(String Ini) throws Exception{
         PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -371,7 +371,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Dependencias();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(Ini);
             datos.add(dat);
 
             while (rs.next()) {
@@ -389,7 +389,7 @@ public class EmpleadosController extends Conection{
     
     
     
-    public Vector<Puestos> mostrarPuestos(int idDep)  throws Exception{
+    public Vector<Puestos> mostrarPuestos(int idDep, String Ini)  throws Exception{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -404,7 +404,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Puestos();
             dat.setId(0);
-            dat.setNombre("Seleccionar");
+            dat.setNombre(Ini);
             datos.add(dat);
 
             while (rs.next()) {
@@ -506,41 +506,45 @@ public class EmpleadosController extends Conection{
     
     //private static ResultSet Resultado;
     
-    /*
-    public void insertarEmpleado(Empleados emp, DetalleEmpleado detemp, int id_user) throws Exception{
-        //int Id=0;
-        try {
+   
+public List<DocumentosView> buscarDocumentos(String Codempl) throws Exception{
+        
+
+        ResultSet res;
+        List<DocumentosView> lst = new ArrayList();
+
+        try{
+
             this.conectar();
-            String query ="insert into empleados (codigo_empleado, nombre, apellidos, fecha_nacimiento, sexo, estado, created_by, created_at) values (?,?,?,?,?,?,?,?) " +
-            "SET @IdEmpleado=last_insert_id(); " +
-            "insert into detalle_empleado( id_empleado, id_estado_civil, id_tipo_sangre) values(@IdEmpleado,?,?);";
-            PreparedStatement st =this.getCon().prepareStatement(query);
-            st.setString(1, emp.getCodEmpleado());
-            st.setString(2, emp.getNombre());
-            st.setString(3, emp.getApellido());
-            //st.setDate(4,(Date) affiliate.emp.getFechaNacimiento());
-            st.setDate(4,new  java.sql.Date(emp.getFechaNacimiento().getTime()));
-            st.setString(5, emp.getSexo());
-            st.setBoolean(6, emp.getEstadoEmpleado());
-            st.setInt(7, id_user);
-            st.setDate(8, new java.sql.Date(System.currentTimeMillis()));
-            st.setInt(9,detemp.getId_estado_civil());
-            st.setInt(10,detemp.getId_tipo_sangre());
-            st.executeUpdate();
-              
+
+            String sql="Select * from documentos_view where codigo_empleado='"+Codempl+"';";
+
+            PreparedStatement st=this.getCon().prepareStatement(sql);
+            res=st.executeQuery();
             
-            java.util.Date utilDate = emp.getFechaNacimiento();
-            java.sql.Date sqlFechaNac = new java.sql.Date(utilDate.getTime());
-            st.setDate(14, sqlFechaNac);
-            st.setString(15, emp.getSexo());
-            st.executeUpdate();
-        }  catch (Exception e) {
-            throw e;
-        } finally {
+            while(res.next()){
+                DocumentosView doc=new DocumentosView();
+                doc.setIdEmp(res.getInt("id_emp"));
+                doc.setCodEmp(res.getString("codigo_empleado"));
+                doc.setIdDetalle(res.getInt("id_detalle"));
+                doc.setIdDocumento(res.getInt("id_doc"));
+                doc.setNumDoc(res.getString("num_doc"));
+                doc.setIdTipoDoc(res.getInt("id_tipo"));
+                doc.setTipoDoc(res.getString("tipo_doc"));
+                doc.setIdInstituc(res.getInt("id_instit"));
+                doc.setInstituc(res.getString("instituc"));
+                lst.add(doc);
+
+            }
+
+            System.out.println(lst.isEmpty());
+        }catch (Exception e){
+          throw e;
+        } finally{
             this.desconectar();
-        }
+        }      
+        return lst;
     }
-    */
     
     
     public void InsertarEmpleados(String nombre, String apellido, String sexo, int estado, int createdby, int idestdociv,int idsangre,
@@ -655,12 +659,39 @@ public class EmpleadosController extends Conection{
             
             
         }  catch (Exception e) {
-            throw e;
+            //throw e;
+            
+           JOptionPane.showMessageDialog(null, "El empleado no puede ser actualizado\n"+e);
         } finally {
             this.desconectar();
     
     
         }
+        
+    }
+    
+    
+    public void InsertarDocumento(String CodEmpl, String NumeroDoc, String TipoDoc,String Institucion)throws Exception{
+    
+        try {
+            
+            this.conectar();
+            String query ="call insertar_documento(?,?,?,?);";
+            CallableStatement callable=this.getCon().prepareCall(query);
+            callable.setString(1, CodEmpl);
+            callable.setString(2, NumeroDoc);
+            callable.setString(3, TipoDoc);
+            callable.setString(4, Institucion);
+            callable.executeUpdate();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "El documento no pudo ser ingresado\n"+e);
+        
+        } finally {
+            this.desconectar();
+        
+        }
+        
         
     }
     
@@ -694,21 +725,11 @@ public class EmpleadosController extends Conection{
     }
     
     
-    public Empleados mostrarEmp(int id) throws Exception{
+    public EmpleadosView mostrarEmp(int id) throws Exception{
         this.conectar();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        Empleados empleado = null;
-        
-        EstadoCivil estadociv=null;
-        TipoSanguineo tiposangre=null;
-        Departamentos departamento=null;
-        Municipios municipio=null;
-        TipoContrato tipcontrato=null;
-        Dependencias dependencia=null;
-        Puestos puesto=null;
-        
-        
+        EmpleadosView empleado = null;
         
      
         try {
@@ -718,43 +739,26 @@ public class EmpleadosController extends Conection{
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                empleado = new Empleados();
+                empleado = new EmpleadosView();
                 empleado.setIdEmpleado(resultSet.getInt("id"));
                 empleado.setCodEmpleado(resultSet.getString("codigo_empleado"));
                 empleado.setNombre(resultSet.getString("nombre"));
                 empleado.setApellido(resultSet.getString("apellidos"));
                 empleado.setFechaNacimiento(resultSet.getDate("fecha_nacimiento"));
                 empleado.setSexo(resultSet.getString("sexo"));
-                
-                estadociv=new EstadoCivil();
-                estadociv.setNombre(resultSet.getString("estado_civil"));
-                tiposangre=new TipoSanguineo();
-                tiposangre.setTipo(resultSet.getString("tipo_sanguineo"));
+                empleado.setEstadoCivil(resultSet.getString("estado_civil"));
+                empleado.setTipoSanguineo(resultSet.getString("tipo_sanguineo"));
                 empleado.setEstadoEmpleado(resultSet.getBoolean("estado_empl"));
                 empleado.setDui(resultSet.getString("dui"));
-                
-                departamento=new Departamentos();
-                departamento.setNombre(resultSet.getString("departamento"));
-                
-                municipio=new Municipios();
-                municipio.setNombre(resultSet.getString("municipio"));
-                
+                empleado.setDepartamento(resultSet.getString("departamento"));
+                empleado.setMunicipio(resultSet.getString("municipio"));
                 empleado.setDireccion(resultSet.getString("direccion"));
-                
-                tipcontrato=new TipoContrato();
-                tipcontrato.setTipo(resultSet.getString("Tipo_contratacion"));
-                                
-                empleado.setFecha_contratacion(resultSet.getDate("fecha_contratacion"));
-                empleado.setFecha_terminacion(resultSet.getDate("fecha_terminacion"));
-                
-                dependencia=new Dependencias();
-                dependencia.setNombre(resultSet.getString("dependencia"));
-                
-                puesto=new Puestos();
-                puesto.setNombre(resultSet.getString("puesto"));
-                
+                empleado.setTipoContratacion(resultSet.getString("Tipo_contratacion"));        
+                empleado.setFechaContratacion(resultSet.getDate("fecha_contratacion"));
+                empleado.setFechaTerminacion(resultSet.getDate("fecha_terminacion"));
+                empleado.setDependencia(resultSet.getString("dependencia"));
+                empleado.setPuesto(resultSet.getString("puesto"));
                 empleado.setSalario(resultSet.getDouble("salario"));
-                
                 empleado.setTelefono(resultSet.getString("telefono"));
                 empleado.setCorreo(resultSet.getString("correo"));
                 empleado.setContactoEmergencia(resultSet.getString("nombre_contacto"));

@@ -90,7 +90,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     }
     public void llenarComboBox(){
         try {         
-            DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(empController.listaDependencias());
+            DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(empController.listaDependencias(null));
             cmb_dependencia.setModel(modelEstado);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
