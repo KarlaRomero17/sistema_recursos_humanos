@@ -19,42 +19,6 @@ public class PuestoController extends Conection {
     List<Puestos> lstPuesto;
     ArrayList<Dependencias> lstDep;
     
-    /*
-    Metodo inconcluso aun.
-    deberia mandar a llamar solo el ID y/o nombre? para que se muestre en mi Cmb
-    */
-    /*
-    public List<Dependencias> mostrarDependencias() throws Exception{
-     
-        ResultSet res;
-        String sql="";
-        sql="select * from dependencia";
-        PreparedStatement st;
-              // combo.removeAllItems();
-        List<Dependencias> estadosCiviles = new ArrayList<>();
-        try{
-
-           this.conectar();
-           st=this.getCon().prepareStatement(sql);
-            res=st.executeQuery(sql);
-
-            while(res.next()){
-               // combo.addItem(res.getString("nombre"));
-               Dependencias estado = new Dependencias();
-               estado.setNombre(res.getString("nombre"));
-               estadosCiviles.add(estado);
-
-            }
-            return estadosCiviles;
-        } catch (Exception e){
-           throw e; 
-           //JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
-        } finally {
-               // Desconectar la conexión aquí si es necesario
-        }
-     
-    }
-    */
     public Vector<Dependencias>  mostrarDependencias() throws Exception{
         PreparedStatement st = null;
         ResultSet rs = null;
