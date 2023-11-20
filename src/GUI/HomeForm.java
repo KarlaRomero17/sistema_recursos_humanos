@@ -146,6 +146,7 @@ public class HomeForm extends javax.swing.JFrame {
 
         jMenu5.setText("Usuarios");
 
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         jMenuItem6.setText("Usuarios");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
