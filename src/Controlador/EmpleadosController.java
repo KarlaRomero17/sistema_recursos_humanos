@@ -285,7 +285,7 @@ public class EmpleadosController extends Conection{
     */
     
       
-      public Vector<TipoContrato>  mostrarTipoContrato(String Ini) throws Exception{
+      public Vector<TipoContrato>  mostrarTipoContrato(String ItemIni) throws Exception{
         PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -301,7 +301,7 @@ public class EmpleadosController extends Conection{
 
             dat = new TipoContrato();
             dat.setId(0);
-            dat.setTipo(Ini);
+            dat.setTipo(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -318,7 +318,7 @@ public class EmpleadosController extends Conection{
       
       }
     
-    public Vector<TipoDocumento>  mostrarTipoDocumento(String Ini) throws Exception{
+    public Vector<TipoDocumento>  mostrarTipoDocumento(String ItemIni) throws Exception{
      PreparedStatement st = null;
         ResultSet rs = null;
         //Conection conn = new Conection();
@@ -337,7 +337,7 @@ public class EmpleadosController extends Conection{
             
             dat = new TipoDocumento();
             dat.setId(0);
-            dat.setNombre(Ini);
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -355,7 +355,7 @@ public class EmpleadosController extends Conection{
      
     
     
-    public Vector<Dependencias>  listaDependencias(String Ini) throws Exception{
+    public Vector<Dependencias>  listaDependencias(String ItemIni) throws Exception{
         PreparedStatement st = null;
         ResultSet rs = null;
      
@@ -371,7 +371,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Dependencias();
             dat.setId(0);
-            dat.setNombre(Ini);
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -389,7 +389,7 @@ public class EmpleadosController extends Conection{
     
     
     
-    public Vector<Puestos> mostrarPuestos(int idDep, String Ini)  throws Exception{
+    public Vector<Puestos> mostrarPuestos(int idDep, String ItemIni)  throws Exception{
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -404,7 +404,7 @@ public class EmpleadosController extends Conection{
 
             dat = new Puestos();
             dat.setId(0);
-            dat.setNombre(Ini);
+            dat.setNombre(ItemIni);
             datos.add(dat);
 
             while (rs.next()) {
@@ -764,6 +764,7 @@ public List<DocumentosView> buscarDocumentos(String Codempl) throws Exception{
                 empleado.setContactoEmergencia(resultSet.getString("nombre_contacto"));
                 empleado.setTelefonoEmergencia(resultSet.getString("telefono_contacto"));
                 empleado.setParentesco(resultSet.getString("parentesco_contacto"));
+                empleado.setIdDet(resultSet.getInt("id_detalle"));
 
             }
         } catch (Exception e) {
@@ -775,4 +776,46 @@ public List<DocumentosView> buscarDocumentos(String Codempl) throws Exception{
         return empleado;
     }
 
+    
+    public void nuevoDoc(Documentos documento)throws Exception{
+         try {
+            this.conectar();
+            String query ="insert into documentos (id_detalle, id_institucion, id_tipo_documento, numero) values (?,?,?,?)";
+            PreparedStatement st = this.getCon().prepareStatement(query);
+            st.setInt(1, documento.getId_Detalle());
+            st.setInt(2,documento.getId_Institucion());
+            st.setInt(3, documento.getId_TipoDoc());
+            st.setString(4,documento.getNumeroDoc());            
+            st.executeUpdate();
+        }  catch (Exception e) {
+            throw e;
+        } finally {
+            this.desconectar();
+        }
+    
+    }
+    
+
+    
+    public void eliminarDoc(int id)throws Exception{
+            
+        
+        try {
+            this.conectar();
+            String query="DELETE FROM documentos WHERE id = "+id;
+            PreparedStatement st = this.getCon().prepareStatement(query);
+            
+            st.executeUpdate();
+        }  catch (Exception e) {
+            throw e;
+        } finally {
+            this.desconectar();
+        }
+        
+    
+    }
+    
+    
+    
+    
 }

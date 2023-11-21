@@ -32,39 +32,29 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author fjrod
  */
-public final class PuestoForm extends javax.swing.JInternalFrame {
-    
-    EmpleadosController empController = new EmpleadosController();
-    Clase.Dependencias instancia_estado = new Clase.Dependencias();
-    Puestos puesto = new Puestos();
+public final class UsersForm extends javax.swing.JInternalFrame {
+    Usuarios usuarios = new Usuarios();
     DefaultComboBoxModel<String> Modelo;
+    Encoder codificador = new Encoder();
     
     
-    
-    PuestoController puestoController = new PuestoController();
-    ArrayList<Puestos> puestosList = new ArrayList<>();
+    UsuarioController usuariosController = new UsuarioController();
+    ArrayList<Usuarios> usuariosList = new ArrayList<>();
     int id_user;
     
-    private AdministradorPuestos adminPuestos;
-    private AdministradorDependencias adminDep;
     /**
      * Creates new form Puestoschanges
      * 
      */
-    public PuestoForm() {
+    public UsersForm() {
         initComponents();
         CrearModelo();
-        this.lbl_id.setVisible(false);
         Preferences prefs = Preferences.userNodeForPackage(InicioForm.class);
         this.id_user = prefs.getInt("id", 0);
-        adminDep = new AdministradorDependencias();
-        adminPuestos = new AdministradorPuestos();
-        
         Modelo = new DefaultComboBoxModel<>();
         deshabilitarBotones();
-        
         txt_id.setEnabled(false);
-        cmb_dependencia.setEnabled(false);
+        txt_contra.setEnabled(false);
         
         tbl_puestos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -76,7 +66,6 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
                 }
             }
         });
-        llenarComboBox();
     }
     public void deshabilitarBotones(){
         btn_enviar.setEnabled(false);
@@ -86,16 +75,9 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     public void limpiarCampos(){
         txt_id.setText("");
         txt_nombrePuesto.setText("");
-        cmb_dependencia.setSelectedIndex(0);
+        txt_contra.setText("");
     }
-    public void llenarComboBox(){
-        try {         
-            DefaultComboBoxModel modelEstado = new DefaultComboBoxModel(puestoController.mostrarDependencias());
-            cmb_dependencia.setModel(modelEstado);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,29 +87,32 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_userName = new javax.swing.JLabel();
+        txt_nombrePuesto = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_puestos = new javax.swing.JTable();
+        btn_cerrar = new javax.swing.JButton();
+        jLabelId = new javax.swing.JLabel();
+        txt_id = new javax.swing.JTextField();
+        lbl_id = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btn_nuevo = new javax.swing.JButton();
         btn_enviar = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        txt_id = new javax.swing.JTextField();
-        jLabelId = new javax.swing.JLabel();
-        txt_nombrePuesto = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        cmb_dependencia = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        lbl_id = new javax.swing.JLabel();
-        txt_buscar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        txt_buscar = new javax.swing.JTextField();
+        txt_contra = new javax.swing.JPasswordField();
 
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Puestos");
         setPreferredSize(new java.awt.Dimension(660, 533));
         setRequestFocusEnabled(false);
+
+        lbl_userName.setText("Nombre de Usuario");
+
+        jLabel2.setText("Contraseña");
 
         tbl_puestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,6 +131,21 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(tbl_puestos);
+
+        btn_cerrar.setText("Cerrar");
+        btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cerrarActionPerformed(evt);
+            }
+        });
+
+        jLabelId.setText("Next Id");
+
+        txt_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idActionPerformed(evt);
+            }
+        });
 
         btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         btn_nuevo.setText("Nuevo");
@@ -171,41 +171,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_nuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_enviar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_editar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_nuevo)
-                    .addComponent(btn_enviar)
-                    .addComponent(btn_editar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        txt_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_idActionPerformed(evt);
-            }
-        });
-
-        jLabelId.setText("ID");
-
-        jLabel2.setText("Seleccione una Dependencia*");
-
-        jLabel1.setText("Nombre del Puesto*");
+        jLabel7.setText("Buscar:");
 
         txt_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -213,89 +179,110 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setText("Buscar:");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_nuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_enviar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_editar)
+                        .addGap(107, 107, 107)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_nuevo)
+                    .addComponent(btn_enviar)
+                    .addComponent(btn_editar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelId))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 192, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabelId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_dependencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
+        txt_contra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_contraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabelId)
+                                .addGap(9, 9, 9))
+                            .addComponent(txt_id, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_userName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_contra, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE))))
-                .addGap(9, 9, 9))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_cerrar)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_id, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelId)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_userName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_nombrePuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_contra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(37, 37, 37))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(65, 65, 65)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btn_cerrar)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         pack();
@@ -305,6 +292,11 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         String textoBusqueda = txt_buscar.getText().trim();
         buscarPuesto(textoBusqueda);
     }//GEN-LAST:event_txt_buscarKeyReleased
+
+    private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_cerrarActionPerformed
 
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         try {
@@ -332,7 +324,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
         deshabilitarBotones();
         btn_enviar.setEnabled(true);
-        cmb_dependencia.setEnabled(true);
+        txt_contra.setEnabled(true);
         actualizarTablaLimpliarCampos();
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
@@ -341,38 +333,42 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         llenarTabla();
     }//GEN-LAST:event_tbl_puestosMouseClicked
 
+    private void txt_contraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_contraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_contraActionPerformed
+
     
      public void insertar() throws Exception{
         String nombre = this.txt_nombrePuesto.getText(); 
-        int index = this.cmb_dependencia.getSelectedIndex();
-        if (nombre.isEmpty() || index == 0) {
+        String contra = this.txt_contra.getText();
+        if (nombre.isEmpty() || contra.isEmpty()) {
             JOptionPane.showMessageDialog(null, "ALERTA!!\n"
                         + "El campo Nombre no puede estar vacío\n"
-                        + "Debe Seleccionar un departamento");
+                        + "El campo Contraseña no puede estar vacío");
         } else {
-            puesto.setNombre(this.txt_nombrePuesto.getText());
-            puesto.setIntDependencia(cmb_dependencia.getSelectedIndex());
-            puestoController.insertarPuesto(puesto, this.id_user);
+            usuarios.setUsuario(this.txt_nombrePuesto.getText());
+            usuarios.setClave(codificador.encode(this.txt_contra.getText()));
+            usuariosController.insertarUsuario(usuarios);
             JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
             //cleanAll();
         }
     }
     
     public void actualizar() throws Exception{
-        puesto.setNombre(this.txt_nombrePuesto.getText());
-        puesto.setIntDependencia(this.cmb_dependencia.getSelectedIndex());
-        puesto.setId(Integer.parseInt(this.txt_id.getText()));
+        usuarios.setUsuario(this.txt_nombrePuesto.getText());
+        usuarios.setClave(codificador.encode(this.txt_contra.getText()));
+        usuarios.setId(Integer.parseInt(this.txt_id.getText()));
             String nombre = this.txt_nombrePuesto.getText().trim(); 
-            int index = cmb_dependencia.getSelectedIndex();
-            if (nombre.isEmpty() || index == 0) {
+            String contra = this.txt_contra.getText();
+            if (nombre.isEmpty() || contra.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "ALERTA!!\n"
                         + "El campo Nombre no puede estar vacío\n"
-                        + "Debe Seleccionar un departamento");
+                        + "El campo Contraseña no puede estar vacío");
             }else{
-                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de modificar?", "Modificar Dependencia", JOptionPane.YES_NO_OPTION);
+                int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de modificar?", "Modificar Usuario", JOptionPane.YES_NO_OPTION);
                 if(msg_alert==0){
-                    puestoController.editarPuesto(puesto);
-                    JOptionPane.showMessageDialog(rootPane, "Dependencia modificada exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                    usuariosController.editarUsuario(usuarios);
+                    JOptionPane.showMessageDialog(rootPane, "Uusario modificado exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
                     CrearModelo();
                     limpiarCampos();
                 }
@@ -385,7 +381,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             int filaSeleccionada = tbl_puestos.getSelectedRow(); // Obtiene la fila seleccionada
             Object estadoActtual=0;
             if (filaSeleccionada != -1) { // Verifica si se ha seleccionado alguna fila
-                estadoActtual = tbl_puestos.getValueAt(filaSeleccionada, 4); // Obtiene el valor de la columna 3 (índice 2)
+                estadoActtual = tbl_puestos.getValueAt(filaSeleccionada, 3); // Obtiene el valor de la columna 3 (índice 2)
             }
             //System.out.print(estadoActtual);
             boolean status=false;
@@ -395,21 +391,22 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             String msjPregunta = status ? "ACTIVAR" : "DESACTIVAR";
             String msjRespuesta = status ? "activado" : "desactivado";
            // dep.setId(Integer.parseInt(this.txt_id.getText()));
-            puesto.setId(id);
+            usuarios.setId(id);
             Object[] options = {"Aceptar", "Cancelar"};
             int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de " + msjPregunta + "?", "Eliminar Puesto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if(msg_alert==0){
-                puestoController.eliminarPuesto(puesto);
-                JOptionPane.showMessageDialog(rootPane,"Puesto "+ msjRespuesta +" exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
+                usuariosController.eliminarUsuario(usuarios);
+                JOptionPane.showMessageDialog(rootPane,"Usuario "+ msjRespuesta +" exitosamente", "Confirmación", JOptionPane.INFORMATION_MESSAGE );
                 CrearModelo();
                 limpiarCampos();
             }
             limpiarCampos();
-            nueva_dependencia();
+            validacion_botones();
         } catch (Exception e) {
         }
     }
-        public void nueva_dependencia(){
+        
+    public void validacion_botones(){
         btn_enviar.setEnabled(true);
         btn_editar.setEnabled(false);
         if (tbl_puestos.getSelectedRow() != -1) {
@@ -417,20 +414,6 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         }
         limpiarCampos();
 
-    }
-    public void restaurar() throws Exception{
-        puesto.setId(Integer.parseInt(this.txt_id.getText()));
-            int msg_alert = JOptionPane.showConfirmDialog(this, "¿Esta seguro de Restaurar?"
-                    , "Restaurar Puesto", JOptionPane.YES_NO_OPTION);
-            if(msg_alert==0){
-                puestoController.restaurarPuesto(puesto);
-                JOptionPane.showMessageDialog(rootPane, "Puesto Restaurado exitosamente"
-                        , "Confirmación", JOptionPane.INFORMATION_MESSAGE );
-                CrearModelo();
-                limpiarCampos();
-            }
-            limpiarCampos();
-        
     }
     
     private void buscarPuesto(String textoBusqueda) {
@@ -445,48 +428,53 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     }
     
     private boolean existeContactoConID(int id) {
-        for (Puestos puesto : puestosList) {
-            if (puesto.getId() == id) {
+        for (Usuarios usuario : usuariosList) {
+            if (usuario.getId() == id) {
                 return true;
             }
         }
         return false;
     }
     
+    private static String getAsterisks(String originalValue) {
+        // Lógica para reemplazar el valor con asteriscos
+        return "********";
+    }
+    
     DefaultTableModel Model;
     private void CrearModelo() {
-        Object[] obj = new Object[6];
+        Object[] obj = new Object[5];
         try {
             Model = (new DefaultTableModel(null, new String[]{
-                "Código", "Puesto", "Dependencia", "Creado por", "Estado", "Eliminar"}) {});
+                "Código", "Usuario", "Clave", "Estado", "Eliminar"}) {});
             tbl_puestos.setModel(Model);
             
             List ls;
              String estado;
-            ls = puestoController.mostrarPuestos(); // tal vez era aca xd
+            ls = usuariosController.mostrarUsuarios(); // tal vez era aca xd
             for (int i = 0 ; i < ls.size() ; i++) {
-                puesto = (Puestos)ls.get(i);
-                obj[0] =puesto.getId();  // Id
-                obj[1]=puesto.getNombre(); //NOMBRE PUESTO
-                if(puesto.isEstado()){
+                usuarios = (Usuarios)ls.get(i);
+                obj[0] =usuarios.getId();  // Id
+                obj[1]=usuarios.getUsuario(); //NOMBRE PUESTO
+                if(usuarios.isEstado()){
                     estado="Activo" ;
                 }else{
                     estado="Inactivo";
                 }
-                obj[2]=puesto.getDependencia(); //Dependencia
-                obj[3]=puesto.getCreated_by(); // Creado Por
-                obj[4]=estado; // Estado
-                tbl_puestos.getColumnModel().getColumn(5).setCellRenderer(new PuestoForm.btnEliminarTable());
-                tbl_puestos.getColumnModel().getColumn(5).setCellEditor(new PuestoForm.ButtonEditor());
+                String clave = usuarios.getClave();
+                obj[2]=getAsterisks(clave); //Dependencia
+                obj[3]=estado; // Estado
+                tbl_puestos.getColumnModel().getColumn(4).setCellRenderer(new UsersForm.btnEliminarTable());
+                tbl_puestos.getColumnModel().getColumn(4).setCellEditor(new UsersForm.ButtonEditor());
                 tbl_puestos.setRowHeight(25);
                 
                 Model.addRow(obj);
                 
             }
-            ls=puestoController.mostrarDependencias();
+            ls=usuariosController.mostrarUsuarios();
             this.tbl_puestos.setModel(Model);
             
-            int NextId = puesto.getId()+1;
+            int NextId = usuarios.getId()+1;
             lbl_id.setText(String.valueOf(NextId));
             txt_id.setText(String.valueOf(NextId));
             
@@ -523,7 +511,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             clickedRow = row; 
-            Object estadoActual = table.getValueAt(row, 4);
+            Object estadoActual = table.getValueAt(row, 3);
             if ("Activo".equals(estadoActual)) {
                 button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
             } else {
@@ -549,7 +537,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Object estadoActual = table.getValueAt(row, 4); // Obtener el estado actual de la fila (columna 2)
+            Object estadoActual = table.getValueAt(row, 3); // Obtener el estado actual de la fila (columna 2)
 
             if ("Activo".equals(estadoActual)) {
                 button.setIcon(new ImageIcon("src/Imagenes/activar.png"));
@@ -564,8 +552,8 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     private void cargarTabla() {
     DefaultTableModel modelo = (DefaultTableModel) tbl_puestos.getModel();
     modelo.setRowCount(0); // Limpiar la tabla
-        for (Puestos puesto : puestosList) {
-            Object[] fila = {puesto.getId(), puesto.getNombre(),puesto.getDependencia()};
+        for (Usuarios usuario : usuariosList) {
+            Object[] fila = {usuario.getId(), usuario.getUsuario(),usuario.getClave(), usuario.isEstado()};
             modelo.addRow(fila);
         }
     }
@@ -573,26 +561,26 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         int fila= this.tbl_puestos.getSelectedRow();
         this.txt_id.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 0)));
         this.txt_nombrePuesto.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 1)));
-        this.cmb_dependencia.setSelectedItem(this.tbl_puestos.getValueAt(fila, 2));
-        this.cmb_dependencia.setEnabled(true);
+        this.txt_contra.setText(String.valueOf(this.tbl_puestos.getValueAt(fila, 2)));
+        this.txt_contra.setEnabled(true);
         btn_enviar.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_cerrar;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JButton btn_nuevo;
-    private javax.swing.JComboBox<String> cmb_dependencia;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelId;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_id;
+    private javax.swing.JLabel lbl_userName;
     private javax.swing.JTable tbl_puestos;
     private javax.swing.JTextField txt_buscar;
+    private javax.swing.JPasswordField txt_contra;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombrePuesto;
     // End of variables declaration//GEN-END:variables
@@ -600,6 +588,6 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
     private void actualizarTablaLimpliarCampos() {
         CrearModelo();
         txt_nombrePuesto.setText("");
-        cmb_dependencia.setSelectedIndex(0);
+        txt_contra.setText("");
     }
 }

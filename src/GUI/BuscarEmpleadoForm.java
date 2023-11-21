@@ -7,6 +7,8 @@ package GUI;
 import Clase.Empleados;
 import java.util.List;
 import Controlador.EmpleadosController;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +42,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
      */
     public BuscarEmpleadoForm() {
         initComponents();
+        centrarEnPantalla();
        
         
         //CrearModelo();
@@ -78,6 +81,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableResultado);
 
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/activar.png"))); // NOI18N
         btnSeleccionar.setText("Seleccionar");
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +116,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
 
         cbbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Apellido" }));
 
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +160,7 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,4 +260,19 @@ public class BuscarEmpleadoForm extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTableResultado;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
+
+
+ private void centrarEnPantalla() {
+    // Obtener el tamaño de la pantalla
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+
+       // Obtener el tamaño del JFrame
+        Dimension ventana = this.getSize();
+        // Calcular la posición para centrar el JFrame
+        int posX = (pantalla.width - ventana.width) / 2;
+        int posY = (pantalla.height - ventana.height) / 2;
+
+        // Establecer la posición del JFrame en el centro
+        this.setLocation(posX, posY);
+    }
 }

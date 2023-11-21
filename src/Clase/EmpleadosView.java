@@ -36,8 +36,9 @@ String Correo;
 String ContactoEmergencia;
 String TelefonoEmergencia;
 String Parentesco;
+int IdDet;
 
-    public EmpleadosView(int idEmpleado, String CodEmpleado, String Nombre, String Apellido, Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, boolean EstadoEmpleado, String Dui, String Departamento, String Municipio, String Direccion, String TipoContratacion, Date FechaContratacion, Date FechaTerminacion, String Dependencia, String Puesto, Double Salario, String Telefono, String Correo, String ContactoEmergencia, String TelefonoEmergencia, String Parentesco) {
+    public EmpleadosView(int idEmpleado, String CodEmpleado, String Nombre, String Apellido, Date FechaNacimiento, String Sexo, String EstadoCivil, String TipoSanguineo, boolean EstadoEmpleado, String Dui, String Departamento, String Municipio, String Direccion, String TipoContratacion, Date FechaContratacion, Date FechaTerminacion, String Dependencia, String Puesto, Double Salario, String Telefono, String Correo, String ContactoEmergencia, String TelefonoEmergencia, String Parentesco,int IdDet) {
         this.idEmpleado = idEmpleado;
         this.CodEmpleado = CodEmpleado;
         this.Nombre = Nombre;
@@ -62,6 +63,15 @@ String Parentesco;
         this.ContactoEmergencia = ContactoEmergencia;
         this.TelefonoEmergencia = TelefonoEmergencia;
         this.Parentesco = Parentesco;
+        this.IdDet=IdDet;
+    }
+
+    public int getIdDet() {
+        return IdDet;
+    }
+
+    public void setIdDet(int IdDet) {
+        this.IdDet = IdDet;
     }
 
     public EmpleadosView() {
