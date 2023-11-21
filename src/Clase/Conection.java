@@ -16,7 +16,7 @@ public class Conection {
     private Connection con;
     String user = "root";
     String password = "";
-    String db = "sistema_rrhh"; // Nombre de la base de datos
+    String db = "sistema_rrhh_test"; // Nombre de la base de datos
     String ip = "localhost";
     String port = "3306";
 

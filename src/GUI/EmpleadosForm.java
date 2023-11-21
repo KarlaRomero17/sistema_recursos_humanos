@@ -44,7 +44,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
     EstadoCivil instancia_estado = new EstadoCivil();
     TipoSanguineo instancia_TSangre=new TipoSanguineo();
     DefaultComboBoxModel<String> Modelo;
-    Clase.Empleados emp =new Empleados();
+    Clase.Empleados emp ;
     EmpleadosView empv=new EmpleadosView();
     Clase.DetalleEmpleado detemp=new DetalleEmpleado();
     DocumentosView dcw =new DocumentosView();
@@ -237,25 +237,7 @@ public class EmpleadosForm extends javax.swing.JInternalFrame {
         
     }    
      
-     
-     public void mostrarEmpleado(){
-     int Valorx=1;
-        try{
-            
-            List ls;
-            //ls=empController.mostrarEmpleados(Valorx);
 
-            emp=(Empleados) empController.mostrarEmpleados(Valorx);
-            
-            this.txtCodEmpleado.setText(emp.getCodEmpleado());
-            this.txtNombre.setText(emp.getNombre());
-            this.txtApellido.setText(emp.getApellido());
-
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        
-        }
-     }
     
     public void showEmp(int id) {
         try {
