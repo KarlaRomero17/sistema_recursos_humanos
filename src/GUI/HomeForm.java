@@ -202,8 +202,10 @@ public class HomeForm extends javax.swing.JFrame {
         int msg_alert = JOptionPane.showOptionDialog(this, "¿Está seguro de cerrar sesion?"
                 , "Cierre de Sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if(msg_alert==0){
-                this.dispose();
-            }
+            InicioForm formulario = new InicioForm();
+            formulario.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jMenu7MenuSelected
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

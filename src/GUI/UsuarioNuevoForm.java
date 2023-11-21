@@ -6,6 +6,7 @@ package GUI;
 import Clase.Usuarios;
 import Controlador.UsuarioController;
 import Controlador.Encoder;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -88,6 +89,17 @@ public class UsuarioNuevoForm extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/empleados.png"))); // NOI18N
 
         jLabel3.setText("Llave");
+
+        txt_key.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_keyActionPerformed(evt);
+            }
+        });
+        txt_key.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_keyKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -206,13 +218,11 @@ public class UsuarioNuevoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_contraActionPerformed
 
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
-        
-        System.out.print(evt);
         if(this.txt_key.getText().equals(codificador.getSecretKey())){
             try {
-            insertar();
+                insertar();
             }catch (Exception e) {
-            e.printStackTrace();
+                e.printStackTrace();
             }
         }else{
             JOptionPane.showMessageDialog(rootPane, "No tienes acceso a registrar usuarios");
@@ -236,6 +246,26 @@ public class UsuarioNuevoForm extends javax.swing.JFrame {
         formulario.setVisible(true);
          this.dispose();
     }//GEN-LAST:event_btn_loginActionPerformed
+
+    private void txt_keyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_keyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_keyActionPerformed
+
+    private void txt_keyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_keyKeyPressed
+
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(this.txt_key.getText().equals(codificador.getSecretKey())){
+                try {
+                    insertar();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "No tienes acceso a registrar usuarios");
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_txt_keyKeyPressed
 
     /**
      * @param args the command line arguments

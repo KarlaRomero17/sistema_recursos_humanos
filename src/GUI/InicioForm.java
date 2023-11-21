@@ -9,6 +9,8 @@ import Controlador.UsuarioController;
 import com.sun.jdi.connect.spi.Connection;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.swing.Icon;
@@ -96,6 +98,16 @@ public class InicioForm extends javax.swing.JFrame {
         jLabel2.setText("Usuario:");
 
         txt_password.setText("123");
+        txt_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_passwordActionPerformed(evt);
+            }
+        });
+        txt_password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_passwordKeyPressed(evt);
+            }
+        });
 
         btn_ingresar.setBackground(new java.awt.Color(39, 73, 255));
         btn_ingresar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -104,6 +116,11 @@ public class InicioForm extends javax.swing.JFrame {
         btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_ingresarActionPerformed(evt);
+            }
+        });
+        btn_ingresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_ingresarKeyPressed(evt);
             }
         });
 
@@ -173,6 +190,10 @@ public class InicioForm extends javax.swing.JFrame {
     
     private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
         // TODO add your handling code here:
+            ingresar();
+    }//GEN-LAST:event_btn_ingresarActionPerformed
+
+    private void ingresar(){
         conn.getCon();
         String usuario = txt_usuario.getText();
         String clave = new String(txt_password.getPassword());
@@ -197,9 +218,7 @@ public class InicioForm extends javax.swing.JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al autenticar: " + ex.getMessage());
         }
-        
-    }//GEN-LAST:event_btn_ingresarActionPerformed
-
+    }
     private void btn_resgistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resgistroActionPerformed
         // TODO add your handling code here:
       
@@ -207,6 +226,22 @@ public class InicioForm extends javax.swing.JFrame {
         formulario.setVisible(true);
          this.dispose();
     }//GEN-LAST:event_btn_resgistroActionPerformed
+
+    private void btn_ingresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_ingresarKeyPressed
+        // TODO add your handling code here:
+   
+    }//GEN-LAST:event_btn_ingresarKeyPressed
+
+    private void txt_passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_passwordKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+             
+            ingresar();
+        }
+    }//GEN-LAST:event_txt_passwordKeyPressed
+
+    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_passwordActionPerformed
 
     /**
      * @param args the command line arguments
