@@ -217,7 +217,13 @@ public class UsuarioNuevoForm extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(rootPane, "No tienes acceso a registrar usuarios");
         }
-        this.dispose();;
+        
+        InicioForm formulario = new InicioForm();
+        formulario.setVisible(true);
+        this.dispose();
+        
+        
+        
     }//GEN-LAST:event_btn_enviarActionPerformed
 
     private void txt_nombrePuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombrePuestoActionPerformed

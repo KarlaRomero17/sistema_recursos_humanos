@@ -7,6 +7,7 @@ import GUI.InicioForm;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -96,6 +97,16 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+    
+    public int returnDepId(){
+    
+                    Dependencias est = (Dependencias) this.cmb_dependencia.getSelectedItem();
+                    PuestoController mun = new PuestoController();
+                    int idDep = est.getId();
+        
+        return idDep;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,6 +215,12 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         jLabelId.setText("ID");
 
         jLabel2.setText("Seleccione una Dependencia*");
+
+        cmb_dependencia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_dependenciaItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Nombre del Puesto*");
 
@@ -341,6 +358,27 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
         llenarTabla();
     }//GEN-LAST:event_tbl_puestosMouseClicked
 
+    private void cmb_dependenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_dependenciaItemStateChanged
+        // TODO add your handling code here:
+                try { 
+          
+           
+                    if (evt.getStateChange() == ItemEvent.SELECTED) {
+                    Dependencias est = (Dependencias) this.cmb_dependencia.getSelectedItem();
+                    PuestoController mun = new PuestoController();
+                    int idDep = est.getId();
+            
+            
+        }
+      
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_cmb_dependenciaItemStateChanged
+
     
      public void insertar() throws Exception{
         String nombre = this.txt_nombrePuesto.getText(); 
@@ -351,7 +389,7 @@ public final class PuestoForm extends javax.swing.JInternalFrame {
                         + "Debe Seleccionar un departamento");
         } else {
             puesto.setNombre(this.txt_nombrePuesto.getText());
-            puesto.setIntDependencia(cmb_dependencia.getSelectedIndex());
+            puesto.setIntDependencia(returnDepId());
             puestoController.insertarPuesto(puesto, this.id_user);
             JOptionPane.showMessageDialog(null, "Datos ingresados correctmente");
             //cleanAll();
