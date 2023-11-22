@@ -28,7 +28,17 @@
   * Key: **SistemaRRHH** (Para crear usuarios)
   
 # Install
+  Todos los archivo que se mencionan se encuentran en la rama **master**
+  * Clonar el proyecto
+## Database
+  * Descargar la base de datos, se encuentra en el archivo zip  <a href="https://github.com/KarlaRomero17/sistema_recursos_humanos/blob/master/sistema_rrhh_db.zip"> **sistema_rrhh_db.zip**  </a>
+  * Crear una bd local y nombrarla *sistema_rrhh*
+  * Importar el archivo zip en nuestra nueva bd
   
-# Database
+## Librerias
+  * Descargar las librerias que se utilizan en el proyecto, se encuentran en el archivo zip <a href="https://github.com/KarlaRomero17/sistema_recursos_humanos/blob/master/librerias.rar"> **librerias**</a>
+  * Descomprimirlo
+  * Y agregarlo en la cerpeta *Libraries*, añadir todos los archivos .jar
 
-# 
+
+    
